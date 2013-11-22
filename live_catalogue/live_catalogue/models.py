@@ -55,15 +55,19 @@ class Catalogue(models.Model):
     def __unicode__(self):
         return '%s (%s)' % (self.kind, self.title)
 
+    @property
     def kind_verbose(self):
         return dict(self.KIND_CHOICES).get(self.kind, '')
 
+    @property
     def category_verbose(self):
         return dict(CATEGORIES).get(self.category, '')
 
+    @property
     def flis_topic_verbose(self):
         return dict(FLIS_TOPICS).get(self.flis_topic, '')
 
+    @property
     def theme_verbose(self):
         return dict(THEMES).get(self.theme, '')
 

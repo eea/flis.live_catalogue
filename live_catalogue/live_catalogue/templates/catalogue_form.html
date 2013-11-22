@@ -5,13 +5,20 @@
 {% block content %}
 
   {% if form.KIND == 'need' %}
-    <h2>New need</h2>
+    {% if catalogue %}
+      <h2>Edit need</h2>
+    {% else %}
+      <h2>New need</h2>
+    {% endif %}
   {% else %}
-    <h2>New offer</h2>
+    {% if catalogue %}
+      <h2>Edit offer</h2>
+    {% else %}
+      <h2>New offer</h2>
+    {% endif %}
   {% endif %}
 
   <form class="form-horizontal" method="POST">
-
     {% include "catalogue_form_general.html" %}
 
     {% if form.KIND == 'need' %}

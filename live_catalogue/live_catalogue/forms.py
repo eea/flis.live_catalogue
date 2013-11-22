@@ -127,6 +127,8 @@ class OfferForm(CatalogueForm):
 
 class CatalogueFilterForm(forms.Form):
 
-    kind = forms.ChoiceField(choices=Catalogue.KIND_CHOICES)
+    KIND_CHOICES = (('all', 'All'),) + Catalogue.KIND_CHOICES
+
+    kind = forms.ChoiceField(choices=KIND_CHOICES)
 
 
