@@ -111,6 +111,50 @@
           </tr>
       {% endif %}
 
+      <tr>
+        <th colspan="2">Contact information</th>
+      </tr>
+
+      <tr>
+        <th>{{ form.contact_person.label }}</th>
+        <td>{{ catalogue.contact_person }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.email.label }}</th>
+        <td>{{ catalogue.email }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.phone_number.label }}</th>
+        <td>{{ catalogue.phone_number }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.institution.label }}</th>
+        <td>{{ catalogue.institution }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.address.label }}</th>
+        <td>{{ catalogue.address }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.country.label }}</th>
+        <td>{{ catalogue.country }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.url.label }}</th>
+        <td><a href="{% catalogue.url %}">{{ catalogue.url }}</a></td>
+      </tr>
+
+      <tr>
+        <th>{{ form.info.label }}</th>
+        <td>{{ catalogue.info }}</td>
+      </tr>
+
   </table>
 
 {% endblock %}
