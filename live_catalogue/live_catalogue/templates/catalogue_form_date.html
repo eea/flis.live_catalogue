@@ -1,0 +1,17 @@
+<div class="control-group">
+  <label class="control-label" for="{{ form.start_date.auto_id }}">
+    {{ form.start_date.label }}*</label>
+  <div class="controls">
+    {{ form.start_date }}
+    <div class="text-error">{{ form.start_date.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.end_date.auto_id }}">
+    {{ form.end_date.label }}</label>
+  <div class="controls">
+    {{ form.end_date }}
+    <div class="text-error">{{ form.end_date.errors }}</div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'live_catalogue',
+        'USER': '',
+        'PASSWORD': '',
+    }
+}
+
+# FRAME_URL = 'http://projects.eionet.europa.eu/flis-services-project/flis_templates/frame'

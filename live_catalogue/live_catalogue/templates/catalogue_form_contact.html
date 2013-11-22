@@ -1,0 +1,84 @@
+{% load widget_tweaks %}
+
+<h4>Contact information</h4>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.contact_person.auto_id }}">
+    {{ form.contact_person.label }}*</label>
+  <div class="controls">
+    {% render_field form.contact_person class="input-xxlarge" %}
+    <div class="text-error">{{ form.contact_person.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.email.auto_id }}">
+    {{ form.email.label }}*</label>
+  <div class="controls">
+    {% render_field form.email class="input-xxlarge" %}
+    <div class="text-error">{{ form.email.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.phone_number.auto_id }}">
+    {{ form.phone_number.label }}</label>
+  <div class="controls">
+    {% render_field form.phone_number class="input-xxlarge" %}
+    <div class="text-error">{{ form.phone_number.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.institution.auto_id }}">
+    {{ form.institution.label }}*</label>
+  <div class="controls">
+    {% render_field form.institution class="input-xxlarge" %}
+    <div class="text-error">{{ form.institution.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.address.auto_id }}">
+    {{ form.address.label }}</label>
+  <div class="controls">
+    {% render_field form.address class="input-xxlarge" rows=5 %}
+    <div class="text-error">{{ form.address.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.country.auto_id }}">
+    {{ form.country.label }}*</label>
+  <div class="controls">
+    {% render_field form.country class="input-xxlarge" rows=5 %}
+    <div class="text-error">{{ form.country.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.url.auto_id }}">
+    {{ form.url.label }}</label>
+  <div class="controls">
+    {% render_field form.url class="input-xxlarge" %}
+    <div class="text-error">{{ form.url.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.url.auto_id }}">
+    {{ form.info.label }}</label>
+  <div class="controls">
+    {% render_field form.info class="input-xxlarge" rows=5 %}
+    <div class="text-error">{{ form.info.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.document.auto_id }}">
+    {{ form.document.label }}</label>
+  <div class="controls">
+    {{ form.document }}
+    <div class="text-error">{{ form.document.errors }}</div>
+  </div>
+</div>

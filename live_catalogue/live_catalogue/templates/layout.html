@@ -1,0 +1,49 @@
+{% extends "frame.html" %}
+{% load assets %}
+
+
+{% block head %}
+
+  <meta charset="utf-8">
+  <title>Live Catalogue</title>
+
+  {% assets "css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+  {% endassets %}
+
+  {% assets "js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+
+  {% block extra_head %}{% endblock %}
+
+{% endblock %}
+
+
+{% block flis_content %}
+
+  <div class="container">
+    <h1>Live catalogue of offers and needs for foward looking information</h1>
+    {% if messages %}
+    <div class="messages">
+    {% for message in messages %}
+       <p class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+           {{ message }}</p>
+    {% endfor %}
+    </div>
+    {% endif %}
+    {% include "nav_tabs.html" %}
+
+    {% if messages %}
+    <div class="messages">
+    {% for message in messages %}
+       <p class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+           {{ message }}</p>
+    {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+[
+{
+    "pk": 1,
+    "model": "live_catalogue.keyword",
+    "fields": {
+        "name": "national"
+    }
+},
+{
+    "pk": 2,
+    "model": "live_catalogue.keyword",
+    "fields": {
+        "name": "subnational"
+    }
+}
+]

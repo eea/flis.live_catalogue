@@ -1,0 +1,17 @@
+{% load utils %}
+
+<ul class="nav nav-tabs">
+
+  <li class="{% active '$' %}">
+    <a href="{% url 'home' %}">Home</a>
+  </li>
+
+  <li class="{% active 'need' %}">
+    <a href="{% url 'need_edit' %}">New need</a>
+  </li>
+
+  <li class="{% active 'offer' %}">
+    <a href="{% url 'offer_edit' %}">New Offer</a>
+  </li>
+
+</ul>

@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+
+{% block extra_head %}
+
+  <style type="text/css">
+    th {
+      width: 180px;
+    }
+  </style>
+
+{% endblock %}
+
+
+{% block content %}
+
+  <h2>{{ catalogue.kind_verbose }} - {{ catalogue.title }}</h2>
+
+  <table class="table table-bordered">
+
+    <tbody>
+      <tr>
+        <th>{{ form.category.label }}</th>
+        <td>{{ catalogue.category_verbose }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.flis_topic.label }}</th>
+        <td>{{ catalogue.flis_topic_verbose }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.theme.label }}</th>
+        <td>{{ catalogue.theme_verbose }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.title.label }}</th>
+        <td>{{ catalogue.title }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.description.label }}</th>
+        <td>{{ catalogue.description }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.keywords.label }}</th>
+        <td>{{ catalogue.keywords }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+{% endblock %}
