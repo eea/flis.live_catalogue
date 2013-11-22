@@ -71,6 +71,10 @@ class Catalogue(models.Model):
     def theme_verbose(self):
         return dict(THEMES).get(self.theme, '')
 
+    @property
+    def status_verbose(self):
+        return dict(STATUS_CHOICES).get(self.status, '')
+
 class CataloguePermission(models.Model):
 
     catalogue = models.ForeignKey(Catalogue, related_name='permissions')
