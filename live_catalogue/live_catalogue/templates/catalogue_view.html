@@ -105,6 +105,12 @@
         <td>{{ catalogue.end_date }}</td>
       </tr>
 
+      {% if catalogue.need_urgent %}
+          <tr>
+            <th colspan="2">This is an urgend need</th>
+          </tr>
+      {% endif %}
+
   </table>
 
 {% endblock %}
