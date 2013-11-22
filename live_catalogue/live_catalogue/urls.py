@@ -32,6 +32,8 @@ urlpatterns = patterns('',
     url(r'^offer/(?P<pk>[\w\-]+)$', login_required(views.CatalogueView.as_view()),
         {'kind': 'offer'}, name='catalogue_view'),
 
+    url(r'my', login_required(views.MyEntries.as_view()), name='my_entries'),
+
     url(r'^crashme/', login_required(views.CrashMe.as_view())),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^select2/', include('django_select2.urls')),

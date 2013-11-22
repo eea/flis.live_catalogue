@@ -94,6 +94,28 @@ class CatalogueDelete(JSONResponseMixin, View):
         })
 
 
+class MyEntries(View):
+
+    def get(self, request):
+        catalogues = Catalogue.objects.filter(user_id=request.user_id)
+        form = CatalogueFilterForm()
+        return render(request, 'my_entries.html', {
+            'catalogues': catalogues,
+            'filter_form': form,
+        })
+
+    def post(self, request):
+        catalogues = Catalogue.objects.filter(user_id=request.user_id)
+        form = CatalogueFilterForm(request.POST)
+        if form.is_valid():
+            kind = form.cleaned_data['kind']
+            if kind != 'all':
+                catalogues = catalogues.filter(kind=kind)
+        return render(request, 'my_entries.html', {
+            'catalogues': catalogues,
+            'filter_form': form,
+        })
+
 class ApiKeywords(JSONResponseMixin, AjaxResponseMixin, View):
 
     def get_ajax(self, request):

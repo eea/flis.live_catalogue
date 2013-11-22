@@ -11,6 +11,10 @@
     background: #f0f3fa;
 }
 
+.draft td {
+    background: #f6e3e4;
+}
+
 .options {
     padding-bottom: 15px;
 }
