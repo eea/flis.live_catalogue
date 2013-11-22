@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <h2>My Entries</h2>
+
+  <form method="POST" id="catalogue-filter">
+    <div class="row">
+      <div class="span4">
+        <label>{{ filter_form.kind.label }} {{ filter_form.kind }}</label>
+      </div>
+      <div class="span4"></div>
+    </div>
+  </form>
+
+  <table class="table table-bordered">
+
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Geo scope</th>
+        <th>Institution</th>
+        <th>FLIS Topic</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for catalogue in catalogues %}
+      <tr class="{% if catalogue.draft %}draft{% else %}{{ catalogue.kind }}{% endif %}">
+        <td>{{ catalogue.kind_verbose }}</td>
+        {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as catalogue_view_url %}
+        <td>
+          <a href="{{ catalogue_view_url }}">
+            {{ catalogue.title }}
+          </a>
+        </td>
+        <td>{{ catalogue.description }}</td>
+        <td>{{ catalogue.created_on }}</td>
+        <td>{{ catalogue.geographic_scope }}</td>
+        <td>{{ catalogue.institution }}</td>
+        <td>{{ catalogue.flis_topic }}</td>
+        <td>
+          {% if catalogue.draft %}
+            Draft
+          {% else %}
+            Final
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6"><p>No entries</p></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+{% endblock %}
