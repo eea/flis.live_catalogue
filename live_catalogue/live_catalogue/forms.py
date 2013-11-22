@@ -50,6 +50,9 @@ class CatalogueForm(forms.ModelForm):
         self.fields['status'].empty_label = None
         self.fields['status'].choices = self.fields['status'].choices[1:]
 
+        self.fields['start_date'].input_formats = ['%d/%m/%Y']
+        self.fields['end_date'].input_formats = ['%d/%m/%Y']
+
         if self.is_draft is False:
             for f in self.REQUIRED_FIELDS:
                 self.fields[f].required = True
