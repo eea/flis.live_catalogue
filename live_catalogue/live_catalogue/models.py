@@ -75,6 +75,10 @@ class Catalogue(models.Model):
     def status_verbose(self):
         return dict(self.STATUS_CHOICES).get(self.status, '')
 
+    @property
+    def geographic_scope_verbose(self):
+        return dict(GEOGRAPHIC_SCOPE).get(self.geographic_scope, '')
+
 class CataloguePermission(models.Model):
 
     catalogue = models.ForeignKey(Catalogue, related_name='permissions')
