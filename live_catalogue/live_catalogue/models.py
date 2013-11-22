@@ -73,7 +73,7 @@ class Catalogue(models.Model):
 
     @property
     def status_verbose(self):
-        return dict(STATUS_CHOICES).get(self.status, '')
+        return dict(self.STATUS_CHOICES).get(self.status, '')
 
 class CataloguePermission(models.Model):
 
