@@ -1,7 +1,7 @@
 $(function () {
 
-    $('#id_start_date').datepicker();
-    $('#id_end_date').datepicker();
+    $('#id_start_date').datepicker({'dateFormat': 'dd/mm/yy'});
+    $('#id_end_date').datepicker({'dateFormat': 'dd/mm/yy'});
 
     var submitFilterForm = function (e) {
         e.preventDefault();
