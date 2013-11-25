@@ -2,7 +2,11 @@
   <label class="control-label" for="{{ form.start_date.auto_id }}">
     {{ form.start_date.label }}*</label>
   <div class="controls">
-    {{ form.start_date }}
+    {% if catalogue %}
+      <input id="id_start_date" name="start_date" type="text" value="{{ catalogue.start_date|date:'d/m/Y' }}">
+    {% else %}
+      {{ form.start_date }}
+    {% endif %}
     <div class="text-error">{{ form.start_date.errors }}</div>
   </div>
 </div>
@@ -11,7 +15,11 @@
   <label class="control-label" for="{{ form.end_date.auto_id }}">
     {{ form.end_date.label }}</label>
   <div class="controls">
-    {{ form.end_date }}
+    {% if catalogue %}
+      <input id="id_end_date" name="end_date" type="text" value="{{ catalogue.end_date|date:'d/m/Y' }}">
+    {% else %}
+      {{ form.end_date }}
+    {% endif %}
     <div class="text-error">{{ form.end_date.errors }}</div>
   </div>
 </div>
