@@ -51,5 +51,7 @@ GEOGRAPHIC_SCOPE = (
 
 
 COUNTRIES = (
-    ('ro', 'România'),
+    ("sq", "Albania"),
+    ("at", "Austria"),
+    ("hu", "Hungary"),
 )

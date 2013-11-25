@@ -3,7 +3,7 @@
     "pk": 1,
     "model": "live_catalogue.keyword",
     "fields": {
-        "name": "national"
+        "name": "governance"
     }
 },
 {
