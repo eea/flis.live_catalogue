@@ -13,19 +13,15 @@ class HomeView(View):
 
     def get(self, request):
         catalogues = Catalogue.objects.filter(draft=False)
-        filter_form = CatalogueFilterForm()
-        return render(request, 'home.html', {
-            'catalogues': catalogues,
-            'filter_form': filter_form,
-        })
-
-    def post(self, request):
-        catalogues = Catalogue.objects.filter(draft=False)
-        form = CatalogueFilterForm(request.POST)
+        form = CatalogueFilterForm(request.GET)
         if form.is_valid():
             kind = form.cleaned_data['kind']
+            flis_topic = form.cleaned_data['flis_topic']
             if kind != 'all':
                 catalogues = catalogues.filter(kind=kind)
+            if flis_topic != 'all':
+                catalogues = catalogues.filter(flis_topic=flis_topic)
+
         return render(request, 'home.html', {
             'catalogues': catalogues,
             'filter_form': form,

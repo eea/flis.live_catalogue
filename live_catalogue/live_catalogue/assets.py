@@ -9,6 +9,8 @@ JS_ASSETS = (
     'bootstrap/js/bootstrap.js',
     'js/jquery-ui-1.8.18.custom.min.js',
     'js/select2.min.js',
+    'js/moment.js',
+    'js/daterangepicker.js',
     'js/main.js',
 )
 if settings.DEBUG:
@@ -20,6 +22,7 @@ CSS_ASSETS = (
     'bootstrap/css/bootstrap-responsive.css',
     'css/bootstrap-ui/jquery-ui-1.8.16.custom.css',
     'css/select2/select2.css',
+    'css/daterangepicker-bs2.css',
     'css/main.css',
 )
 

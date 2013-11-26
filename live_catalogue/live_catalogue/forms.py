@@ -1,6 +1,7 @@
 from django import forms
 from django_select2 import AutoModelSelect2TagField
 from live_catalogue.models import Catalogue, Keyword, CataloguePermission
+from live_catalogue.definitions import FLIS_TOPICS
 from eea_frame.middleware import get_current_request
 
 
@@ -12,6 +13,16 @@ class KeywordsField(AutoModelSelect2TagField):
 
     def get_model_field_values(self, value):
         return {'name': value}
+
+
+class DateRangeField(forms.Field):
+
+    def __init__(self, *args, **kwargs):
+        super(DateRangeField, self).__init__(*args, **kwargs)
+
+    def to_python(self, value):
+        # import pdb; pdb.set_trace()
+        return value
 
 
 class CatalogueForm(forms.ModelForm):
@@ -131,7 +142,9 @@ class OfferForm(CatalogueForm):
 class CatalogueFilterForm(forms.Form):
 
     KIND_CHOICES = (('all', 'All'),) + Catalogue.KIND_CHOICES
+    FLIS_TOPIC_CHOICES = (('all', 'All'),) + FLIS_TOPICS
+
 
     kind = forms.ChoiceField(choices=KIND_CHOICES)
-
-
+    flis_topic = forms.ChoiceField(choices=FLIS_TOPIC_CHOICES)
+    date_range = DateRangeField(label='Start date, between')

@@ -4,14 +4,7 @@
 
   <h2>Search catalogue</h2>
 
-  <form method="POST" id="catalogue-filter">
-    <div class="row">
-      <div class="span4">
-        <label>{{ filter_form.kind.label }} {{ filter_form.kind }}</label>
-      </div>
-      <div class="span4"></div>
-    </div>
-  </form>
+  {% include "filters.html" %}
 
   <table class="table table-bordered">
 

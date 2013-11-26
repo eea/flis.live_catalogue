@@ -18,3 +18,34 @@
 .options {
     padding-bottom: 15px;
 }
+
+.catalogue-filter {
+    padding-top: 20px;
+    position: relative;
+}
+.catalogue-filter label b {
+    padding-right: 10px;
+    position: relative;
+    top: 2px;
+}
+.catalogue-filter label b.range-label {
+    top: -4px;
+}
+.catalogue-filter .daterangepicker {
+    left: 674px!important;
+    width: 460px;
+    top: 37px;
+}
+.catalogue-filter .daterangepicker .daterangepicker_start_input,
+.catalogue-filter .daterangepicker .daterangepicker_end_input {
+    display: none;
+}
+.catalogue-filter .daterangepicker .ranges {
+    text-align: right;
+}
+.catalogue-filter .daterangepicker.opensright:after {
+    left: 437px;
+}
+.catalogue-filter .daterangepicker.opensright:before {
+    left: 436px;
+}
