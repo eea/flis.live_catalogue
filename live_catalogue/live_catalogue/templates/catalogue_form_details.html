@@ -19,16 +19,6 @@
 </div>
 
 <div class="control-group">
-  <label class="control-label" for="{{ form.keywords.auto_id }}">
-    {{ form.keywords.label }}*</label>
-  <div class="controls">
-    {% url 'api_keywords' as api_keywords_url %}
-    {% render_field form.keywords class="input-xxlarge" data-api-url=api_keywords_url %}
-    <div class="text-error">{{ form.keywords.errors }}</div>
-  </div>
-</div>
-
-<div class="control-group">
   <label class="control-label" for="{{ form.status.auto_id }}">
     {{ form.status.label }}</label>
   <div class="controls">

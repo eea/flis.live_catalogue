@@ -1,18 +1,7 @@
 from django import forms
 from django_select2 import AutoModelSelect2TagField
-from live_catalogue.models import Catalogue, Keyword, CataloguePermission
-from live_catalogue.definitions import FLIS_TOPICS
+from live_catalogue.models import Catalogue, CataloguePermission
 from eea_frame.middleware import get_current_request
-
-
-class KeywordsField(AutoModelSelect2TagField):
-
-    queryset = Keyword.objects
-    search_fields = ('name__icontains',)
-    to_field_name = ('name', )
-
-    def get_model_field_values(self, value):
-        return {'name': value}
 
 
 class DateRangeField(forms.Field):
@@ -30,10 +19,9 @@ class CatalogueForm(forms.ModelForm):
     NRC_FLIS, EIONET = 'eionet-nrc-forwardlooking', 'eionet'
     PERMS_CHOICES = ((NRC_FLIS, 'NRC Flis'), (EIONET, 'All members of EIONET'),)
 
-    REQUIRED_FIELDS = ('status', 'title', 'keywords', 'start_date',
-                       'contact_person', 'email', 'institution', 'country',)
+    REQUIRED_FIELDS = ('status', 'title', 'start_date', 'contact_person',
+                       'email', 'institution', 'country',)
 
-    keywords = KeywordsField(required=False)
     perms = forms.ChoiceField(choices=PERMS_CHOICES, widget=forms.RadioSelect(),
                               initial=NRC_FLIS)
 
@@ -95,10 +83,6 @@ class CatalogueForm(forms.ModelForm):
         catalogue.document = self.cleaned_data['document']
         catalogue.save()
 
-        keywords = self.cleaned_data['keywords']
-        catalogue.keywords.clear()
-        catalogue.keywords.add(*keywords)
-
         perms = self.cleaned_data['perms']
         CataloguePermission.objects.get_or_create(catalogue=catalogue,
                                                   permission=perms)
@@ -142,9 +126,5 @@ class OfferForm(CatalogueForm):
 class CatalogueFilterForm(forms.Form):
 
     KIND_CHOICES = (('all', 'All'),) + Catalogue.KIND_CHOICES
-    FLIS_TOPIC_CHOICES = (('all', 'All'),) + FLIS_TOPICS
-
 
     kind = forms.ChoiceField(choices=KIND_CHOICES)
-    flis_topic = forms.ChoiceField(choices=FLIS_TOPIC_CHOICES)
-    date_range = DateRangeField(label='Start date, between')

@@ -1,12 +1,11 @@
 from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
-from braces.views import AjaxResponseMixin, JSONResponseMixin
+from braces.views import JSONResponseMixin
 from live_catalogue.forms import NeedForm, OfferForm, CatalogueFilterForm
-from live_catalogue.models import Catalogue, Keyword
+from live_catalogue.models import Catalogue
 
 
 class HomeView(View):
@@ -45,7 +44,11 @@ class CatalogueView(View):
 class CatalogueEdit(View):
 
     def get(self, request, kind, pk=None):
-        catalogue = get_object_or_404(Catalogue, pk=pk, user_id=request.user_id, kind=kind) if pk else None
+        catalogue = None
+        if pk:
+            catalogue = get_object_or_404(Catalogue, pk=pk,
+                                          user_id=request.user_id,
+                                          kind=kind)
         if kind == Catalogue.NEED:
             form = NeedForm(instance=catalogue)
         elif kind == Catalogue.OFFER:
@@ -56,12 +59,18 @@ class CatalogueEdit(View):
         })
 
     def post(self, request, kind, pk=None):
-        catalogue = get_object_or_404(Catalogue, pk=pk, user_id=request.user_id, kind=kind) if pk else None
+        catalogue = None
+        if pk:
+            catalogue = get_object_or_404(Catalogue, pk=pk,
+                                          user_id=request.user_id,
+                                          kind=kind)
         is_draft = True if request.POST['save'] == 'draft' else False
         if kind == Catalogue.NEED:
-            form = NeedForm(request.POST, instance=catalogue, is_draft=is_draft)
+            form = NeedForm(request.POST, instance=catalogue,
+                            is_draft=is_draft)
         elif kind == Catalogue.OFFER:
-            form = OfferForm(request.POST, instance=catalogue, is_draft=is_draft)
+            form = OfferForm(request.POST, instance=catalogue,
+                             is_draft=is_draft)
         if form.is_valid():
             catalogue = form.save()
             if is_draft:
@@ -79,15 +88,18 @@ class CatalogueEdit(View):
 class CatalogueDelete(JSONResponseMixin, View):
 
     def delete(self, request, pk, kind):
-        catalogue = get_object_or_404(Catalogue, pk=pk, user_id=request.user_id,
+        catalogue = get_object_or_404(Catalogue, pk=pk,
+                                      user_id=request.user_id,
                                       kind=kind)
         catalogue.delete()
-        messages.success(request,
-            '%s was successfully deleted' % catalogue.kind_verbose)
-        return self.render_json_response({
-           'status': 'success',
-           'url': reverse('home')
-        })
+        msg = '%s was successfully deleted' % catalogue.kind_verbose
+        messages.success(request, msg)
+        return self.render_json_response(
+            {
+                'status': 'success',
+                'url': reverse('home')
+            }
+        )
 
 
 class MyEntries(View):
@@ -112,20 +124,8 @@ class MyEntries(View):
             'filter_form': form,
         })
 
-class ApiKeywords(JSONResponseMixin, AjaxResponseMixin, View):
-
-    def get_ajax(self, request):
-        q = request.GET.get('q', '').strip()
-        keywords = Keyword.objects.all()
-        if q: keywords = keywords.filter(name__contains=q)
-        return self.render_json_response({
-            'status': 'success',
-            'results': [{'id': k.pk, 'text': k.name} for k in keywords]
-        })
-
 
 class CrashMe(View):
 
     def get(self, request):
         raise Exception()
-

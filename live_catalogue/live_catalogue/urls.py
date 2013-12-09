@@ -13,7 +13,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', login_required(views.HomeView.as_view()), name='home'),
-    url(r'^api/keywords$', login_required(views.ApiKeywords.as_view()), name='api_keywords'),
     url(r'^need/add$', login_required(views.CatalogueEdit.as_view()),
        {'kind': 'need'}, name='catalogue_add'),
     url(r'^need/(?P<pk>[\w\-]+)/edit$', login_required(views.CatalogueEdit.as_view()),

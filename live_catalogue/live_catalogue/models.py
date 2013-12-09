@@ -57,7 +57,6 @@ class Catalogue(models.Model):
 
     title = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
-    keywords = models.ManyToManyField('Keyword', null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=10,
                               blank=True)
     geographic_scope = models.CharField(choices=GEOGRAPHIC_SCOPE,
@@ -112,10 +111,3 @@ class CataloguePermission(models.Model):
     catalogue = models.ForeignKey(Catalogue, related_name='permissions')
     permission = models.CharField(max_length=64)
 
-
-class Keyword(models.Model):
-
-    name = models.CharField(max_length=128, unique=True)
-
-    def __unicode__(self):
-        return self.name
