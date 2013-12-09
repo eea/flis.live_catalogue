@@ -1,6 +1,32 @@
 from django.db import models
-from live_catalogue.definitions import CATEGORIES, FLIS_TOPICS, THEMES
 from live_catalogue.definitions import GEOGRAPHIC_SCOPE, COUNTRIES
+
+
+class Category(models.Model):
+
+    handle = models.SlugField(primary_key=True)
+    title = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class FlisTopic(models.Model):
+
+    handle = models.SlugField(primary_key=True)
+    title = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+
+class Theme(models.Model):
+
+    handle = models.SlugField(primary_key=True)
+    title = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
 
 
 class Catalogue(models.Model):
@@ -25,16 +51,17 @@ class Catalogue(models.Model):
     draft = models.BooleanField(default=True)
     user_id = models.CharField(max_length=64, blank=True)
 
-    category = models.CharField(choices=CATEGORIES, max_length=64)
-    flis_topic = models.CharField(choices=FLIS_TOPICS, max_length=64)
-    theme = models.CharField(choices=THEMES, max_length=64)
+    category = models.ManyToManyField(Category)
+    flis_topic = models.ManyToManyField(FlisTopic)
+    theme = models.ManyToManyField(Theme, blank=True)
 
     title = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
     keywords = models.ManyToManyField('Keyword', null=True, blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10, blank=True)
-    geographic_scope = models.CharField(choices=GEOGRAPHIC_SCOPE, max_length=128,
-                                        blank=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10,
+                              blank=True)
+    geographic_scope = models.CharField(choices=GEOGRAPHIC_SCOPE,
+                                        max_length=128, blank=True)
     resources = models.TextField(blank=True)
 
     start_date = models.DateField(null=True, blank=True)
@@ -59,17 +86,17 @@ class Catalogue(models.Model):
     def kind_verbose(self):
         return dict(self.KIND_CHOICES).get(self.kind, '')
 
-    @property
-    def category_verbose(self):
-        return dict(CATEGORIES).get(self.category, '')
+    # @property
+    # def category_verbose(self):
+    #     return dict(CATEGORIES).get(self.category, '')
 
-    @property
-    def flis_topic_verbose(self):
-        return dict(FLIS_TOPICS).get(self.flis_topic, '')
+    # @property
+    # def flis_topic_verbose(self):
+    #     return dict(FLIS_TOPICS).get(self.flis_topic, '')
 
-    @property
-    def theme_verbose(self):
-        return dict(THEMES).get(self.theme, '')
+    # @property
+    # def theme_verbose(self):
+    #     return dict(THEMES).get(self.theme, '')
 
     @property
     def status_verbose(self):
@@ -78,6 +105,7 @@ class Catalogue(models.Model):
     @property
     def geographic_scope_verbose(self):
         return dict(GEOGRAPHIC_SCOPE).get(self.geographic_scope, '')
+
 
 class CataloguePermission(models.Model):
 

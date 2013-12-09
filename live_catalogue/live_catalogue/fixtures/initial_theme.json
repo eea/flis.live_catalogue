@@ -1,0 +1,90 @@
+[
+    {
+        "pk": 1,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "air-pollution",
+            "title": "Air pollution"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "biodiversity",
+            "title": "Biodiversity"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "chemicals",
+            "title": "Chemicals"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "climate-change",
+            "title": "Climate change"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "environment-and-health",
+            "title": "Environment and health"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "land-use",
+            "title": "Land use"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "natural-resources",
+            "title": "Natural resources"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "noise",
+            "title": "Noise"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "soil",
+            "title": "Soil"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "waste",
+            "title": "Waste and material resources"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "water",
+            "title": "Water"
+        }
+    }
+]

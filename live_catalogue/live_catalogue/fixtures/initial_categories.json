@@ -1,0 +1,82 @@
+[
+    {
+        "pk": 1,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "projects",
+            "title": "Projects"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "training",
+            "title": "Training"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "reports",
+            "title": "Reports"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "request-for-collaboration",
+            "title": "Request for collaboration"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "tenders",
+            "title": "Tenders"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "open-calls",
+            "title": "Open calls"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "contracts",
+            "title": "Contracts"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "support-documents",
+            "title": "Support documents"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "articles",
+            "title": "Articles"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "news",
+            "title": "News"
+        }
+    }
+]
