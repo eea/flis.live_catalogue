@@ -13,4 +13,10 @@ $(function () {
     }
     catalogue_filter.on('change', 'select', submitFilterForm);
     catalogue_filter.find('select').select2({'width': 'resolve'});
+
+
+    $('select').select2({
+        width: 'resolve'
+    });
+
 });
