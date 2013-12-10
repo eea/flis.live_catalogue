@@ -40,7 +40,7 @@ class Catalogue(models.Model):
 
     OFFICIAL = 'official'
     INFORMAL = 'informal'
-    STATUS_CHOICES = (
+    TYPE_OF_CHOICES = (
         (OFFICIAL, 'Official'),
         (INFORMAL, 'Informal'),
     )
@@ -55,10 +55,10 @@ class Catalogue(models.Model):
     flis_topic = models.ManyToManyField(FlisTopic)
     theme = models.ManyToManyField(Theme, blank=True)
 
-    title = models.CharField(max_length=256, blank=True)
+    title = models.CharField(max_length=256, blank=True, verbose_name='Subject')
     description = models.TextField(blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10,
-                              blank=True)
+    type_of = models.CharField(choices=TYPE_OF_CHOICES, max_length=10,
+                               blank=True)
     geographic_scope = models.CharField(choices=GEOGRAPHIC_SCOPE,
                                         max_length=128, blank=True)
     resources = models.TextField(blank=True)
@@ -98,8 +98,8 @@ class Catalogue(models.Model):
     #     return dict(THEMES).get(self.theme, '')
 
     @property
-    def status_verbose(self):
-        return dict(self.STATUS_CHOICES).get(self.status, '')
+    def type_of_verbose(self):
+        return dict(self.TYPE_OF_CHOICES).get(self.status, '')
 
     @property
     def geographic_scope_verbose(self):

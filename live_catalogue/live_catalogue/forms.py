@@ -1,5 +1,4 @@
 from django import forms
-from django_select2 import AutoModelSelect2TagField
 from live_catalogue.models import Catalogue, CataloguePermission
 from eea_frame.middleware import get_current_request
 
@@ -17,13 +16,15 @@ class DateRangeField(forms.Field):
 class CatalogueForm(forms.ModelForm):
 
     NRC_FLIS, EIONET = 'eionet-nrc-forwardlooking', 'eionet'
-    PERMS_CHOICES = ((NRC_FLIS, 'NRC Flis'), (EIONET, 'All members of EIONET'),)
+    PERMS_CHOICES = ((NRC_FLIS, 'NRC Flis'),
+                     (EIONET, 'All members of EIONET'),)
 
-    REQUIRED_FIELDS = ('status', 'title', 'start_date', 'contact_person',
+    REQUIRED_FIELDS = ('title', 'description', 'start_date',
+                       'contact_person',
                        'email', 'institution', 'country',)
 
-    perms = forms.ChoiceField(choices=PERMS_CHOICES, widget=forms.RadioSelect(),
-                              initial=NRC_FLIS)
+    perms = forms.ChoiceField(choices=PERMS_CHOICES, initial=NRC_FLIS,
+                              widget=forms.RadioSelect())
 
     class Meta:
 
@@ -35,7 +36,7 @@ class CatalogueForm(forms.ModelForm):
             'address': forms.Textarea(),
         }
         labels = {
-            'status': 'Type of need',
+            'type_of': 'Type of need',
             'need_urgent': 'Is this need urgent?',
         }
 
@@ -46,9 +47,6 @@ class CatalogueForm(forms.ModelForm):
         super(CatalogueForm, self).__init__(*args, **kwargs)
 
         self.fields['url'].initial = 'http://'
-        self.fields['status'].empty_label = None
-        self.fields['status'].choices = self.fields['status'].choices[1:]
-
         self.fields['start_date'].input_formats = ['%d/%m/%Y']
         self.fields['end_date'].input_formats = ['%d/%m/%Y']
 
@@ -68,7 +66,7 @@ class CatalogueForm(forms.ModelForm):
 
         catalogue.title = self.cleaned_data['title']
         catalogue.description = self.cleaned_data['description']
-        catalogue.status = self.cleaned_data['status']
+        catalogue.type_of = self.cleaned_data['type_of']
         catalogue.geographic_scope = self.cleaned_data['geographic_scope']
         catalogue.start_date = self.cleaned_data['start_date']
         catalogue.end_date = self.cleaned_data['end_date']
@@ -96,9 +94,8 @@ class NeedForm(CatalogueForm):
     class Meta(CatalogueForm.Meta):
 
         exclude = CatalogueForm.Meta.exclude + ('resources',)
-
         labels = {
-            'status': 'Type of need',
+            'type_of': 'Type of need',
             'need_urgent': 'Is this need urgent?',
         }
 
@@ -114,7 +111,11 @@ class OfferForm(CatalogueForm):
     KIND = 'offer'
 
     class Meta(CatalogueForm.Meta):
+
         exclude = CatalogueForm.Meta.exclude + ('need_urgent',)
+        labels = {
+            'type_of': 'Type of offer',
+        }
 
     def save(self):
         catalogue = super(OfferForm, self).save()
