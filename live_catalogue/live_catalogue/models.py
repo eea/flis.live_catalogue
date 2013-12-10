@@ -85,7 +85,8 @@ class Catalogue(models.Model):
     address = models.CharField(max_length=256, blank=True)
     country = models.CharField(choices=COUNTRIES, max_length=64, blank=True)
     url = models.URLField(blank=True)
-    info = models.TextField(blank=True)
+    info = models.TextField(blank=True,
+                            verbose_name='Additional contact details')
     document = models.FileField(upload_to='documents', null=True, blank=True)
 
     def __unicode__(self):
@@ -120,4 +121,3 @@ class CataloguePermission(models.Model):
 
     catalogue = models.ForeignKey(Catalogue, related_name='permissions')
     permission = models.CharField(max_length=64)
-
