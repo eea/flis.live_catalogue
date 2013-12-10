@@ -109,9 +109,3 @@ class Catalogue(models.Model):
     @property
     def type_of_verbose(self):
         return dict(self.TYPE_OF_CHOICES).get(self.status, '')
-
-
-class CataloguePermission(models.Model):
-
-    catalogue = models.ForeignKey(Catalogue, related_name='permissions')
-    permission = models.CharField(max_length=64)

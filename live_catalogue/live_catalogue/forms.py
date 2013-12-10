@@ -1,25 +1,17 @@
 from django import forms
-from live_catalogue.models import Catalogue, CataloguePermission
+from live_catalogue.models import Catalogue
 from eea_frame.middleware import get_current_request
 
 
 class CatalogueForm(forms.ModelForm):
 
-    NRC_FLIS, EIONET = 'eionet-nrc-forwardlooking', 'eionet'
-    PERMS_CHOICES = ((NRC_FLIS, 'NRC Flis'),
-                     (EIONET, 'All members of EIONET'),)
-
     REQUIRED_FIELDS = ('subject', 'description', 'contact_person', 'email',
                        'institution', 'country',)
-
-    perms = forms.ChoiceField(choices=PERMS_CHOICES, initial=NRC_FLIS,
-                              widget=forms.RadioSelect())
 
     class Meta:
 
         model = Catalogue
-        exclude = ('kind', 'created_by', 'created_on', 'last_updated', 'draft',
-                   'perms')
+        exclude = ('kind', 'created_by', 'created_on', 'last_updated', 'draft')
 
         widgets = {
             'address': forms.Textarea(),
@@ -64,9 +56,6 @@ class CatalogueForm(forms.ModelForm):
         catalogue.document = self.cleaned_data['document']
         catalogue.save()
 
-        perms = self.cleaned_data['perms']
-        CataloguePermission.objects.get_or_create(catalogue=catalogue,
-                                                  permission=perms)
         return catalogue
 
 
