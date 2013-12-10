@@ -9,7 +9,7 @@ class CatalogueForm(forms.ModelForm):
     PERMS_CHOICES = ((NRC_FLIS, 'NRC Flis'),
                      (EIONET, 'All members of EIONET'),)
 
-    REQUIRED_FIELDS = ('title', 'description', 'contact_person', 'email',
+    REQUIRED_FIELDS = ('subject', 'description', 'contact_person', 'email',
                        'institution', 'country',)
 
     perms = forms.ChoiceField(choices=PERMS_CHOICES, initial=NRC_FLIS,
@@ -50,7 +50,7 @@ class CatalogueForm(forms.ModelForm):
         catalogue.flis_topic = self.cleaned_data['flis_topic']
         catalogue.theme = self.cleaned_data['theme']
 
-        catalogue.title = self.cleaned_data['title']
+        catalogue.subject = self.cleaned_data['subject']
         catalogue.description = self.cleaned_data['description']
         catalogue.type_of = self.cleaned_data['type_of']
         catalogue.geographic_scope = self.cleaned_data['geographic_scope']

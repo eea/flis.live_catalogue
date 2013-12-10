@@ -18,7 +18,7 @@
     <thead>
       <tr>
         <th>Category</th>
-        <th>Title</th>
+        <th>Subject</th>
         <th>Description</th>
         <th>Date</th>
         <th>Geo scope</th>
@@ -35,7 +35,7 @@
         {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as catalogue_view_url %}
         <td>
           <a href="{{ catalogue_view_url }}">
-            {{ catalogue.title }}
+            {{ catalogue.subject }}
           </a>
         </td>
         <td>{{ catalogue.description }}</td>

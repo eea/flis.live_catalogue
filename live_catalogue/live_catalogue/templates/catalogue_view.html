@@ -32,7 +32,7 @@
 
 {% block content %}
 
-  <h2>{{ catalogue.kind_verbose }} - {{ catalogue.title }}</h2>
+  <h2>{{ catalogue.kind_verbose }} - {{ catalogue.subject }}</h2>
 
   {% if catalogue.user_id == request.user_id %}
     <div class="options">
@@ -64,8 +64,8 @@
       </tr>
 
       <tr>
-        <th>{{ form.title.label }}</th>
-        <td>{{ catalogue.title }}</td>
+        <th>{{ form.subject.label }}</th>
+        <td>{{ catalogue.subject }}</td>
       </tr>
 
       <tr>

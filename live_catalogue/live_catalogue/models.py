@@ -66,7 +66,7 @@ class Catalogue(models.Model):
     flis_topic = models.ManyToManyField(FlisTopic)
     theme = models.ManyToManyField(Theme, blank=True)
 
-    title = models.CharField(max_length=256, blank=True, verbose_name='Subject')
+    subject = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=10,
                               blank=True, default=OPEN)

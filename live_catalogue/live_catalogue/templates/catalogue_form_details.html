@@ -1,11 +1,11 @@
 {% load widget_tweaks %}
 
 <div class="control-group">
-  <label class="control-label" for="{{ form.title.auto_id }}">
-    {{ form.title.label }}*</label>
+  <label class="control-label" for="{{ form.subject.auto_id }}">
+    {{ form.subject.label }}*</label>
   <div class="controls">
-    {% render_field form.title class="input-xxlarge" %}
-    <div class="text-error">{{ form.title.errors }}</div>
+    {{ form.subject|add_class:"input-xxlarge" }}
+    <div class="text-error">{{ form.subject.errors }}</div>
   </div>
 </div>
 
