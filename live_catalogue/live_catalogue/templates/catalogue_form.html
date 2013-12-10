@@ -31,7 +31,7 @@
 
     {% if form.resources %}
       <div class="control-group">
-        <label class="control-label" for="{{ form.geographic_scope.auto_id }}">
+        <label class="control-label" for="{{ form.resources.auto_id }}">
           {{ form.resources.label }}</label>
         <div class="controls">
           {% render_field form.resources class="input-xxlarge" rows=5 %}
@@ -39,15 +39,6 @@
         </div>
       </div>
     {% endif %}
-
-    <div class="control-group">
-      <label class="control-label" for="{{ form.geographic_scope.auto_id }}">
-        {{ form.geographic_scope.label }}</label>
-      <div class="controls">
-        {{ form.geographic_scope }}
-        <div class="text-error">{{ form.geographic_scope.errors }}</div>
-      </div>
-    </div>
 
     {% if form.need_urgent %}
       <div class="control-group">

@@ -53,7 +53,6 @@ class CatalogueForm(forms.ModelForm):
         catalogue.subject = self.cleaned_data['subject']
         catalogue.description = self.cleaned_data['description']
         catalogue.type_of = self.cleaned_data['type_of']
-        catalogue.geographic_scope = self.cleaned_data['geographic_scope']
         catalogue.contact_person = self.cleaned_data['contact_person']
         catalogue.email = self.cleaned_data['email']
         catalogue.phone_number = self.cleaned_data['phone_number']

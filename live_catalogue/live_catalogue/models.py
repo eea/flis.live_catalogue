@@ -1,5 +1,5 @@
 from django.db import models
-from live_catalogue.definitions import GEOGRAPHIC_SCOPE, COUNTRIES
+from live_catalogue.definitions import COUNTRIES
 
 
 class Category(models.Model):
@@ -72,8 +72,6 @@ class Catalogue(models.Model):
                               blank=True, default=OPEN)
     type_of = models.CharField(choices=TYPE_OF_CHOICES, max_length=10,
                                blank=True)
-    geographic_scope = models.CharField(choices=GEOGRAPHIC_SCOPE,
-                                        max_length=128, blank=True)
     resources = models.TextField(blank=True)
 
     need_urgent = models.BooleanField(default=False)
@@ -111,10 +109,6 @@ class Catalogue(models.Model):
     @property
     def type_of_verbose(self):
         return dict(self.TYPE_OF_CHOICES).get(self.status, '')
-
-    @property
-    def geographic_scope_verbose(self):
-        return dict(GEOGRAPHIC_SCOPE).get(self.geographic_scope, '')
 
 
 class CataloguePermission(models.Model):
