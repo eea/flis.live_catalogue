@@ -63,9 +63,6 @@ class Catalogue(models.Model):
                                         max_length=128, blank=True)
     resources = models.TextField(blank=True)
 
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
-
     need_urgent = models.BooleanField(default=False)
 
     contact_person = models.CharField(max_length=64, blank=True)

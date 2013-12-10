@@ -3,25 +3,14 @@ from live_catalogue.models import Catalogue, CataloguePermission
 from eea_frame.middleware import get_current_request
 
 
-class DateRangeField(forms.Field):
-
-    def __init__(self, *args, **kwargs):
-        super(DateRangeField, self).__init__(*args, **kwargs)
-
-    def to_python(self, value):
-        # import pdb; pdb.set_trace()
-        return value
-
-
 class CatalogueForm(forms.ModelForm):
 
     NRC_FLIS, EIONET = 'eionet-nrc-forwardlooking', 'eionet'
     PERMS_CHOICES = ((NRC_FLIS, 'NRC Flis'),
                      (EIONET, 'All members of EIONET'),)
 
-    REQUIRED_FIELDS = ('title', 'description', 'start_date',
-                       'contact_person',
-                       'email', 'institution', 'country',)
+    REQUIRED_FIELDS = ('title', 'description', 'contact_person', 'email',
+                       'institution', 'country',)
 
     perms = forms.ChoiceField(choices=PERMS_CHOICES, initial=NRC_FLIS,
                               widget=forms.RadioSelect())
@@ -47,9 +36,6 @@ class CatalogueForm(forms.ModelForm):
         super(CatalogueForm, self).__init__(*args, **kwargs)
 
         self.fields['url'].initial = 'http://'
-        self.fields['start_date'].input_formats = ['%d/%m/%Y']
-        self.fields['end_date'].input_formats = ['%d/%m/%Y']
-
         if self.is_draft is False:
             for f in self.REQUIRED_FIELDS:
                 self.fields[f].required = True
@@ -68,8 +54,6 @@ class CatalogueForm(forms.ModelForm):
         catalogue.description = self.cleaned_data['description']
         catalogue.type_of = self.cleaned_data['type_of']
         catalogue.geographic_scope = self.cleaned_data['geographic_scope']
-        catalogue.start_date = self.cleaned_data['start_date']
-        catalogue.end_date = self.cleaned_data['end_date']
         catalogue.contact_person = self.cleaned_data['contact_person']
         catalogue.email = self.cleaned_data['email']
         catalogue.phone_number = self.cleaned_data['phone_number']
