@@ -45,6 +45,17 @@ class Catalogue(models.Model):
         (INFORMAL, 'Informal'),
     )
 
+    OPEN = 'open'
+    SOLVED = 'solved'
+    CLOSED = 'closed-without-solution'
+    DRAFT = 'draft'
+    STATUS_CHOICES = (
+        (OPEN, 'Open'),
+        (SOLVED, 'Solved'),
+        (CLOSED, 'Closed without solution'),
+        (DRAFT, 'Draft'),
+    )
+
     kind = models.CharField(choices=KIND_CHOICES, max_length=5, db_index=True)
     created_on = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True, auto_now=True)
@@ -57,6 +68,8 @@ class Catalogue(models.Model):
 
     title = models.CharField(max_length=256, blank=True, verbose_name='Subject')
     description = models.TextField(blank=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=10,
+                              blank=True, default=OPEN)
     type_of = models.CharField(choices=TYPE_OF_CHOICES, max_length=10,
                                blank=True)
     geographic_scope = models.CharField(choices=GEOGRAPHIC_SCOPE,
