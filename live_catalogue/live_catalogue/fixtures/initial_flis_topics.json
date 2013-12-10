@@ -1,58 +1,58 @@
 [
-{
-    "pk": 1,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "early-warning",
-        "title": "Early warning"
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "early-warning",
+            "title": "Early warning"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "drivers-and-trends",
+            "title": "Drivers and trends"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "indicators",
+            "title": "Indicators"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "scenarios",
+            "title": "Scenarios"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "methods-and-tools",
+            "title": "Methods and tools"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "networking-capacity-building-and-governance",
+            "title": "Networking, capacity building and governance"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "use-of-forward-looking-information",
+            "title": "Use of forward-looking information"
+        }
+    },
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "others",
+            "title": "Others"
+        }
     }
-},
-{
-    "pk": 2,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "drivers-and-trends",
-        "title": "Drivers and trends"
-    }
-},
-{
-    "pk": 3,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "indicators",
-        "title": "Indicators"
-    }
-},
-{
-    "pk": 4,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "scenarios",
-        "title": "Scenarios"
-    }
-},
-{
-    "pk": 5,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "methods-and-tools",
-        "title": "Methods and tools"
-    }
-},
-{
-    "pk": 6,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "networking-capacity-building-and-governance",
-        "title": "Networking, capacity building and governance"
-    }
-},
-{
-    "pk": 7,
-    "model": "live_catalogue.flistopic",
-    "fields": {
-        "handle": "use-of-forward-looking-information",
-        "title": "Use of forward-looking information"
-    }
-}
 ]

@@ -1,6 +1,5 @@
 [
     {
-        "pk": 1,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "projects",
@@ -8,7 +7,6 @@
         }
     },
     {
-        "pk": 2,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "training",
@@ -16,7 +14,6 @@
         }
     },
     {
-        "pk": 3,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "reports",
@@ -24,7 +21,6 @@
         }
     },
     {
-        "pk": 4,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "request-for-collaboration",
@@ -32,7 +28,6 @@
         }
     },
     {
-        "pk": 5,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "tenders",
@@ -40,7 +35,6 @@
         }
     },
     {
-        "pk": 6,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "open-calls",
@@ -48,7 +42,6 @@
         }
     },
     {
-        "pk": 7,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "contracts",
@@ -56,7 +49,6 @@
         }
     },
     {
-        "pk": 8,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "support-documents",
@@ -64,7 +56,6 @@
         }
     },
     {
-        "pk": 9,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "articles",
@@ -72,11 +63,17 @@
         }
     },
     {
-        "pk": 10,
         "model": "live_catalogue.category",
         "fields": {
             "handle": "news",
             "title": "News"
+        }
+    },
+    {
+        "model": "live_catalogue.category",
+        "fields": {
+            "handle": "others",
+            "title": "Others"
         }
     }
 ]
