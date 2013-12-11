@@ -11,7 +11,7 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.description.auto_id }}">
-    {{ form.description.label }}</label>
+    {{ form.description.label }}*</label>
   <div class="controls">
     {% render_field form.description class="input-xxlarge" rows=5 %}
     <div class="text-error">{{ form.description.errors }}</div>
@@ -24,5 +24,14 @@
   <div class="controls">
     {{ form.type_of }}
     <div class="text-error">{{ form.type_of.errors }}</div>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.status.auto_id }}">
+    {{ form.status.label }}</label>
+  <div class="controls">
+    {{ form.status }}
+    <div class="text-error">{{ form.status.errors }}</div>
   </div>
 </div>

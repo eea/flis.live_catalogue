@@ -49,18 +49,36 @@
 
     <tbody>
       <tr>
-        <th>{{ form.category.label }}</th>
-        <td>{{ catalogue.category_verbose }}</td>
+        <th>{{ form.categories.label }}</th>
+        <td>
+          <ul class="unstyled">
+            {% for categ in catalogue.categories.all %}
+              <li>{{ categ }}</li>
+            {% endfor %}
+          </ul>
+        </td>
       </tr>
 
       <tr>
-        <th>{{ form.flis_topic.label }}</th>
-        <td>{{ catalogue.flis_topic_verbose }}</td>
+        <th>{{ form.flis_topics.label }}</th>
+        <td>
+          <ul class="unstyled">
+            {% for flis_topic in catalogue.flis_topics.all %}
+              <li>{{ flis_topic }}</li>
+            {% endfor %}
+          </ul>
+        </td>
       </tr>
 
       <tr>
-        <th>{{ form.theme.label }}</th>
-        <td>{{ catalogue.theme_verbose }}</td>
+        <th>{{ form.themes.label }}</th>
+        <td>
+          <ul class="unstyled">
+            {% for theme in catalogue.themes.all %}
+              <li>{{ theme }}</li>
+            {% endfor %}
+          </ul>
+        </td>
       </tr>
 
       <tr>
@@ -74,19 +92,7 @@
       </tr>
 
       <tr>
-        <th>{{ form.keywords.label }}</th>
-        <td>
-            <ul>
-                {% for keyword in catalogue.keywords.all %}
-                  <li>{{ keyword }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-      </tr>
-    </tbody>
-
-      <tr>
-        <th>{{ form.status.label }}</th>
+        <th>{{ form.type_of.label }}</th>
         <td>{{ catalogue.type_of_verbose }}</td>
       </tr>
 
@@ -97,7 +103,7 @@
       {% endif %}
 
       <tr>
-        <th colspan="2">Contact information</th>
+        <th colspan="2" style="text-align:center;">Contact information</th>
       </tr>
 
       <tr>
@@ -127,7 +133,7 @@
 
       <tr>
         <th>{{ form.country.label }}</th>
-        <td>{{ catalogue.country }}</td>
+        <td>{{ catalogue.country_verbose }}</td>
       </tr>
 
       <tr>
@@ -139,6 +145,8 @@
         <th>{{ form.info.label }}</th>
         <td>{{ catalogue.info }}</td>
       </tr>
+
+    </tbody>
 
   </table>
 

@@ -1,28 +1,28 @@
 {% load widget_tweaks %}
 
 <div class="control-group">
-  <label class="control-label" for="{{ form.category.auto_id }}">
-    {{ form.category.label }}*</label>
+  <label class="control-label" for="{{ form.categories.auto_id }}">
+    {{ form.categories.label }}*</label>
   <div class="controls">
-    {{ form.category|add_class:'select input-xxlarge' }}
-    <div class="text-error">{{ form.category.errors }}</div>
+    {{ form.categories|add_class:'select input-xxlarge' }}
+    <div class="text-error">{{ form.categories.errors }}</div>
   </div>
 </div>
 
 <div class="control-group">
-  <label class="control-label" for="{{ form.flis_topic.auto_id }}">
-    {{ form.flis_topic.label }}*</label>
+  <label class="control-label" for="{{ form.flis_topics.auto_id }}">
+    {{ form.flis_topics.label }}*</label>
   <div class="controls">
-    {{ form.flis_topic|add_class:'select input-xxlarge' }}
-    <div class="text-error">{{ form.flis_topic.errors }}</div>
+    {{ form.flis_topics|add_class:'select input-xxlarge' }}
+    <div class="text-error">{{ form.flis_topics.errors }}</div>
   </div>
 </div>
 
 <div class="control-group">
   <label class="control-label" for="{{ form.themes.auto_id }}">
-    {{ form.theme.label }}</label>
+    {{ form.themes.label }}</label>
   <div class="controls">
-    {{ form.theme|add_class:'select input-xxlarge' }}
-    <div class="text-error">{{ form.theme.errors }}</div>
+    {{ form.themes|add_class:'select input-xxlarge' }}
+    <div class="text-error">{{ form.themes.errors }}</div>
   </div>
 </div>

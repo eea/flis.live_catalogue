@@ -62,9 +62,9 @@ class Catalogue(models.Model):
     draft = models.BooleanField(default=True)
     user_id = models.CharField(max_length=64, blank=True)
 
-    category = models.ManyToManyField(Category)
-    flis_topic = models.ManyToManyField(FlisTopic)
-    theme = models.ManyToManyField(Theme, blank=True)
+    categories = models.ManyToManyField(Category)
+    flis_topics = models.ManyToManyField(FlisTopic)
+    themes = models.ManyToManyField(Theme, blank=True)
 
     subject = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
@@ -88,24 +88,16 @@ class Catalogue(models.Model):
     document = models.FileField(upload_to='documents', null=True, blank=True)
 
     def __unicode__(self):
-        return '%s (%s)' % (self.kind, self.title)
+        return '%s (%s)' % (self.kind, self.subject)
 
     @property
     def kind_verbose(self):
         return dict(self.KIND_CHOICES).get(self.kind, '')
 
-    # @property
-    # def category_verbose(self):
-    #     return dict(CATEGORIES).get(self.category, '')
-
-    # @property
-    # def flis_topic_verbose(self):
-    #     return dict(FLIS_TOPICS).get(self.flis_topic, '')
-
-    # @property
-    # def theme_verbose(self):
-    #     return dict(THEMES).get(self.theme, '')
-
     @property
     def type_of_verbose(self):
-        return dict(self.TYPE_OF_CHOICES).get(self.status, '')
+        return dict(self.TYPE_OF_CHOICES).get(self.type_of, '')
+
+    @property
+    def country_verbose(self):
+        return dict(COUNTRIES).get(self.country, '')

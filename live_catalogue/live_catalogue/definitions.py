@@ -2,7 +2,7 @@
 
 
 COUNTRIES = (
-    ("sq", "Albania"),
-    ("at", "Austria"),
-    ("hu", "Hungary"),
+    ('sq', 'Albania'),
+    ('at', 'Austria'),
+    ('hu', 'Hungary'),
 )

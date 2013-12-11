@@ -5,8 +5,8 @@ from eea_frame.middleware import get_current_request
 
 class CatalogueForm(forms.ModelForm):
 
-    REQUIRED_FIELDS = ('subject', 'description', 'contact_person', 'email',
-                       'institution', 'country',)
+    REQUIRED_FIELDS = ('subject', 'description', 'status', 'contact_person',
+                       'email', 'institution', 'country')
 
     class Meta:
 
@@ -28,6 +28,9 @@ class CatalogueForm(forms.ModelForm):
         super(CatalogueForm, self).__init__(*args, **kwargs)
 
         self.fields['url'].initial = 'http://'
+        self.fields['status'].empty_label = None
+        self.fields['status'].choices = self.fields['status'].choices[1:]
+
         if self.is_draft is False:
             for f in self.REQUIRED_FIELDS:
                 self.fields[f].required = True
@@ -38,13 +41,10 @@ class CatalogueForm(forms.ModelForm):
         catalogue.draft = self.is_draft
         catalogue.user_id = self.user_id
 
-        catalogue.category = self.cleaned_data['category']
-        catalogue.flis_topic = self.cleaned_data['flis_topic']
-        catalogue.theme = self.cleaned_data['theme']
-
         catalogue.subject = self.cleaned_data['subject']
         catalogue.description = self.cleaned_data['description']
         catalogue.type_of = self.cleaned_data['type_of']
+        catalogue.status = self.cleaned_data['status']
         catalogue.contact_person = self.cleaned_data['contact_person']
         catalogue.email = self.cleaned_data['email']
         catalogue.phone_number = self.cleaned_data['phone_number']
@@ -55,6 +55,17 @@ class CatalogueForm(forms.ModelForm):
         catalogue.info = self.cleaned_data['info']
         catalogue.document = self.cleaned_data['document']
         catalogue.save()
+
+        categories = self.cleaned_data['categories']
+        flis_topics = self.cleaned_data['flis_topics']
+        themes = self.cleaned_data['themes']
+
+        if categories:
+            catalogue.categories.add(*[i for i in categories])
+        if flis_topics:
+            catalogue.flis_topics.add(*[i for i in flis_topics])
+        if themes:
+            catalogue.themes.add(*[i for i in themes])
 
         return catalogue
 

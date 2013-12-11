@@ -64,7 +64,8 @@ class CatalogueEdit(View):
             catalogue = get_object_or_404(Catalogue, pk=pk,
                                           user_id=request.user_id,
                                           kind=kind)
-        is_draft = True if request.POST['save'] == 'draft' else False
+        save = request.POST.get('save', 'final')
+        is_draft = True if  save == 'draft' else False
         if kind == Catalogue.NEED:
             form = NeedForm(request.POST, instance=catalogue,
                             is_draft=is_draft)
