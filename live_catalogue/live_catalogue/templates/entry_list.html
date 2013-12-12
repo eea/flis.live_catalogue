@@ -1,0 +1,55 @@
+
+<table class="table table-bordered">
+
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Subject</th>
+      <th>Latest update</th>
+      <th>Country</th>
+      <th>Categories</th>
+      <th>Flis topics</th>
+      {% if show_status %}
+        <th>Status</th>
+      {% endif %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for catalogue in catalogues %}
+    <tr class="{{ catalogue.kind }}">
+      <td>{{ catalogue.kind_verbose }}</td>
+      {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as catalogue_view_url %}
+      <td>
+        <a href="{{ catalogue_view_url }}">{{ catalogue.subject }}</a>
+      </td>
+      <td>{{ catalogue.last_updated }}</td>
+      <td>{{ catalogue.country }}</td>
+      <td>
+        <ul class="unstyled">
+          {% for categ in catalogue.categories.all %}
+            <li>{{ categ }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+      <td>
+        <ul class="unstyled">
+          {% for flis_topic in catalogue.flis_topics.all %}
+            <li>{{ flis_topic }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+      {% if show_status %}
+        <td>
+          {% if catalogue.draft %}Draft{% else %}Final{% endif %}
+        </td>
+      {% endif %}
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6"><p>No entries</p></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>

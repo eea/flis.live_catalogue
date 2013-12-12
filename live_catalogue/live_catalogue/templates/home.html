@@ -6,41 +6,6 @@
 
   {% include "filters.html" %}
 
-  <table class="table table-bordered">
-
-    <thead>
-      <tr>
-        <th>Category</th>
-        <th>Subject</th>
-        <th>Description</th>
-        <th>Date</th>
-        <th>Institution</th>
-        <th>FLIS Topic</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {% for catalogue in catalogues %}
-      <tr class="{{ catalogue.kind }}">
-        <td>{{ catalogue.kind_verbose }}</td>
-        {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as catalogue_view_url %}
-        <td>
-          <a href="{{ catalogue_view_url }}">
-            {{ catalogue.subject }}
-          </a>
-        </td>
-        <td>{{ catalogue.description }}</td>
-        <td>{{ catalogue.created_on }}</td>
-        <td>{{ catalogue.institution }}</td>
-        <td>{{ catalogue.flis_topic_verbose }}</td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="6"><p>No entries</p></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-
-  </table>
+  {% include "entry_list.html" %}
 
 {% endblock %}
