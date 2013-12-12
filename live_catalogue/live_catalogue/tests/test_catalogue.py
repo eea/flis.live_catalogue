@@ -51,6 +51,29 @@ class CatalogueTests(BaseWebTest):
         )
 
     @patch('eea_frame.middleware.requests')
+    def test_need_in_entries_list(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
+                    user_id='johndoe')
+        url = self.reverse('home')
+        resp = self.app.get(url)
+        self.assertEqual(200, resp.status_code)
+        row = resp.pyquery('.table tbody').find('.need')
+        self.assertEqual(1, len(row))
+        self.assertEqual('Catalogue', row.find('td').eq(1).text())
+
+    @patch('eea_frame.middleware.requests')
+    def test_need_draft_not_in_entries_list(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
+                    user_id='johndoe', draft=True)
+        url = self.reverse('home')
+        resp = self.app.get(url)
+        self.assertEqual(200, resp.status_code)
+        row = resp.pyquery('.table tbody').find('.need')
+        self.assertEqual(0, len(row))
+
+    @patch('eea_frame.middleware.requests')
     def test_need_in_my_entries(self, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         data = NeedFactory.attributes(extra={
@@ -75,10 +98,8 @@ class CatalogueTests(BaseWebTest):
     @patch('eea_frame.middleware.requests')
     def test_need_not_in_my_entries(self, mock_requests):
         mock_requests.get.return_value = user_admin_mock
-        need = NeedFactory(categories=[self.category],
-                           flis_topics=[self.flis_topic],
-                           need_urgent=True,
-                           user_id='johndoe')
+        NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
+                    user_id='johndoe')
         url = self.reverse('my_entries')
         resp = self.app.get(url)
         self.assertEqual(200, resp.status_code)
