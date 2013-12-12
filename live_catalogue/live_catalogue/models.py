@@ -68,7 +68,7 @@ class Catalogue(models.Model):
 
     subject = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=10,
+    status = models.CharField(choices=STATUS_CHOICES, max_length=32,
                               blank=True, default=OPEN)
     type_of = models.CharField(choices=TYPE_OF_CHOICES, max_length=10,
                                blank=True)
@@ -97,6 +97,10 @@ class Catalogue(models.Model):
     @property
     def type_of_verbose(self):
         return dict(self.TYPE_OF_CHOICES).get(self.type_of, '')
+
+    @property
+    def status_verbose(self):
+        return dict(self.STATUS_CHOICES).get(self.status, '')
 
     @property
     def country_verbose(self):

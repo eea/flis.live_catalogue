@@ -13,4 +13,11 @@ $(function () {
         width: 'resolve'
     });
 
+    $('select').each(function () {
+        var $this = $(this);
+        if($this.data('readonly') == 'readonly') {
+            $this.select2('readonly', true);
+        }
+    });
+
 });

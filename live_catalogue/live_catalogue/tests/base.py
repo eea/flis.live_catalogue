@@ -37,10 +37,18 @@ class BaseWebTest(WebTest):
         return form
 
     def normalize_data(self, data):
+
+        def convert_model_to_pk(value):
+            if isinstance(value, Model):
+                return value.pk
+            return value
+
         new_data = dict(data)
         for k, v in new_data.items():
-            if isinstance(v, Model):
-                new_data[k] = str(v.pk)
+            if isinstance(v, list):
+                new_data[k] = map(convert_model_to_pk, v)
+            else:
+                new_data[k] = convert_model_to_pk(v)
         return new_data
 
     def reverse(self, view_name, *args, **kwargs):

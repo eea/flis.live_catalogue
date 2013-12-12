@@ -44,7 +44,16 @@ class CatalogueForm(forms.ModelForm):
         catalogue.subject = self.cleaned_data['subject']
         catalogue.description = self.cleaned_data['description']
         catalogue.type_of = self.cleaned_data['type_of']
-        catalogue.status = self.cleaned_data['status']
+
+        if self.is_draft:
+            catalogue.status = Catalogue.DRAFT
+        else:
+            status = self.cleaned_data['status']
+            if status == Catalogue.DRAFT:
+                catalogue.status = Catalogue.OPEN
+            else:
+                catalogue.status = status
+
         catalogue.contact_person = self.cleaned_data['contact_person']
         catalogue.email = self.cleaned_data['email']
         catalogue.phone_number = self.cleaned_data['phone_number']

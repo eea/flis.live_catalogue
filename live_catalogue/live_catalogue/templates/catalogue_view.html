@@ -96,6 +96,11 @@
         <td>{{ catalogue.type_of_verbose }}</td>
       </tr>
 
+      <tr>
+        <th>{{ form.status.label }}</th>
+        <td>{{ catalogue.status_verbose }}</td>
+      </tr>
+
       {% if catalogue.need_urgent %}
           <tr>
             <th colspan="2">This is an urgend need</th>

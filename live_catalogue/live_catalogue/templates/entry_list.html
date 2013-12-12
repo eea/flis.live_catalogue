@@ -24,7 +24,7 @@
         <a href="{{ catalogue_view_url }}">{{ catalogue.subject }}</a>
       </td>
       <td>{{ catalogue.last_updated }}</td>
-      <td>{{ catalogue.country }}</td>
+      <td>{{ catalogue.country_verbose }}</td>
       <td>
         <ul class="unstyled">
           {% for categ in catalogue.categories.all %}

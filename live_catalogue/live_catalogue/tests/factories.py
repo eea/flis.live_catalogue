@@ -33,9 +33,6 @@ class CatalogueFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Catalogue
 
-    categories = factory.SubFactory(CategoryFactory)
-    flis_topics = factory.SubFactory(FlisTopicFactory)
-
     subject = 'Catalogue'
     description = 'Catalogue description'
 
@@ -44,6 +41,33 @@ class CatalogueFactory(factory.DjangoModelFactory):
     url = 'http://john.doe.eaudeweb.ro'
     institution = 'EEA'
     country = 'at'
+
+    @factory.post_generation
+    def categories(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for categ in extracted:
+                self.categories.add(categ)
+
+    @factory.post_generation
+    def flis_topics(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for flis_topic in extracted:
+                self.flis_topics.add(flis_topic)
+
+    @factory.post_generation
+    def themes(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for theme in extracted:
+                self.themes.add(theme)
 
 
 class NeedFactory(CatalogueFactory):

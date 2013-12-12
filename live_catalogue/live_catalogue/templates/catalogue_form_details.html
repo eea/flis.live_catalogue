@@ -1,5 +1,6 @@
 {% load widget_tweaks %}
 
+
 <div class="control-group">
   <label class="control-label" for="{{ form.subject.auto_id }}">
     {{ form.subject.label }}*</label>
@@ -31,7 +32,11 @@
   <label class="control-label" for="{{ form.status.auto_id }}">
     {{ form.status.label }}</label>
   <div class="controls">
-    {{ form.status }}
+    {% if form.status.value == catalogue.DRAFT %}
+      {{ form.status|attr:"data-readonly:readonly" }}
+    {% else %}
+      {{ form.status }}
+    {% endif %}
     <div class="text-error">{{ form.status.errors }}</div>
   </div>
 </div>

@@ -65,7 +65,7 @@ class CatalogueEdit(View):
                                           user_id=request.user_id,
                                           kind=kind)
         save = request.POST.get('save', 'final')
-        is_draft = True if  save == 'draft' else False
+        is_draft = True if save == 'draft' else False
         if kind == Catalogue.NEED:
             form = NeedForm(request.POST, instance=catalogue,
                             is_draft=is_draft)
@@ -80,6 +80,7 @@ class CatalogueEdit(View):
                 success_msg = '%s saved' % catalogue.kind_verbose
             messages.success(request, success_msg)
             return redirect('home')
+
         return render(request, 'catalogue_form.html', {
             'catalogue': catalogue,
             'form': form,
