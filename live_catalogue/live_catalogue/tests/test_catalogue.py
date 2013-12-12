@@ -51,6 +51,41 @@ class CatalogueTests(BaseWebTest):
         )
 
     @patch('eea_frame.middleware.requests')
+    def test_need_in_my_entries(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        data = NeedFactory.attributes(extra={
+            'categories': [self.category],
+            'flis_topics': [self.flis_topic],
+            'need_urgent': True,
+        })
+        url = self.reverse('catalogue_add', kind='need')
+        resp = self.app.get(url)
+        self.assertEqual(200, resp.status_code)
+        form = resp.forms['catalogue-form']
+        self.populate_fields(form, self.normalize_data(data))
+        form.submit().follow()
+
+        url = self.reverse('my_entries')
+        resp = self.app.get(url)
+        self.assertEqual(200, resp.status_code)
+        row = resp.pyquery('.table tbody').find('.need')
+        self.assertEqual(1, len(row))
+        self.assertEqual('Catalogue', row.find('td').eq(1).text())
+
+    @patch('eea_frame.middleware.requests')
+    def test_need_not_in_my_entries(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        need = NeedFactory(categories=[self.category],
+                           flis_topics=[self.flis_topic],
+                           need_urgent=True,
+                           user_id='johndoe')
+        url = self.reverse('my_entries')
+        resp = self.app.get(url)
+        self.assertEqual(200, resp.status_code)
+        row = resp.pyquery('.table tbody').find('.need')
+        self.assertEqual(0, len(row))
+
+    @patch('eea_frame.middleware.requests')
     def test_need_add_draft(self, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         need_factory_data = NeedFactory.attributes(extra={
