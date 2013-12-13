@@ -8,9 +8,35 @@ from webtest.forms import Select, MultipleSelect
 from webtest import AppError
 
 
-USER_ADMIN_DATA = {'user_id': 'admin', 'user_roles': ['Administrator'],
-                   'groups': []}
+USER_ADMIN_DATA = {
+    'user_id': 'admin',
+    'user_roles': ['Administrator'],
+    'groups': []
+}
+USER_ANONYMOUS_DATA = {
+    'user_id': 'anonymous',
+    'user_roles': ['Anonymous'],
+    'groups': []
+}
+USER_NFP_DATA = {
+    'user_id': 'john',
+    'user_roles': [],
+    'groups': [['eionet-nfp', 'NFP'], ['eionet-nfp-cc', 'NFP CC'],
+               ['eionet-nfp-cc-al', 'Albania']]
+}
+USER_NRC_DATA = {
+    'user_id': 'john',
+    'user_roles': [],
+    'groups': [['eionet-nrc-forwardlooking', 'NRC Fowardlooking'],
+               ['eionet-nrc-forwardlooking-cc', 'NRC Fowardlooking CC'],
+               ['eionet-nrc-forwardlooking-mc', 'NRC Fowardlooking MC']]
+}
+
+
 user_admin_mock = Mock(status_code=200, json=lambda: USER_ADMIN_DATA)
+user_nfp_mock = Mock(status_code=200, json=lambda: USER_NFP_DATA)
+user_nrc_mock = Mock(status_code=200, json=lambda: USER_NRC_DATA)
+user_anonymous_user = Mock(status_code=200, json=lambda: USER_ANONYMOUS_DATA)
 
 
 class BaseWebTest(WebTest):

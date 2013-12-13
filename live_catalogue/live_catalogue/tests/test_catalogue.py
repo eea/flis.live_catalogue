@@ -76,6 +76,7 @@ class CatalogueTests(BaseWebTest):
     @patch('eea_frame.middleware.requests')
     def test_need_in_my_entries(self, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        NeedFactory(user_id='john.doe')
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
@@ -154,3 +155,12 @@ class CatalogueTests(BaseWebTest):
             draft=False,
             status='open',
         )
+
+    @patch('eea_frame.middleware.requests')
+    def test_need_delete(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        NeedFactory(user_id='admin')
+        url = self.reverse('catalogue_delete', kind='need', pk=1)
+        self.app.delete(url)
+        with self.assertRaises(AssertionError):
+            self.assertObjectInDatabase('Catalogue', pk=1)

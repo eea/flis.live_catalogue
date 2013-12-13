@@ -2,13 +2,19 @@ from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.utils.decorators import method_decorator
 
 from braces.views import JSONResponseMixin
 from live_catalogue.forms import NeedForm, OfferForm, CatalogueFilterForm
 from live_catalogue.models import Catalogue
+from live_catalogue.auth import login_required, edit_permission_required
 
 
 class HomeView(View):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(HomeView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         catalogues = Catalogue.objects.filter(draft=False)
@@ -29,6 +35,10 @@ class HomeView(View):
 
 class CatalogueView(View):
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CatalogueView, self).dispatch(*args, **kwargs)
+
     def get(self, request, pk, kind):
         catalogue = get_object_or_404(Catalogue, pk=pk)
         if catalogue.kind == catalogue.NEED:
@@ -42,6 +52,11 @@ class CatalogueView(View):
 
 
 class CatalogueEdit(View):
+
+    @method_decorator(login_required)
+    @method_decorator(edit_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CatalogueEdit, self).dispatch(*args, **kwargs)
 
     def get(self, request, kind, pk=None):
         catalogue = None
@@ -89,6 +104,11 @@ class CatalogueEdit(View):
 
 class CatalogueDelete(JSONResponseMixin, View):
 
+    @method_decorator(login_required)
+    @method_decorator(edit_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CatalogueDelete, self).dispatch(*args, **kwargs)
+
     def delete(self, request, pk, kind):
         catalogue = get_object_or_404(Catalogue, pk=pk,
                                       user_id=request.user_id,
@@ -105,6 +125,10 @@ class CatalogueDelete(JSONResponseMixin, View):
 
 
 class MyEntries(View):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MyEntries, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         catalogues = Catalogue.objects.filter(user_id=request.user_id)
@@ -128,6 +152,10 @@ class MyEntries(View):
 
 
 class CrashMe(View):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CrashMe, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         raise Exception()
