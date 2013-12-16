@@ -3,10 +3,17 @@ from live_catalogue.models import Catalogue
 from eea_frame.middleware import get_current_request
 
 
+class URLFieldWithTextField(forms.URLField):
+
+    widget = forms.TextInput
+
+
 class CatalogueForm(forms.ModelForm):
 
     REQUIRED_FIELDS = ('subject', 'description', 'status', 'contact_person',
                        'email', 'institution', 'country')
+
+    url = URLFieldWithTextField(required=False)
 
     class Meta:
 
@@ -27,7 +34,6 @@ class CatalogueForm(forms.ModelForm):
         self.user_id = request.user_id
         super(CatalogueForm, self).__init__(*args, **kwargs)
 
-        self.fields['url'].initial = 'http://'
         self.fields['status'].empty_label = None
         self.fields['status'].choices = self.fields['status'].choices[1:]
 
