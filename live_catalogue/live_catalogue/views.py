@@ -55,38 +55,35 @@ class CatalogueEdit(View):
 
     @method_decorator(login_required)
     @method_decorator(edit_permission_required)
-    def dispatch(self, *args, **kwargs):
-        return super(CatalogueEdit, self).dispatch(*args, **kwargs)
+    def dispatch(self, request, **kwargs):
+        return super(CatalogueEdit, self).dispatch(request, **kwargs)
 
     def get(self, request, kind, pk=None):
-        catalogue = None
-        if pk:
-            catalogue = get_object_or_404(Catalogue, pk=pk,
-                                          user_id=request.user_id,
-                                          kind=kind)
-        if kind == Catalogue.NEED:
-            form = NeedForm(instance=catalogue)
-        elif kind == Catalogue.OFFER:
-            form = OfferForm(instance=catalogue)
+        catalogue = get_object_or_404(Catalogue,
+                                      pk=pk,
+                                      user_id=request.user_id,
+                                      kind=kind) if pk else None
+
+        Form = NeedForm if kind == Catalogue.NEED else OfferForm
+        form = Form(instance=catalogue)
+
         return render(request, 'catalogue_form.html', {
             'catalogue': catalogue,
             'form': form,
         })
 
     def post(self, request, kind, pk=None):
-        catalogue = None
-        if pk:
-            catalogue = get_object_or_404(Catalogue, pk=pk,
-                                          user_id=request.user_id,
-                                          kind=kind)
+        catalogue = get_object_or_404(Catalogue,
+                                      pk=pk,
+                                      user_id=request.user_id,
+                                      kind=kind) if pk else None
+
         save = request.POST.get('save', 'final')
         is_draft = True if save == 'draft' else False
-        if kind == Catalogue.NEED:
-            form = NeedForm(request.POST, instance=catalogue,
-                            is_draft=is_draft)
-        elif kind == Catalogue.OFFER:
-            form = OfferForm(request.POST, instance=catalogue,
-                             is_draft=is_draft)
+        Form = NeedForm if kind == Catalogue.NEED else OfferForm
+        form = Form(request.POST, request.FILES, instance=catalogue,
+                    is_draft=is_draft)
+
         if form.is_valid():
             catalogue = form.save()
             if is_draft:

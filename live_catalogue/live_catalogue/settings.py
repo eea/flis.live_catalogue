@@ -112,10 +112,13 @@ LOGGING = {
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-FRAME_COOKIES = ['__ac', '_ZopeId']
+MEDIA_ROOT = os.path.join(BASE_DIR, 'instance')
 
+FRAME_COOKIES = ['__ac', '_ZopeId']
 
 try:
     from local_settings import *

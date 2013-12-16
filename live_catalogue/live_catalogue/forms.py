@@ -1,4 +1,5 @@
 from django import forms
+from django.template.defaultfilters import filesizeformat
 from live_catalogue.models import Catalogue
 from eea_frame.middleware import get_current_request
 
@@ -8,12 +9,41 @@ class URLFieldWithTextField(forms.URLField):
     widget = forms.TextInput
 
 
+class FileUploadRestrictedSize(forms.FileField):
+    """
+    * max_upload_size - a number indicating the maximum file size allowed for
+    upload.
+        2.5MB - 2621440
+        5MB - 5242880
+        10MB - 10485760
+        20MB - 20971520
+        50MB - 5242880
+        100MB 104857600
+        250MB - 214958080
+        500MB - 429916160
+    """
+    def __init__(self, *args, **kwargs):
+        # default to 2.5MB
+        self.max_upload_size = kwargs.pop('max_upload_size', 2621440)
+        super(FileUploadRestrictedSize, self).__init__(*args, **kwargs)
+
+    def clean(self, value):
+        data = super(FileUploadRestrictedSize, self).clean(value)
+        file_size = data.file._size
+        if file_size > self.max_upload_size:
+            raise forms.ValidationError(
+                'Please keep filesize under %s. Current filesize %s') % (
+                filesizeformat(self.max_upload_size), filesizeformat(file_size)
+            )
+
+
 class CatalogueForm(forms.ModelForm):
 
     REQUIRED_FIELDS = ('subject', 'description', 'status', 'contact_person',
                        'email', 'institution', 'country')
 
     url = URLFieldWithTextField(required=False)
+    document = FileUploadRestrictedSize(required=False)
 
     class Meta:
 
