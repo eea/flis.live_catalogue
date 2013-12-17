@@ -69,6 +69,11 @@ def install_live_catalogue():
 
     run("%s/bin/python %s/manage.py syncdb" % (app['sandbox'], app['manage_var']))
     run("%s/bin/python %s/manage.py migrate" % (app['sandbox'], app['manage_var']))
+    run("%s/bin/python %s/manage.py loaddata initial_categories" % (app['sandbox'], app['manage_var']))
+    run("%s/bin/python %s/manage.py loaddata initial_flis_topics" % (app['sandbox'], app['manage_var']))
+    run("%s/bin/python %s/manage.py loaddata initial_themes" % (app['sandbox'], app['manage_var']))
+
+    run("%s/bin/python %s/manage.py collectstatic --noinput" % (app['sandbox'], app['manage_var']))
 
 @task
 def live_catalogue_supervisor():
@@ -93,6 +98,9 @@ def update_live_catalogue():
 
     run("%s/bin/python %s/manage.py syncdb" % (app['sandbox'], app['manage_var']))
     run("%s/bin/python %s/manage.py migrate" % (app['sandbox'], app['manage_var']))
+    run("%s/bin/python %s/manage.py loaddata initial_categories" % (app['sandbox'], app['manage_var']))
+    run("%s/bin/python %s/manage.py loaddata initial_flis_topics" % (app['sandbox'], app['manage_var']))
+    run("%s/bin/python %s/manage.py loaddata initial_themes" % (app['sandbox'], app['manage_var']))
 
     run("%s/bin/python %s/manage.py collectstatic --noinput" % (app['sandbox'], app['manage_var']))
 
