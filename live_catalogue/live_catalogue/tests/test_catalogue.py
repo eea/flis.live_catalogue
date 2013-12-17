@@ -1,7 +1,9 @@
+from os import path
 from mock import patch
 
 from .base import (
     BaseWebTest,
+    temporary_media_root,
     user_admin_mock
 )
 
@@ -164,3 +166,28 @@ class CatalogueTests(BaseWebTest):
         self.app.delete(url)
         with self.assertRaises(AssertionError):
             self.assertObjectInDatabase('Catalogue', pk=1)
+
+    @patch('eea_frame.middleware.requests')
+    def test_need_upload_file_on_edit(self, mock_requests):
+
+        mock_requests.get.return_value = user_admin_mock
+        need = NeedFactory(categories=[self.category],
+                           flis_topics=[self.flis_topic],
+                           user_id='admin')
+        data = NeedFactory.attributes(extra={
+            'categories': [self.category],
+            'flis_topics': [self.flis_topic],
+            'status': 'open',
+        })
+        url = self.reverse('catalogue_edit', kind='need', pk=need.pk)
+
+        with temporary_media_root() as tmpdir:
+            data['document'] = ('document.txt', 'Document')
+            resp = self.app.get(url)
+            form = resp.forms['catalogue-form']
+            self.populate_fields(form, self.normalize_data(data))
+            form.submit().follow()
+            self.assertObjectInDatabase('Catalogue', pk=1,
+                                        document='documents/document.txt')
+            file_path = path.join(tmpdir, 'documents', 'document.txt')
+            self.assertTrue(path.exists(file_path))

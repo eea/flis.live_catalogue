@@ -1,6 +1,11 @@
+import shutil
+from tempfile import mkdtemp
+from contextlib import contextmanager
+
 from django.db.models import Model
 from django.core.urlresolvers import reverse
 from django.db.models.loading import get_model
+from django.test.utils import override_settings
 
 from mock import Mock
 from django_webtest import WebTest
@@ -94,3 +99,13 @@ class BaseWebTest(WebTest):
             self.fail('Object "{}" with kwargs {} does not exist'.format(
                 model, str(kwargs)
             ))
+
+
+@contextmanager
+def temporary_media_root():
+    tmpdir = mkdtemp()
+    try:
+        with override_settings(MEDIA_ROOT=tmpdir):
+            yield tmpdir
+    finally:
+        shutil.rmtree(tmpdir)

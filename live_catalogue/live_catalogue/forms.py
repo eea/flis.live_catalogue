@@ -24,17 +24,19 @@ class FileUploadRestrictedSize(forms.FileField):
     """
     def __init__(self, *args, **kwargs):
         # default to 2.5MB
-        self.max_upload_size = kwargs.pop('max_upload_size', 2621440)
+        self.max_size = kwargs.pop('max_upload_size', 2621440)
         super(FileUploadRestrictedSize, self).__init__(*args, **kwargs)
 
-    def clean(self, value):
-        data = super(FileUploadRestrictedSize, self).clean(value)
-        file_size = data.file._size
-        if file_size > self.max_upload_size:
-            raise forms.ValidationError(
-                'Please keep filesize under %s. Current filesize %s') % (
-                filesizeformat(self.max_upload_size), filesizeformat(file_size)
-            )
+    def clean(self, value, *args):
+        data = super(FileUploadRestrictedSize, self).clean(value, *args)
+        if data:
+            file_size = getattr(data.file, '_size', None)
+            if file_size and (file_size > self.max_upload_size):
+                raise forms.ValidationError(
+                    'Please keep filesize under %s. Current filesize %s') % (
+                    filesizeformat(self.max_size), filesizeformat(file_size)
+                )
+        return value
 
 
 class CatalogueForm(forms.ModelForm):
