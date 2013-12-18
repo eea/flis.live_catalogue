@@ -51,6 +51,8 @@ def install_live_catalogue():
         run("virtualenv --distribute '%(sandbox)s'" % app)
     run("%(sandbox)s/bin/pip install -r %(repo)s/requirements.txt" % app)
 
+    if not exists(app['manage_var']/'media'):
+        run("mkdir -p '%(manage_var)s/media'" % app)
     if not exists(app['instance_var']):
         run("mkdir -p '%(instance_var)s'" % app)
     if not exists(app['instance_var']/'files'):
@@ -88,6 +90,13 @@ def update_live_catalogue():
     if not exists(app['sandbox']):
         run("virtualenv --distribute '%(sandbox)s'" % app)
     run("%(sandbox)s/bin/pip install -r %(repo)s/requirements.txt" % app)
+
+    if not exists(app['manage_var']/'media'):
+        run("mkdir -p '%(manage_var)s/media'" % app)
+    if not exists(app['instance_var']):
+        run("mkdir -p '%(instance_var)s'" % app)
+    if not exists(app['instance_var']/'files'):
+        run("mkdir -p '%(instance_var)s/files'" % app)
 
     put(app['localrepo']/'fabfile'/'production-settings.py',
         str(app['live_catalogue_var']/'local_settings.py'))
