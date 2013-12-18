@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load utils %}
 
 
 {% block extra_head %}
@@ -149,6 +150,16 @@
       <tr>
         <th>{{ form.info.label }}</th>
         <td>{{ catalogue.info }}</td>
+      </tr>
+
+      <tr>
+        <th>{{ form.document.label }}</th>
+        <td>
+          {% if catalogue.document %}
+            <a href="{{ catalogue.document.url }}">
+              {{ catalogue.document|filename }}</a>
+          {% endif %}
+        </td>
       </tr>
 
     </tbody>

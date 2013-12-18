@@ -49,3 +49,11 @@
 .catalogue-filter .daterangepicker.opensright:before {
     left: 436px;
 }
+
+.fix-label {
+    padding-top: 8px;
+}
+.fix-label input {
+    position: relative;
+    top: -3px;
+}

@@ -1,4 +1,6 @@
 import re
+import os
+
 from django import template
 from django.conf import settings
 
@@ -23,3 +25,8 @@ def active(context, pattern):
 @register.assignment_tag
 def assign(value):
     return value
+
+
+@register.filter
+def filename(value):
+    return os.path.basename(value.file.name)

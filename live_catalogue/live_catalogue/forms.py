@@ -1,7 +1,18 @@
+from os import path
+
 from django import forms
 from django.template.defaultfilters import filesizeformat
+
 from live_catalogue.models import Catalogue
 from eea_frame.middleware import get_current_request
+
+
+class FormatString(str):
+
+    def format(self, *args, **kwargs):
+        arguments = list(args)
+        arguments[1] = path.basename(arguments[1])
+        return super(FormatString, self).format(*arguments, **kwargs)
 
 
 class URLFieldWithTextField(forms.URLField):
@@ -9,18 +20,22 @@ class URLFieldWithTextField(forms.URLField):
     widget = forms.TextInput
 
 
+class ClearableFileInput(forms.ClearableFileInput):
+
+    template_with_initial = '%(initial)s %(clear_template)s<br />' \
+                            '%(input_text)s: %(input)s'
+
+    template_with_clear = '<label class="fix-label">' \
+                          '%(clear)s %(clear_checkbox_label)s</label>'
+
+    url_markup_template = FormatString('<a href="{0}">{1}</a> <br>')
+
+
 class FileUploadRestrictedSize(forms.FileField):
     """
     * max_upload_size - a number indicating the maximum file size allowed for
     upload.
         2.5MB - 2621440
-        5MB - 5242880
-        10MB - 10485760
-        20MB - 20971520
-        50MB - 5242880
-        100MB 104857600
-        250MB - 214958080
-        500MB - 429916160
     """
     def __init__(self, *args, **kwargs):
         # default to 2.5MB
@@ -45,7 +60,8 @@ class CatalogueForm(forms.ModelForm):
                        'email', 'institution', 'country')
 
     url = URLFieldWithTextField(required=False)
-    document = FileUploadRestrictedSize(required=False)
+    document = FileUploadRestrictedSize(required=False,
+                                        widget=ClearableFileInput())
 
     class Meta:
 
@@ -100,7 +116,11 @@ class CatalogueForm(forms.ModelForm):
         catalogue.country = self.cleaned_data['country']
         catalogue.url = self.cleaned_data['url']
         catalogue.info = self.cleaned_data['info']
-        catalogue.document = self.cleaned_data['document']
+        document = self.cleaned_data['document']
+        if document:
+            catalogue.document = document
+        else:
+            catalogue.document = None
         catalogue.save()
 
         categories = self.cleaned_data['categories']
