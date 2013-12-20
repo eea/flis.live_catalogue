@@ -1,18 +1,8 @@
-from os import path
-
 from django import forms
 from django.template.defaultfilters import filesizeformat
 
-from live_catalogue.models import Catalogue
+from live_catalogue.models import Catalogue, Document
 from eea_frame.middleware import get_current_request
-
-
-class FormatString(str):
-
-    def format(self, *args, **kwargs):
-        arguments = list(args)
-        arguments[1] = path.basename(arguments[1])
-        return super(FormatString, self).format(*arguments, **kwargs)
 
 
 class URLFieldWithTextField(forms.URLField):
@@ -20,23 +10,8 @@ class URLFieldWithTextField(forms.URLField):
     widget = forms.TextInput
 
 
-class ClearableFileInput(forms.ClearableFileInput):
-
-    template_with_initial = '%(initial)s %(clear_template)s<br />' \
-                            '%(input_text)s: %(input)s'
-
-    template_with_clear = '<label class="fix-label">' \
-                          '%(clear)s %(clear_checkbox_label)s</label>'
-
-    url_markup_template = FormatString('<a href="{0}">{1}</a> <br>')
-
-
 class FileUploadRestrictedSize(forms.FileField):
-    """
-    * max_upload_size - a number indicating the maximum file size allowed for
-    upload.
-        2.5MB - 2621440
-    """
+
     def __init__(self, *args, **kwargs):
         # default to 2.5MB
         self.max_size = kwargs.pop('max_upload_size', 2621440)
@@ -44,14 +19,38 @@ class FileUploadRestrictedSize(forms.FileField):
 
     def clean(self, value, *args):
         data = super(FileUploadRestrictedSize, self).clean(value, *args)
-        if data:
-            file_size = getattr(data.file, '_size', None)
-            if file_size and (file_size > self.max_upload_size):
-                raise forms.ValidationError(
-                    'Please keep filesize under %s. Current filesize %s') % (
-                    filesizeformat(self.max_size), filesizeformat(file_size)
+        if not data:
+            return value
+
+        file_size = getattr(data, '_size', None)
+        if file_size and (file_size > self.max_size):
+            raise forms.ValidationError(
+                'Please keep filesize under %s. Current filesize %s' % (
+                    filesizeformat(self.max_size),
+                    filesizeformat(file_size)
                 )
+            )
         return value
+
+
+class DocumentForm(forms.ModelForm):
+
+    name = FileUploadRestrictedSize(required=False)
+
+    class Meta:
+
+        model = Document
+
+
+class BaseDocumentFormset(forms.formsets.BaseFormSet):
+
+    def save(self, catalogue):
+
+        for form in self.forms:
+            if not form.cleaned_data:
+                continue
+            doc = Document.objects.create(name=form.cleaned_data['name'])
+            catalogue.documents.add(doc)
 
 
 class CatalogueForm(forms.ModelForm):
@@ -60,8 +59,6 @@ class CatalogueForm(forms.ModelForm):
                        'email', 'institution', 'country')
 
     url = URLFieldWithTextField(required=False)
-    document = FileUploadRestrictedSize(required=False,
-                                        widget=ClearableFileInput())
 
     class Meta:
 
@@ -116,11 +113,6 @@ class CatalogueForm(forms.ModelForm):
         catalogue.country = self.cleaned_data['country']
         catalogue.url = self.cleaned_data['url']
         catalogue.info = self.cleaned_data['info']
-        document = self.cleaned_data['document']
-        if document:
-            catalogue.document = document
-        else:
-            catalogue.document = None
         catalogue.save()
 
         categories = self.cleaned_data['categories']

@@ -32,6 +32,10 @@ urlpatterns = patterns(
     url(r'^offer/(?P<pk>[\w\-]+)$', views.CatalogueView.as_view(),
         {'kind': 'offer'}, name='catalogue_view'),
 
+    url(r'^catalogue/(?P<catalogue_id>\d+)/document/(?P<doc_id>\d+)',
+        views.CatalogueDocumentDelete.as_view(),
+        name='catalogue_document_delete'),
+
     url(r'my', views.MyEntries.as_view(), name='my_entries'),
 
     url(r'^crashme/', views.CrashMe.as_view()),

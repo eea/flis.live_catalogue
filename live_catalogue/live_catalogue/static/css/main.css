@@ -1,3 +1,6 @@
+a {
+    cursor: pointer;
+}
 
 .container {
     padding-top: 10px;
@@ -50,10 +53,29 @@
     left: 436px;
 }
 
-.fix-label {
-    padding-top: 8px;
+
+
+.document-container {
+    border: 1px solid #ddd;
+    border-bottom: none;
+    padding: 10px;
 }
-.fix-label input {
+.document-container:last-of-type {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 4px;
+}
+.document-container .remove {
+    font-size: 11px;
+    color: red;
+}
+.document-container .fix-label {
+    padding-top: 8px;
+    display: inline;
+}
+.document-container .fix-label input {
     position: relative;
     top: -3px;
+}
+.document-container .input {
+    margin-top: 10px;
 }

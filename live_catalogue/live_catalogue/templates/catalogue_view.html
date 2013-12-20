@@ -153,12 +153,15 @@
       </tr>
 
       <tr>
-        <th>{{ form.document.label }}</th>
+        <th>{{ form.documents.label }}</th>
         <td>
-          {% if catalogue.document %}
-            <a href="{{ catalogue.document.url }}">
-              {{ catalogue.document|filename }}</a>
-          {% endif %}
+          {% for doc in catalogue.documents.all %}
+            {% if doc.name %}
+              <div>
+                <a href="{{ doc.url }}">{{ doc.name|filename }}</a>
+              </div>
+            {% endif %}
+          {% endfor %}
         </td>
       </tr>
 

@@ -1,12 +1,23 @@
+import os
+
 from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
+from django.forms.models import formset_factory
+from django.http import Http404
+from django.conf import settings
 
 from braces.views import JSONResponseMixin
-from live_catalogue.forms import NeedForm, OfferForm, CatalogueFilterForm
-from live_catalogue.models import Catalogue
+from live_catalogue.forms import (
+    NeedForm,
+    OfferForm,
+    DocumentForm,
+    BaseDocumentFormset,
+    CatalogueFilterForm,
+)
+from live_catalogue.models import Catalogue, Document
 from live_catalogue.auth import login_required, edit_permission_required
 
 
@@ -64,12 +75,17 @@ class CatalogueEdit(View):
                                       user_id=request.user_id,
                                       kind=kind) if pk else None
 
+        DocumentFormSet = formset_factory(DocumentForm,
+                                          formset=BaseDocumentFormset,
+                                          max_num=5)
         Form = NeedForm if kind == Catalogue.NEED else OfferForm
         form = Form(instance=catalogue)
+        document_formset = DocumentFormSet()
 
         return render(request, 'catalogue_form.html', {
             'catalogue': catalogue,
             'form': form,
+            'document_formset': document_formset,
         })
 
     def post(self, request, kind, pk=None):
@@ -80,12 +96,17 @@ class CatalogueEdit(View):
 
         save = request.POST.get('save', 'final')
         is_draft = True if save == 'draft' else False
-        Form = NeedForm if kind == Catalogue.NEED else OfferForm
-        form = Form(request.POST, request.FILES, instance=catalogue,
-                    is_draft=is_draft)
 
-        if form.is_valid():
+        DocumentFormSet = formset_factory(DocumentForm,
+                                          formset=BaseDocumentFormset,
+                                          max_num=5)
+        Form = NeedForm if kind == Catalogue.NEED else OfferForm
+        form = Form(request.POST, instance=catalogue, is_draft=is_draft)
+        document_formset = DocumentFormSet(request.POST, request.FILES)
+
+        if form.is_valid() and document_formset.is_valid():
             catalogue = form.save()
+            document_formset.save(catalogue)
             if is_draft:
                 success_msg = '%s saved as draft' % catalogue.kind_verbose
             else:
@@ -96,7 +117,31 @@ class CatalogueEdit(View):
         return render(request, 'catalogue_form.html', {
             'catalogue': catalogue,
             'form': form,
+            'document_formset': document_formset,
         })
+
+
+class CatalogueDocumentDelete(JSONResponseMixin, View):
+
+    def delete(self, request, catalogue_id, doc_id):
+        catalogue = get_object_or_404(Catalogue, pk=catalogue_id,
+                                      user_id=request.user_id)
+        try:
+            doc = catalogue.documents.get(pk=doc_id)
+        except Document.DoesNotExist:
+            raise Http404
+
+        doc_name = doc.name.name
+        doc.delete()
+        handle_delete_document_files([doc_name])
+        return self.render_json_response({'status': 'success'})
+
+
+def handle_delete_document_files(documents):
+    for doc in documents:
+        full_path = os.path.join(settings.MEDIA_ROOT, doc)
+        if os.path.exists(full_path):
+            os.remove(full_path)
 
 
 class CatalogueDelete(JSONResponseMixin, View):
@@ -110,7 +155,9 @@ class CatalogueDelete(JSONResponseMixin, View):
         catalogue = get_object_or_404(Catalogue, pk=pk,
                                       user_id=request.user_id,
                                       kind=kind)
+        document_names = [d.name.name for d in catalogue.documents.all()]
         catalogue.delete()
+        handle_delete_document_files(document_names)
         msg = '%s was successfully deleted' % catalogue.kind_verbose
         messages.success(request, msg)
         return self.render_json_response(

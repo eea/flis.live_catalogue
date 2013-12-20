@@ -29,6 +29,13 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'live_catalogue', ['Theme'])
 
+        # Adding model 'Document'
+        db.create_table(u'live_catalogue_document', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
+        ))
+        db.send_create_signal(u'live_catalogue', ['Document'])
+
         # Adding model 'Catalogue'
         db.create_table(u'live_catalogue_catalogue', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -51,7 +58,6 @@ class Migration(SchemaMigration):
             ('country', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
             ('info', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('document', self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True, blank=True)),
         ))
         db.send_create_signal(u'live_catalogue', ['Catalogue'])
 
@@ -82,6 +88,15 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['catalogue_id', 'theme_id'])
 
+        # Adding M2M table for field documents on 'Catalogue'
+        m2m_table_name = db.shorten_name(u'live_catalogue_catalogue_documents')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('catalogue', models.ForeignKey(orm[u'live_catalogue.catalogue'], null=False)),
+            ('document', models.ForeignKey(orm[u'live_catalogue.document'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['catalogue_id', 'document_id'])
+
 
     def backwards(self, orm):
         # Deleting model 'Category'
@@ -92,6 +107,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'Theme'
         db.delete_table(u'live_catalogue_theme')
+
+        # Deleting model 'Document'
+        db.delete_table(u'live_catalogue_document')
 
         # Deleting model 'Catalogue'
         db.delete_table(u'live_catalogue_catalogue')
@@ -105,6 +123,9 @@ class Migration(SchemaMigration):
         # Removing M2M table for field themes on 'Catalogue'
         db.delete_table(db.shorten_name(u'live_catalogue_catalogue_themes'))
 
+        # Removing M2M table for field documents on 'Catalogue'
+        db.delete_table(db.shorten_name(u'live_catalogue_catalogue_documents'))
+
 
     models = {
         u'live_catalogue.catalogue': {
@@ -115,7 +136,7 @@ class Migration(SchemaMigration):
             'country': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'document': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'documents': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['live_catalogue.Document']", 'null': 'True', 'blank': 'True'}),
             'draft': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '64', 'blank': 'True'}),
             'flis_topics': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['live_catalogue.FlisTopic']", 'symmetrical': 'False'}),
@@ -138,6 +159,11 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Category'},
             'handle': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'primary_key': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '64'})
+        },
+        u'live_catalogue.document': {
+            'Meta': {'object_name': 'Document'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.files.FileField', [], {'max_length': '100'})
         },
         u'live_catalogue.flistopic': {
             'Meta': {'object_name': 'FlisTopic'},

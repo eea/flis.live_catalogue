@@ -29,6 +29,14 @@ class Theme(models.Model):
         return self.title
 
 
+class Document(models.Model):
+
+    name = models.FileField(upload_to='documents')
+
+    def __unicode__(self):
+        return self.name.name
+
+
 class Catalogue(models.Model):
 
     OFFER = 'offer'
@@ -85,7 +93,8 @@ class Catalogue(models.Model):
     url = models.URLField(blank=True)
     info = models.TextField(blank=True,
                             verbose_name='Additional contact details')
-    document = models.FileField(upload_to='documents', null=True, blank=True)
+    # document = models.FileField(upload_to='documents', null=True, blank=True)
+    documents = models.ManyToManyField(Document, null=True, blank=True)
 
     def __unicode__(self):
         return '%s (%s)' % (self.kind, self.subject)

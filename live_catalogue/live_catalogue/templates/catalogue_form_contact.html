@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load utils %}
 
 <h4>Contact information</h4>
 
@@ -74,11 +75,30 @@
   </div>
 </div>
 
-<div class="control-group">
-  <label class="control-label" for="{{ form.document.auto_id }}">
-    {{ form.document.label }}</label>
+{{ document_formset.management_form }}
+
+<div id="documents-container" class="control-group">
+  <label class="control-label">Documents</label>
   <div class="controls">
-    {{ form.document }}
-    <div class="text-error">{{ form.document.errors }}</div>
+
+    {% if catalogue %}
+      {% for doc in catalogue.documents.all %}
+        <div class="document-container">
+          <a href="{{ doc.url }}">{{ doc.name|filename }}</a>
+          <span>
+            {% url 'catalogue_document_delete' catalogue_id=catalogue.pk doc_id=doc.pk as doc_delete_url %}
+            <a data-href="{{ doc_delete_url }}" class="remove">Remove</a>
+          </span>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% for document_form in document_formset %}
+      <div class="document-container document-container-upload">
+        {{ document_form.name }}
+        <div class="text-error">{{ document_form.name.errors }}</div>
+      </div>
+    {% endfor %}
+    <a id="document-add">Add a new document</a>
   </div>
 </div>
