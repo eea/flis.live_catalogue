@@ -156,8 +156,9 @@ class CatalogueDelete(JSONResponseMixin, View):
                                       user_id=request.user_id,
                                       kind=kind)
         document_names = [d.name.name for d in catalogue.documents.all()]
-        catalogue.delete()
         handle_delete_document_files(document_names)
+        catalogue.documents.all().delete()
+        catalogue.delete()
         msg = '%s was successfully deleted' % catalogue.kind_verbose
         messages.success(request, msg)
         return self.render_json_response(

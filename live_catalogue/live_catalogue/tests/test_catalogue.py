@@ -13,6 +13,8 @@ from .factories import (
     NeedFactory
 )
 
+from live_catalogue.models import Document
+
 
 class CatalogueTests(BaseWebTest):
 
@@ -119,7 +121,10 @@ class CatalogueTests(BaseWebTest):
         data = {'categories': need_factory_data['categories'],
                 'flis_topics': need_factory_data['flis_topics'],
                 'status': 'open',
-                'save': 'draft'}
+                'save': 'draft',
+                'form-TOTAL_FORMS': 1,
+                'form-INITIAL_FORMS': 0,
+                'form-MAX_NUM_FORMS': 5}
         url = self.reverse('catalogue_add', kind='need')
         self.app.post(url, self.normalize_data(data)).follow()
         self.assertObjectInDatabase(
@@ -169,7 +174,6 @@ class CatalogueTests(BaseWebTest):
 
     @patch('eea_frame.middleware.requests')
     def test_need_upload_file_on_edit(self, mock_requests):
-
         mock_requests.get.return_value = user_admin_mock
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
@@ -182,12 +186,55 @@ class CatalogueTests(BaseWebTest):
         url = self.reverse('catalogue_edit', kind='need', pk=need.pk)
 
         with temporary_media_root() as tmpdir:
-            data['document'] = ('document.txt', 'Document')
+            data['form-0-name'] = ('document_1.txt', 'Document')
             resp = self.app.get(url)
             form = resp.forms['catalogue-form']
             self.populate_fields(form, self.normalize_data(data))
             form.submit().follow()
-            self.assertObjectInDatabase('Catalogue', pk=1,
-                                        document='documents/document.txt')
-            file_path = path.join(tmpdir, 'documents', 'document.txt')
+            self.assertObjectInDatabase('Document', pk=1,
+                                        name='documents/document_1.txt')
+            file_path = path.join(tmpdir, 'documents', 'document_1.txt')
             self.assertTrue(path.exists(file_path))
+
+    @patch('eea_frame.middleware.requests')
+    def test_document_delete(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        need = NeedFactory(categories=[self.category],
+                           flis_topics=[self.flis_topic],
+                           user_id='admin')
+
+        with temporary_media_root() as tmpdir:
+            doc = Document.objects.create(name='document.txt')
+            need.documents.add(doc)
+            file_name = path.join(tmpdir, doc.name.name)
+            with open(file_name, 'w+'):
+                pass
+
+            url = self.reverse('catalogue_document_delete',
+                               catalogue_id=need.pk,
+                               doc_id=doc.pk)
+            resp = self.app.delete(url)
+            self.assertEqual(200, resp.status_code)
+            self.assertFalse(path.exists(file_name))
+            with self.assertRaises(AssertionError):
+                self.assertObjectInDatabase('Document', pk=1)
+
+    @patch('eea_frame.middleware.requests')
+    def test_need_delete_also_deletes_documents(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        need = NeedFactory(categories=[self.category],
+                           flis_topics=[self.flis_topic],
+                           user_id='admin')
+        with temporary_media_root() as tmpdir:
+            doc = Document.objects.create(name='document.txt')
+            need.documents.add(doc)
+            file_name = path.join(tmpdir, doc.name.name)
+            with open(file_name, 'w+'):
+                pass
+
+            url = self.reverse('catalogue_delete', kind='need', pk=1)
+            self.app.delete(url)
+
+            self.assertFalse(path.exists(file_name))
+            with self.assertRaises(AssertionError):
+                self.assertObjectInDatabase('Document', pk=1)
