@@ -158,7 +158,7 @@
           {% for doc in catalogue.documents.all %}
             {% if doc.name %}
               <div>
-                <a href="{{ doc.url }}">{{ doc.name|filename }}</a>
+                <a href="{{ doc.name.url }}">{{ doc.name|filename }}</a>
               </div>
             {% endif %}
           {% endfor %}

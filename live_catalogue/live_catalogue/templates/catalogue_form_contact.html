@@ -84,7 +84,7 @@
     {% if catalogue %}
       {% for doc in catalogue.documents.all %}
         <div class="document-container">
-          <a href="{{ doc.url }}">{{ doc.name|filename }}</a>
+          <a href="{{ doc.name.url }}">{{ doc.name|filename }}</a>
           <span>
             {% url 'catalogue_document_delete' catalogue_id=catalogue.pk doc_id=doc.pk as doc_delete_url %}
             <a data-href="{{ doc_delete_url }}" class="remove">Remove</a>
