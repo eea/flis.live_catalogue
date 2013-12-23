@@ -63,7 +63,4 @@ $(function () {
 
     });
 
-
-    // $('input[type=file]').uniform();
-
 });
