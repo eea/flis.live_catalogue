@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'eea_frame',
     'live_catalogue',
+    'notifications',
     'raven.contrib.django.raven_compat',
 )
 
