@@ -12,6 +12,10 @@
         <rdfs:label>Catalogue event</rdfs:label>
     </rdf:Property>
 
+    <rdf:Property rdf:ID="catalogue_kind">
+        <rdfs:label>Catalogue kind</rdfs:label>
+    </rdf:Property>
+
     <rdf:Property rdf:ID="actor">
         <rdfs:label>Actor</rdfs:label>
     </rdf:Property>
