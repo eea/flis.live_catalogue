@@ -37,23 +37,33 @@ Quick installation
      # Check local.settings.example for configuration details
 
 
-7. Set up the:
-   a. MySQL database::
+7. Set up the :
+   a. MySQL database
     mysql > CREATE SCHEMA live_catalogue CHARACTER SET utf8 COLLATE utf8_general_ci;
-    ./manage.py syncdb
-    ./manage.py migrate
    b. Postgresql database::
     root # su - postgres;
     postgres $ psql template1
     template1=# CREATE DATABASE live_catalogue WITH ENCODING 'UTF-8';
     template1=# CREATE USER edw WITH PASSWORD 'edw';
     template1=# GRANT ALL PRIVILEGES ON DATABASE live_catalogue TO edw;
+
+8. Create tables ::
     ./manage.py syncdb
+    ./manage.py createcachetable
     ./manage.py migrate
 
+
+9. Run tests ::
+    ./manage.py test
 
 Create a migration after changes in models.py
 ---------------------------------------------
 ::
     ./manage.py schemamigration live_catalogue --auto
     ./manage.py migrate
+
+
+Stuff to run when deploying ::
+    ./manage.py syncdb
+    ./manage.py migrate
+    ./manage.py collectstatic --noinput
