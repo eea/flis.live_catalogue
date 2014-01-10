@@ -132,6 +132,7 @@ CACHES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
+
 try:
     from local_settings import *
 except ImportError:

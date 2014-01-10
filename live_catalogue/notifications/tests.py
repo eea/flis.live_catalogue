@@ -4,11 +4,8 @@ from django.core import mail
 from mock import patch
 
 from live_catalogue.tests.base import BaseWebTest, user_admin_mock
-from live_catalogue.tests.factories import (
-    NeedFactory,
-    CategoryFactory,
-    FlisTopicFactory,
-)
+from live_catalogue.tests.factories import (NeedFactory, CategoryFactory,
+                                            FlisTopicFactory)
 from notifications.models import NotificationUser
 
 
@@ -46,7 +43,8 @@ class NotificationTest(BaseWebTest):
         self.populate_fields(form, self.normalize_data(data))
         form.submit().follow()
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'Catalogue entry added')
+        self.assertEqual(mail.outbox[0].subject, 'A new need was added')
+        self.assertEqual(mail.outbox[0].from_email, 'no-reply@eaudeweb.ro')
 
     def test_edit_entry_triggers_notifications(self, LdapConnectionMock,
                                                mock_requests):
@@ -70,7 +68,8 @@ class NotificationTest(BaseWebTest):
         self.populate_fields(form, self.normalize_data(data))
         form.submit().follow()
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'Catalogue entry edited')
+        self.assertEqual(mail.outbox[0].subject, 'An need was edited')
+        self.assertEqual(mail.outbox[0].from_email, 'no-reply@eaudeweb.ro')
 
     def test_draft_entry_does_not_trigger_notifications(self,
                                                         LdapConnectionMock,

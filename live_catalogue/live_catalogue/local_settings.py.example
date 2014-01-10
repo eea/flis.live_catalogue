@@ -28,3 +28,5 @@ DATABASES = {
 }
 
 # FRAME_URL = 'http://projects.eionet.europa.eu/flis-services-project/flis_templates/frame'
+
+FROM_EMAIL = 'no-reply@eionet.europa.eu'

@@ -94,7 +94,7 @@ class CatalogueEdit(View):
                                       pk=pk,
                                       user_id=request.user_id,
                                       kind=kind) if pk else None
-        event_type = 'added' if pk is None else 'edited'
+        event_type = 'published' if pk is None else 'updated'
 
         save = request.POST.get('save', 'final')
         is_draft = True if save == 'draft' else False
