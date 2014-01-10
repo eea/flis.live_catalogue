@@ -29,12 +29,10 @@
 
 {% block content %}
 
-  <h2>Notifications</h2>
-
   {% if notification_user %}
-    <p>You are already subscribed to catalogue notifications.
-      <a data-href="{% url 'notifications:unsubscribe' %}"
-         class="btn" id="unsubscribe">Unsubscribe</a></p>
+    <p>You are already subscribed to catalogue notifications.</p>
+    <p><a data-href="{% url 'notifications:unsubscribe' %}"
+          class="btn" id="unsubscribe">Unsubscribe</a></p>
   {% else %}
     <p>
       <a data-href="{% url 'notifications:subscribe' %}"

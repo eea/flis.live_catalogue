@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.loader import render_to_string
 from django.core.mail import send_mass_mail
+from django.core.urlresolvers import reverse
 from django.dispatch import Signal
 from django.template import RequestContext
 from django.conf import settings
@@ -25,11 +26,19 @@ class NotificationUser(models.Model):
             subject = 'A new {0} was {1}'.format(catalogue.kind, action)
         if event_type == 'updated':
             action = 'edited'
-            subject = 'An {0} was {1}'.format(catalogue.kind, action)
+            article = 'An' if catalogue.kind == 'offer' else 'A'
+            subject = '{0} {1} was {2}'.format(article, catalogue.kind, action)
+
+        catalogue_url = reverse('catalogue_view', kwargs={
+            'pk': catalogue.pk, 'kind': catalogue.kind
+        })
+        notifications_url = reverse('notifications:home')
 
         body = render_to_string('notification_email.html', {
             'catalogue': catalogue,
             'action': action,
+            'notifications_url': notifications_url,
+            'catalogue_url': catalogue_url,
         }, context_instance=RequestContext(request))
 
         datatuple = []

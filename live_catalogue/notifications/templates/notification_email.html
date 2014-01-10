@@ -1,7 +1,6 @@
 Following {{ catalogue.kind }} was {{ action }} by {{ catalogue.user_full_name }} in the "Live catalogue of offers and needs for foward looking information".
 
-{{ HOSTNAME }}{{ url }}
+{{ HOSTNAME }}{{ catalogue_url }}
 
-{% url 'notifications:home' as notifications_url %}
 You may unsubscribe yourself from the "Live Catalogue" channel by using the
 following link: {{ HOSTNAME }}{{ notifications_url }}
