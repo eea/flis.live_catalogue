@@ -115,9 +115,10 @@ class CatalogueEdit(View):
                 success_msg = '%s saved' % catalogue.kind_verbose
             messages.success(request, success_msg)
 
-            catalogue_update_signal.send(sender=catalogue,
-                                         event_type=event_type,
-                                         request=request)
+            if is_draft is False:
+                catalogue_update_signal.send(sender=catalogue,
+                                             event_type=event_type,
+                                             request=request)
             return redirect('home')
 
         return render(request, 'catalogue_form.html', {

@@ -123,6 +123,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 FRAME_COOKIES = ['__ac', '_ZopeId']
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache',
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
 try:
     from local_settings import *
 except ImportError:

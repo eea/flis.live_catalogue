@@ -16,14 +16,15 @@ from .factories import (
 from live_catalogue.models import Document
 
 
+@patch('eea_frame.middleware.requests')
+@patch('notifications.utils.LdapConnection')
 class CatalogueTests(BaseWebTest):
 
     def setUp(self):
         self.category = CategoryFactory()
         self.flis_topic = FlisTopicFactory()
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_add(self, mock_requests):
+    def test_need_add(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
@@ -54,8 +55,7 @@ class CatalogueTests(BaseWebTest):
             draft=False,
         )
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_in_entries_list(self, mock_requests):
+    def test_need_in_entries_list(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
                     user_id='johndoe')
@@ -66,8 +66,8 @@ class CatalogueTests(BaseWebTest):
         self.assertEqual(1, len(row))
         self.assertEqual('Catalogue', row.find('td').eq(1).text())
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_draft_not_in_entries_list(self, mock_requests):
+    def test_need_draft_not_in_entries_list(self, LdapConnectionMock,
+                                            mock_requests):
         mock_requests.get.return_value = user_admin_mock
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
                     user_id='johndoe', draft=True)
@@ -77,8 +77,7 @@ class CatalogueTests(BaseWebTest):
         row = resp.pyquery('.table tbody').find('.need')
         self.assertEqual(0, len(row))
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_in_my_entries(self, mock_requests):
+    def test_need_in_my_entries(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         NeedFactory(user_id='john.doe')
         data = NeedFactory.attributes(extra={
@@ -100,8 +99,7 @@ class CatalogueTests(BaseWebTest):
         self.assertEqual(1, len(row))
         self.assertEqual('Catalogue', row.find('td').eq(1).text())
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_not_in_my_entries(self, mock_requests):
+    def test_need_not_in_my_entries(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
                     user_id='johndoe')
@@ -111,8 +109,7 @@ class CatalogueTests(BaseWebTest):
         row = resp.pyquery('.table tbody').find('.need')
         self.assertEqual(0, len(row))
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_add_draft(self, mock_requests):
+    def test_need_add_draft(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         need_factory_data = NeedFactory.attributes(extra={
             'categories': [self.category],
@@ -136,8 +133,7 @@ class CatalogueTests(BaseWebTest):
             status='draft'
         )
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_from_draft_to_open(self, mock_requests):
+    def test_need_from_draft_to_open(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
@@ -163,8 +159,7 @@ class CatalogueTests(BaseWebTest):
             status='open',
         )
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_delete(self, mock_requests):
+    def test_need_delete(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         NeedFactory(user_id='admin')
         url = self.reverse('catalogue_delete', kind='need', pk=1)
@@ -172,8 +167,7 @@ class CatalogueTests(BaseWebTest):
         with self.assertRaises(AssertionError):
             self.assertObjectInDatabase('Catalogue', pk=1)
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_upload_file_on_edit(self, mock_requests):
+    def test_need_upload_file_on_edit(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
@@ -196,8 +190,7 @@ class CatalogueTests(BaseWebTest):
             file_path = path.join(tmpdir, 'documents', 'document_1.txt')
             self.assertTrue(path.exists(file_path))
 
-    @patch('eea_frame.middleware.requests')
-    def test_document_delete(self, mock_requests):
+    def test_document_delete(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
@@ -219,8 +212,8 @@ class CatalogueTests(BaseWebTest):
             with self.assertRaises(AssertionError):
                 self.assertObjectInDatabase('Document', pk=1)
 
-    @patch('eea_frame.middleware.requests')
-    def test_need_delete_also_deletes_documents(self, mock_requests):
+    def test_need_delete_also_deletes_documents(self, LdapConnectionMock,
+                                                mock_requests):
         mock_requests.get.return_value = user_admin_mock
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],

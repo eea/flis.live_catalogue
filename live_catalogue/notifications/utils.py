@@ -1,5 +1,6 @@
 import ldap
 from django.conf import settings
+from live_catalogue.utils import cached
 
 
 class LdapConnection(object):
@@ -45,9 +46,11 @@ class LdapConnection(object):
         return attr['mail'][0].lower()
 
 
+@cached(86400)
 def get_user_email(user_id):
     return LdapConnection(settings.LDAP_DATA).get_user_email(user_id)
 
 
+@cached(86400)
 def get_user_name(user_id):
     return LdapConnection(settings.LDAP_DATA).get_user_name(user_id)

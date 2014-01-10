@@ -8,9 +8,6 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting model 'NotificationUsers'
-        db.delete_table(u'notifications_notificationusers')
-
         # Adding model 'NotificationUser'
         db.create_table(u'notifications_notificationuser', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -20,13 +17,6 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Adding model 'NotificationUsers'
-        db.create_table(u'notifications_notificationusers', (
-            ('user_id', self.gf('django.db.models.fields.CharField')(max_length=64, unique=True)),
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        ))
-        db.send_create_signal(u'notifications', ['NotificationUsers'])
-
         # Deleting model 'NotificationUser'
         db.delete_table(u'notifications_notificationuser')
 
