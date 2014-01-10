@@ -4,15 +4,15 @@ from django.conf import settings
 
 class LdapConnection(object):
 
-    def __init__(self):
-        ldap_server = settings.LDAP_SERVER
+    def __init__(self, data):
+        ldap_server = data['LDAP_SERVER']
         if ldap_server is None:
             self.conn = None
         else:
             self.conn = ldap.initialize(ldap_server)
             self.conn.protocol_version = ldap.VERSION3
-            self.conn.timeout = settings.LDAP_TIMEOUT
-            self._user_dn_pattern = settings.LDAP_USER_DN_PATTERN
+            self.conn.timeout = data['LDAP_TIMEOUT']
+            self._user_dn_pattern = data['LDAP_USER_DN_PATTERN']
 
     def get_user_dn(self, user_id):
         return self._user_dn_pattern.format(user_id=user_id)
@@ -35,3 +35,19 @@ class LdapConnection(object):
         result2 = self.conn.search_s(user_dn, ldap.SCOPE_BASE)
         [[_dn, attr]] = result2
         return attr['cn'][0].decode('utf-8')
+
+    def get_user_email(self, user_id):
+        if self.conn is None:
+            return u""
+        user_dn = self.get_user_dn(user_id)
+        result2 = self.conn.search_s(user_dn, ldap.SCOPE_BASE)
+        [[_dn, attr]] = result2
+        return attr['mail'][0].lower()
+
+
+def get_user_email(user_id):
+    return LdapConnection(settings.LDAP_DATA).get_user_email(user_id)
+
+
+def get_user_name(user_id):
+    return LdapConnection(settings.LDAP_DATA).get_user_name(user_id)

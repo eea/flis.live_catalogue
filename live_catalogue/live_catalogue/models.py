@@ -1,5 +1,6 @@
 from django.db import models
 from live_catalogue.definitions import COUNTRIES
+from notifications.utils import get_user_name
 
 
 class Category(models.Model):
@@ -93,7 +94,6 @@ class Catalogue(models.Model):
     url = models.URLField(blank=True)
     info = models.TextField(blank=True,
                             verbose_name='Additional contact details')
-    # document = models.FileField(upload_to='documents', null=True, blank=True)
     documents = models.ManyToManyField(Document, null=True, blank=True)
 
     def __unicode__(self):
@@ -114,3 +114,7 @@ class Catalogue(models.Model):
     @property
     def country_verbose(self):
         return dict(COUNTRIES).get(self.country, '')
+
+    @property
+    def user_full_name(self):
+        return get_user_name(self.user_id)

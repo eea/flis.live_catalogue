@@ -19,6 +19,7 @@ from live_catalogue.forms import (
 )
 from live_catalogue.models import Catalogue, Document
 from live_catalogue.auth import login_required, edit_permission_required
+from notifications.models import catalogue_update_signal
 
 
 class HomeView(View):
@@ -93,6 +94,7 @@ class CatalogueEdit(View):
                                       pk=pk,
                                       user_id=request.user_id,
                                       kind=kind) if pk else None
+        event_type = 'added' if pk is None else 'edited'
 
         save = request.POST.get('save', 'final')
         is_draft = True if save == 'draft' else False
@@ -112,6 +114,10 @@ class CatalogueEdit(View):
             else:
                 success_msg = '%s saved' % catalogue.kind_verbose
             messages.success(request, success_msg)
+
+            catalogue_update_signal.send(sender=catalogue,
+                                         event_type=event_type,
+                                         request=request)
             return redirect('home')
 
         return render(request, 'catalogue_form.html', {
