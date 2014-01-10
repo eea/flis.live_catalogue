@@ -20,6 +20,7 @@ from live_catalogue.forms import (
 from live_catalogue.models import Catalogue, Document
 from live_catalogue.auth import login_required, edit_permission_required
 from notifications.models import catalogue_update_signal
+from notifications.utils import get_user_data
 
 
 class HomeView(View):
@@ -75,12 +76,23 @@ class CatalogueEdit(View):
                                       pk=pk,
                                       user_id=request.user_id,
                                       kind=kind) if pk else None
+        if pk is None:
+            user_data = get_user_data(request.user_id)
+            initial_user_data = {
+                'contact_person': user_data.get('cn', [''])[0],
+                'email': user_data.get('mail', [''])[0],
+                'phone_number': user_data.get('telephoneNumber', [''])[0],
+                'institution': user_data.get('o', [''])[0],
+                'address': user_data.get('postalAddress', [''])[0]
+            }
+        else:
+            initial_user_data = {}
 
         DocumentFormSet = formset_factory(DocumentForm,
                                           formset=BaseDocumentFormset,
                                           max_num=5)
         Form = NeedForm if kind == Catalogue.NEED else OfferForm
-        form = Form(instance=catalogue)
+        form = Form(instance=catalogue, initial=initial_user_data)
         document_formset = DocumentFormSet()
 
         return render(request, 'catalogue_form.html', {

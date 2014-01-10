@@ -1,5 +1,6 @@
 import ldap
 from django.conf import settings
+from django.utils.functional import cached_property
 from live_catalogue.utils import cached
 
 
@@ -7,6 +8,7 @@ class LdapConnection(object):
 
     def __init__(self, data):
         ldap_server = data['LDAP_SERVER']
+        self.attr = None
         if ldap_server is None:
             self.conn = None
         else:
@@ -29,21 +31,28 @@ class LdapConnection(object):
         assert result[:2] == (ldap.RES_BIND, [])
         return True
 
-    def get_user_name(self, user_id):
+    def get_user_data(self, user_id):
+        if self.attr is not None:
+            return self.attr
         if self.conn is None:
             return u""
         user_dn = self.get_user_dn(user_id)
         result2 = self.conn.search_s(user_dn, ldap.SCOPE_BASE)
         [[_dn, attr]] = result2
+        return attr
+
+    def get_user_name(self, user_id):
+        attr = self.get_user_data(user_id)
         return attr['cn'][0].decode('utf-8')
 
     def get_user_email(self, user_id):
-        if self.conn is None:
-            return u""
-        user_dn = self.get_user_dn(user_id)
-        result2 = self.conn.search_s(user_dn, ldap.SCOPE_BASE)
-        [[_dn, attr]] = result2
+        attr = self.get_user_data(user_id)
         return attr['mail'][0].lower()
+
+
+@cached(86400)
+def get_user_data(user_id):
+    return LdapConnection(settings.LDAP_DATA).get_user_data(user_id)
 
 
 @cached(86400)

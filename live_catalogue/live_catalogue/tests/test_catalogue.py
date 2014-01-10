@@ -26,6 +26,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_add(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
@@ -57,6 +59,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_in_entries_list(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
                     user_id='johndoe')
         url = self.reverse('home')
@@ -69,6 +73,8 @@ class CatalogueTests(BaseWebTest):
     def test_need_draft_not_in_entries_list(self, LdapConnectionMock,
                                             mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
                     user_id='johndoe', draft=True)
         url = self.reverse('home')
@@ -79,6 +85,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_in_my_entries(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         NeedFactory(user_id='john.doe')
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
@@ -101,6 +109,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_not_in_my_entries(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
                     user_id='johndoe')
         url = self.reverse('my_entries')
@@ -111,6 +121,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_add_draft(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         need_factory_data = NeedFactory.attributes(extra={
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
@@ -135,6 +147,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_from_draft_to_open(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
                            user_id='admin',
@@ -161,6 +175,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_delete(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         NeedFactory(user_id='admin')
         url = self.reverse('catalogue_delete', kind='need', pk=1)
         self.app.delete(url)
@@ -169,6 +185,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_need_upload_file_on_edit(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
                            user_id='admin')
@@ -192,6 +210,8 @@ class CatalogueTests(BaseWebTest):
 
     def test_document_delete(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
                            user_id='admin')
@@ -215,6 +235,8 @@ class CatalogueTests(BaseWebTest):
     def test_need_delete_also_deletes_documents(self, LdapConnectionMock,
                                                 mock_requests):
         mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
                            user_id='admin')

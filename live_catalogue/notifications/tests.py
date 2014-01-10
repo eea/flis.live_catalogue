@@ -29,6 +29,7 @@ class NotificationTest(BaseWebTest):
                                               mock_requests):
         mock_requests.get.return_value = user_admin_mock
         ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         ldap_mock.get_user_name.return_value = 'John Doe'
         ldap_mock.get_user_email.return_value = 'john.doe@eaudeweb.ro'
         data = NeedFactory.attributes(extra={
@@ -50,6 +51,7 @@ class NotificationTest(BaseWebTest):
                                                mock_requests):
         mock_requests.get.return_value = user_admin_mock
         ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         ldap_mock.get_user_name.return_value = 'John Doe'
         ldap_mock.get_user_email.return_value = 'john.doe@eaudeweb.ro'
         need = NeedFactory(categories=[self.category],
@@ -77,6 +79,7 @@ class NotificationTest(BaseWebTest):
 
         mock_requests.get.return_value = user_admin_mock
         ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
         ldap_mock.get_user_name.return_value = 'John Doe'
         ldap_mock.get_user_email.return_value = 'john.doe@eaudeweb.ro'
         need_factory_data = NeedFactory.attributes(extra={
