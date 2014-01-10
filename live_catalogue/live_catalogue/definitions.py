@@ -4,7 +4,17 @@
 COUNTRIES = (
     ('sq', 'Albania'),
     ('at', 'Austria'),
+    ('be', 'Belgium'),
+    ('cz', 'Czech Republic'),
     ('hu', 'Hungary'),
+    ('ie', 'Ireland'),
+    ('me', 'Montenegro'),
+    ('mk', 'FYR Macedonia'),
+    ('pt', 'Portugal'),
+    ('ro', 'Romania'),
+    ('sk', 'Slovakia'),
+    ('ch', 'Switzerland'),
+    ('xk', 'Kosovo'),
 )
 
 VIEW_ROLES = (
