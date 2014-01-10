@@ -1,9 +1,7 @@
 Following {{ catalogue.kind }} was {{ action }} by {{ catalogue.user_full_name }} in the "Live catalogue of offers and needs for foward looking information".
 
-{% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as url %}
-<a href="{{ HOSTNAME }}{{ url }}">{{ url }}</a>
+{{ HOSTNAME }}{{ url }}
 
 {% url 'notifications:home' as notifications_url %}
 You may unsubscribe yourself from the "Live Catalogue" channel by using the
-following link: <a href="{{ HOSTNAME }}{{ notifications_url }}">
-{{ HOSTNAME }}{{ notifications_url }}</a>
+following link: {{ HOSTNAME }}{{ notifications_url }}
