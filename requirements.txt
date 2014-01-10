@@ -16,3 +16,4 @@ supervisor==3.0
 Django-Select2==4.2.2
 psycopg2==2.5.1
 raven==3.5.2
+python-ldap==2.4.13
