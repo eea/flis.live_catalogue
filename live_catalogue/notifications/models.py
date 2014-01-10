@@ -3,7 +3,6 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mass_mail
 from django.core.urlresolvers import reverse
 from django.dispatch import Signal
-from django.template import RequestContext
 from django.conf import settings
 
 from .utils import get_user_email
@@ -37,9 +36,9 @@ class NotificationUser(models.Model):
         body = render_to_string('notification_email.html', {
             'catalogue': catalogue,
             'action': action,
-            'notifications_url': notifications_url,
-            'catalogue_url': catalogue_url,
-        }, context_instance=RequestContext(request))
+            'notifications_url': request.build_absolute_uri(notifications_url),
+            'catalogue_url': request.build_absolute_uri(catalogue_url),
+        })
 
         datatuple = []
         for user in cls.objects.all():

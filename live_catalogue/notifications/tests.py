@@ -68,7 +68,7 @@ class NotificationTest(BaseWebTest):
         self.populate_fields(form, self.normalize_data(data))
         form.submit().follow()
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'An need was edited')
+        self.assertEqual(mail.outbox[0].subject, 'A need was edited')
         self.assertEqual(mail.outbox[0].from_email, 'no-reply@eaudeweb.ro')
 
     def test_draft_entry_does_not_trigger_notifications(self,
