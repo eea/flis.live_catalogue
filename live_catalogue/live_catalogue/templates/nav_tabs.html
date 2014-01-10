@@ -18,4 +18,8 @@
     <a href="{% url 'my_entries' %}">My Entries</a>
   </li>
 
+  <li class="{% active 'notifications' %}">
+    <a href="{% url 'notifications:home' %}">Notifications</a>
+  </li>
+
 </ul>

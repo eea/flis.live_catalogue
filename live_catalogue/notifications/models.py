@@ -27,7 +27,7 @@ class NotificationUser(models.Model):
             action = 'edited'
             subject = 'An {} was {}'.format(catalogue.kind, action)
 
-        body = render_to_string('notification.html', {
+        body = render_to_string('notification_email.html', {
             'catalogue': catalogue,
             'action': action,
         }, context_instance=RequestContext(request))

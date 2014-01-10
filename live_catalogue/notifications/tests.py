@@ -94,3 +94,29 @@ class NotificationTest(BaseWebTest):
         url = self.reverse('catalogue_add', kind='need')
         self.app.post(url, self.normalize_data(data)).follow()
         self.assertEqual(len(mail.outbox), 0)
+
+
+@patch('eea_frame.middleware.requests')
+class SubscriptionTests(BaseWebTest):
+
+    def test_subscribe_to_notifications(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        url = self.reverse('notifications:subscribe')
+        resp = self.app.post(url)
+        self.assertEqual(200, resp.status_code)
+        self.assertObjectInDatabase(
+            model='NotificationUser',
+            app='notifications',
+            user_id='admin')
+
+    def test_unsubscribe_from_notifications(self, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        NotificationUserFactory(user_id='admin')
+        url = self.reverse('notifications:subscribe')
+        resp = self.app.delete(url)
+        self.assertEqual(200, resp.status_code)
+        with self.assertRaises(AssertionError):
+            self.assertObjectInDatabase(
+                model='NotificationUser',
+                app='notifications',
+                user_id='admin')

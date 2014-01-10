@@ -86,8 +86,9 @@ class BaseWebTest(WebTest):
         return reverse(view_name, args=args, kwargs=kwargs)
 
     def assertObjectInDatabase(self, model, **kwargs):
+        app = kwargs.pop('app', 'live_catalogue')
         if isinstance(model, basestring):
-            Model = get_model('live_catalogue', model)
+            Model = get_model(app, model)
         else:
             Model = model
 

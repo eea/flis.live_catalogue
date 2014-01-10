@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+
+{% block extra_head %}
+
+  <script>
+    $(function () {
+
+      var handleSuccess = function (resp) {
+        if(resp.status == 'success') {
+          window.location.replace(resp.url);
+        }
+      }
+
+      $('#unsubscribe').on('click', function () {
+        var url = $(this).data('href');
+        $.ajax({'type': 'DELETE', 'url': url}).done(handleSuccess);
+      });
+
+      $('#subscribe').on('click', function () {
+        var url = $(this).data('href');
+        $.post(url).done(handleSuccess);
+      });
+    });
+  </script>
+
+{% endblock %}
+
+
+{% block content %}
+
+  <h2>Notifications</h2>
+
+  {% if notification_user %}
+    <p>You are already subscribed to catalogue notifications.
+      <a data-href="{% url 'notifications:unsubscribe' %}"
+         class="btn" id="unsubscribe">Unsubscribe</a></p>
+  {% else %}
+    <p>
+      <a data-href="{% url 'notifications:subscribe' %}"
+         class="btn" id="subscribe">
+         Subscribe to notifications</a></p>
+  {% endif %}
+
+{% endblock %}

@@ -42,8 +42,8 @@ class UserMiddleware(object):
                 request.user_groups = resp_json['groups']
         else:
             request.user_id = getattr(settings, 'USER_ID', None)
-            request.roles = getattr(settings, 'USER_ROLES', None)
-            request.groups = getattr(settings, 'USER_GROUPS', None)
+            request.user_roles = getattr(settings, 'USER_ROLES', None)
+            request.user_groups = getattr(settings, 'USER_GROUPS', None)
 
         if not getattr(request, 'user_id', None):
             request.user_id = None
