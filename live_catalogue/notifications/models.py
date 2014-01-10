@@ -22,10 +22,10 @@ class NotificationUser(models.Model):
 
         if event_type == 'published':
             action = 'added'
-            subject = 'A new {} was {}'.format(catalogue.kind, action)
+            subject = 'A new {0} was {1}'.format(catalogue.kind, action)
         if event_type == 'updated':
             action = 'edited'
-            subject = 'An {} was {}'.format(catalogue.kind, action)
+            subject = 'An {0} was {1}'.format(catalogue.kind, action)
 
         body = render_to_string('notification_email.html', {
             'catalogue': catalogue,
