@@ -108,6 +108,21 @@ USE_TZ = True
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
+
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+    },
+
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
 }
 
 # Static files (CSS, JavaScript, Images)
