@@ -34,12 +34,8 @@ class HomeView(View):
         form = CatalogueFilterForm(request.GET)
         if form.is_valid():
             kind = form.cleaned_data['kind']
-            flis_topic = form.cleaned_data['flis_topic']
             if kind != 'all':
                 catalogues = catalogues.filter(kind=kind)
-            if flis_topic != 'all':
-                catalogues = catalogues.filter(flis_topic=flis_topic)
-
         return render(request, 'home.html', {
             'catalogues': catalogues,
             'filter_form': form,
