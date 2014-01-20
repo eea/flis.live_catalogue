@@ -62,8 +62,8 @@ def install_live_catalogue():
     if not exists(secret_key_path):
         _install_random_key(str(secret_key_path))
 
-    put(app['localrepo']/'fabfile'/'production-settings.py',
-        str(app['live_catalogue_var']/'local_settings.py'))
+    #put(app['localrepo']/'fabfile'/'production-settings.py',
+    #    str(app['live_catalogue_var']/'local_settings.py'))
 
     upload_template(app['localrepo']/'fabfile'/'supervisord.conf',
                     str(app['sandbox']/'supervisord.conf'),
@@ -98,8 +98,8 @@ def update_live_catalogue():
     if not exists(app['instance_var']/'files'):
         run("mkdir -p '%(instance_var)s/files'" % app)
 
-    put(app['localrepo']/'fabfile'/'production-settings.py',
-        str(app['live_catalogue_var']/'local_settings.py'))
+    #put(app['localrepo']/'fabfile'/'production-settings.py',
+    #    str(app['live_catalogue_var']/'local_settings.py'))
 
     upload_template(app['localrepo']/'fabfile'/'supervisord.conf',
                     str(app['sandbox']/'supervisord.conf'),
