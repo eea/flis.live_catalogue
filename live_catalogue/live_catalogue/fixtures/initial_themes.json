@@ -2,6 +2,13 @@
     {
         "model": "live_catalogue.theme",
         "fields": {
+            "handle": "agriculture",
+            "title": "Agriculture"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
             "handle": "air-pollution",
             "title": "Air pollution"
         }
@@ -30,8 +37,64 @@
     {
         "model": "live_catalogue.theme",
         "fields": {
+            "handle": "coasts-seas",
+            "title": "Coasts and seas"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "energy",
+            "title": "Energy"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
             "handle": "environment-and-health",
             "title": "Environment and health"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "environmental-scenarios",
+            "title": "Environmental scenarios"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "environmental-technology",
+            "title": "Environmental technology"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "fisheries",
+            "title": "Fisheries"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "green-economy",
+            "title": "Green economy"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "household-consumption",
+            "title": "Household consumption"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "industry",
+            "title": "Industry"
         }
     },
     {
@@ -58,8 +121,43 @@
     {
         "model": "live_catalogue.theme",
         "fields": {
+            "handle": "policy-instruments",
+            "title": "Policy instruments"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
             "handle": "soil",
             "title": "Soil"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "specific-regions",
+            "title": "Specific regions"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "tourism",
+            "title": "Tourism"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "transport",
+            "title": "Transport"
+        }
+    },
+    {
+        "model": "live_catalogue.theme",
+        "fields": {
+            "handle": "urban-environment",
+            "title": "Urban environment"
         }
     },
     {
