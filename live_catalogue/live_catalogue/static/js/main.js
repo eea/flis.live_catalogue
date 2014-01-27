@@ -63,4 +63,12 @@ $(function () {
 
     });
 
+    $('table[data-toggle=datatable]').dataTable({
+        bLengthChange: false,
+        aaSorting: [[ 2, 'desc' ]],
+        bInfo: false,
+        iDisplayLength: 50,
+        sPaginationType: 'bootstrap'
+    });
+
 });

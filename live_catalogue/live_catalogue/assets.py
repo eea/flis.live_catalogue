@@ -11,6 +11,8 @@ JS_ASSETS = (
     'js/select2.min.js',
     'js/moment.js',
     'js/daterangepicker.js',
+    'js/datatables/jquery.dataTables.js',
+    'js/datatables/DT_bootstrap.js',
     'js/main.js',
 )
 if settings.DEBUG:
