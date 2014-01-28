@@ -21,6 +21,12 @@
   <form id="catalogue-form" class="form-horizontal" method="POST"
         enctype="multipart/form-data">
 
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      There was an error with your submission, please correct them below.
+    </div>
+    {% endif %}
+
     {% include "catalogue_form_general.html" %}
 
     {% if form.KIND == 'need' %}
