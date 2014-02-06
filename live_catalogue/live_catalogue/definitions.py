@@ -45,9 +45,11 @@ COUNTRIES = (
 
 VIEW_ROLES = (
     'Administrator',
+    'Contributor',
 )
 EDIT_ROLES = (
     'Administrator',
+    'Contributor',
 )
 VIEW_GROUPS = (
     'eionet-nfp',
