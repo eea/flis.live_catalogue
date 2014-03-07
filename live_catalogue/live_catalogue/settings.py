@@ -42,6 +42,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'live_catalogue.context_processors.settings_context',
 )
 
 ALLOWED_HOSTS = ('localhost', '127.0.0.1')
