@@ -40,7 +40,13 @@
     {% if form.resources %}
       <div class="control-group">
         <label class="control-label" for="{{ form.resources.auto_id }}">
-          {{ form.resources.label }}</label>
+          <span id="resources"
+                data-toggle="popover" data-placement="top"
+                data-content="{{ form.resources.help_text }}"
+                data-container="#resources">
+            {{ form.resources.label }}
+          </span>
+        </label>
         <div class="controls">
           {% render_field form.resources class="input-xxlarge" rows=5 %}
           <div class="text-error">{{ form.resources.errors }}</div>

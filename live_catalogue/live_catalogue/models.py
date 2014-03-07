@@ -73,7 +73,7 @@ class Catalogue(models.Model):
 
     categories = models.ManyToManyField(Category)
     flis_topics = models.ManyToManyField(FlisTopic)
-    themes = models.ManyToManyField(Theme, blank=True)
+    themes = models.ManyToManyField(Theme, blank=True, verbose_name='Topics')
 
     subject = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)

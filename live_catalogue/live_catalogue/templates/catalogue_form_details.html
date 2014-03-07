@@ -3,7 +3,12 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.subject.auto_id }}">
-    {{ form.subject.label }}*</label>
+    <span id="subject-label" data-toggle="popover" data-placement="top"
+         data-content="Title indicating the key essence of the offer"
+         data-container="#subject-label">
+         {{ form.subject.label }}*
+    </span>
+  </label>
   <div class="controls">
     {{ form.subject|add_class:"input-xxlarge" }}
     <div class="text-error">{{ form.subject.errors }}</div>
@@ -12,7 +17,12 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.description.auto_id }}">
-    {{ form.description.label }}*</label>
+    <span id="description-label" data-toggle="popover" data-placement="top"
+         data-content="Describe in a few words what you are offering"
+         data-container="#description-label">
+         {{ form.description.label }}*
+    </span>
+  </label>
   <div class="controls">
     {% render_field form.description class="input-xxlarge" rows=5 %}
     <div class="text-error">{{ form.description.errors }}</div>
@@ -21,7 +31,13 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.type_of.auto_id }}">
-    {{ form.type_of.label }}</label>
+    <span id="type-of-label"
+          data-toggle="popover" data-placement="top"
+          data-content="{{ form.type_of.help_text }}"
+          data-container="#type-of-label">
+      {{ form.type_of.label }}
+    </span>
+  </label>
   <div class="controls">
     {{ form.type_of }}
     <div class="text-error">{{ form.type_of.errors }}</div>
@@ -30,7 +46,8 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.status.auto_id }}">
-    {{ form.status.label }}</label>
+    {{ form.status.label }}
+    </label>
   <div class="controls">
     {% if form.status.value == catalogue.DRAFT %}
       {{ form.status|attr:"data-readonly:readonly" }}

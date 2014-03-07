@@ -5,7 +5,13 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.contact_person.auto_id }}">
-    {{ form.contact_person.label }}*</label>
+    <span id="contact-person-label"
+          data-toggle="popover" data-placement="top"
+          data-content="{{ form.contact_person.help_text }}"
+          data-container="#contact-person-label">
+      {{ form.contact_person.label }}*
+    </span>
+  </label>
   <div class="controls">
     {% render_field form.contact_person class="input-xxlarge" %}
     <div class="text-error">{{ form.contact_person.errors }}</div>
@@ -14,7 +20,10 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.email.auto_id }}">
-    {{ form.email.label }}*</label>
+    <span id="">
+      {{ form.email.label }}*
+    </span>
+  </label>
   <div class="controls">
     {% render_field form.email class="input-xxlarge" %}
     <div class="text-error">{{ form.email.errors }}</div>
@@ -78,7 +87,14 @@
 {{ document_formset.management_form }}
 
 <div id="documents-container" class="control-group">
-  <label class="control-label">Documents</label>
+  <label class="control-label">
+   <span id="documents-label"
+         data-toggle="popover" data-placement="top"
+         data-content="{{ form.documents.help_text }}"
+         data-container="#documents-label">
+     Documents
+   </span>
+  </label>
   <div class="controls">
 
     {% if catalogue %}

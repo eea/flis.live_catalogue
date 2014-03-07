@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from django.template.defaultfilters import filesizeformat
 
@@ -79,12 +81,22 @@ class CatalogueForm(forms.ModelForm):
         self.user_id = request.user_id
         super(CatalogueForm, self).__init__(*args, **kwargs)
 
+        self._set_help_texts()
+
         self.fields['status'].empty_label = None
         self.fields['status'].choices = self.fields['status'].choices[1:]
 
         if self.is_draft is False:
             for f in self.REQUIRED_FIELDS:
                 self.fields[f].required = True
+
+    def _set_help_texts(self):
+        # this function overwrites help_texts because
+        # django uses string_concat for help_texts for SelectMultiple fields
+        help_texts = getattr(self._meta, 'help_texts', {})
+        for key, value in help_texts.items():
+            if key in self.fields:
+                self.fields[key].help_text = value
 
     def save(self):
         catalogue = super(CatalogueForm, self).save(commit=False)
@@ -140,6 +152,30 @@ class NeedForm(CatalogueForm):
             'type_of': 'Type of need',
             'need_urgent': 'Is this need urgent?',
         }
+        help_texts = {
+            'categories': 'Enter the type of need you want to add. You may '
+                          'select multiple options.',
+            'flis_topics': 'Select the topic which the need is referring to. '
+                           'You may select multiple options',
+            'themes': """
+                The need you are describing is related to forward
+                looking information in one (or more) of the EEAs’ topics
+                <a href="http://www.eea.europa.eu/themes">
+                http://www.eea.europa.eu/themes</a>
+            """,
+            'subject': 'Title indicating the key essence of the offer',
+            'description': 'Describe in a few words what you are needing',
+            'type_of': """
+                Is the need “official”, by a country or an institution,
+                or “informal,” created only for informal cooperation with
+                other experts?
+            """,
+            'contact_person': """
+                Contact information of the logged-in user is pre-filled
+                automatically from the EIONET directory. It can be edited.
+            """,
+            'documents': 'Please upload specific files related to the need',
+        }
 
     def save(self):
         catalogue = super(NeedForm, self).save()
@@ -157,6 +193,38 @@ class OfferForm(CatalogueForm):
         exclude = CatalogueForm.Meta.exclude + ('need_urgent',)
         labels = {
             'type_of': 'Type of offer',
+        }
+        help_texts = {
+            'categories': 'Enter the type of offer you want to add. You may '
+                          'select multiple options.',
+            'flis_topics': 'Select the topic which the offer is referring to. '
+                           'You may select multiple options.',
+            'themes': """
+                The offer you are describing is related to forward looking
+                information in one (or more) of the EEAs’ topics  as described
+                there:
+                <a href="http://www.eea.europa.eu/themes">
+                    http://www.eea.europa.eu/themes</a>
+            """,
+            'subject': 'Title indicating the key essence of the offer',
+            'description': 'Describe in a few words what you are offering',
+            'type_of': """
+                Is the offer “official”, offered by a country or an
+                institution, or “informal,” created only for informal
+                cooperation with other experts?
+            """,
+            'resources': """
+                Please insert any information related to the offer and use of
+                resources: <br>
+                - human resources, <br>
+                - financial resources, <br>
+                - other type of resources.
+            """,
+            'contact_person': """
+                Contact information of the logged-in user is pre-filled
+                automatically from the EIONET directory. It can be edited.
+            """,
+            'documents': 'Please upload specific files related to the offer',
         }
 
     def save(self):

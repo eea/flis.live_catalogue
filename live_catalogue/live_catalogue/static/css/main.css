@@ -97,3 +97,15 @@ a {
 .document-container .input {
     margin-top: 10px;
 }
+
+.control-label .popover {
+    margin-top: 10px;
+}
+
+@-moz-document url-prefix() {
+     .control-label .popover .arrow {
+        border-top-color: transparent!important;
+        bottom: -10px;
+    }
+}
+

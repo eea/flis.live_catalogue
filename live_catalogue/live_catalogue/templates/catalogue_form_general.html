@@ -2,7 +2,11 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.categories.auto_id }}">
-    {{ form.categories.label }}*</label>
+    <span id="categories-label" data-toggle="popover" data-placement="top"
+         data-content="{{ form.categories.help_text }}"
+         data-container="#categories-label">{{ form.categories.label }}*
+    </span>
+  </label>
   <div class="controls">
     {{ form.categories|add_class:'select input-xxlarge' }}
     <div class="text-error">{{ form.categories.errors }}</div>
@@ -11,7 +15,12 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.flis_topics.auto_id }}">
-    {{ form.flis_topics.label }}*</label>
+    <span id="topics-label" data-toggle="popover" data-placement="top"
+         data-content="{{ form.flis_topics.help_text }}"
+         data-container="#topics-label">
+       {{ form.flis_topics.label }}*
+    </span>
+  </label>
   <div class="controls">
     {{ form.flis_topics|add_class:'select input-xxlarge' }}
     <div class="text-error">{{ form.flis_topics.errors }}</div>
@@ -20,7 +29,12 @@
 
 <div class="control-group">
   <label class="control-label" for="{{ form.themes.auto_id }}">
-    {{ form.themes.label }}</label>
+    <span id="themes-label" data-toggle="popover" data-placement="top"
+         data-content="{{ form.themes.help_text }}"
+         data-container="#themes-label">
+      {{ form.themes.label }}
+    </span>
+  </label>
   <div class="controls">
     {{ form.themes|add_class:'select input-xxlarge' }}
     <div class="text-error">{{ form.themes.errors }}</div>
