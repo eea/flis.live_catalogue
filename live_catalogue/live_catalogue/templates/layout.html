@@ -29,7 +29,19 @@
   </script>
 
   <div class="container">
-    <h1>Live catalogue of offers and needs for foward looking information</h1>
+    <div class="row">
+      <div class="span10">
+        <h1>
+          Live catalogue of offers and needs for foward looking information
+        </h1>
+      </div>
+      <div class="span2 text-right">
+        <a href="{% url 'home' %}">
+          <img src="/static/img/logo.jpg" width="112" height="124"
+               alt="Live Catalogue">
+         </a>
+      </div>
+    </div>
     {% include "nav_tabs.html" %}
 
     {% if messages %}
