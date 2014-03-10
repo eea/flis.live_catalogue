@@ -119,4 +119,10 @@ a {
     background: #fff;
     float: right;
     width: 120px;
+    height: 60px;
+}
+.header .logo img {
+    margin-left: -90px;
+    position: absolute;
+    margin-top: -17px;
 }
