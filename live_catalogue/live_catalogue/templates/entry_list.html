@@ -26,14 +26,14 @@
       <td>{{ catalogue.last_updated }}</td>
       <td>{{ catalogue.country_verbose }}</td>
       <td>
-        <ul class="unstyled">
+        <ul style="margin-left: 11px;">
           {% for categ in catalogue.categories.all %}
             <li>{{ categ }}</li>
           {% endfor %}
         </ul>
       </td>
       <td>
-        <ul class="unstyled">
+        <ul style="margin-left: 11px;">
           {% for flis_topic in catalogue.flis_topics.all %}
             <li>{{ flis_topic }}</li>
           {% endfor %}
