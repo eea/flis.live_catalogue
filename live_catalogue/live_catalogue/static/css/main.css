@@ -109,3 +109,14 @@ a {
     }
 }
 
+.header {
+    overflow: hidden;
+}
+.header .title {
+    width: auto;
+}
+.header .logo {
+    background: #fff;
+    float: right;
+    width: 110px;
+}
