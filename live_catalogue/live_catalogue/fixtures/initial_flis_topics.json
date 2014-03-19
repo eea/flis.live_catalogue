@@ -17,7 +17,7 @@
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "indicators",
-            "title": "Indicators"
+            "title": "Indicators - projections, outlooks or forward-looking indicators"
         }
     },
     {
@@ -34,13 +34,31 @@
             "title": "Methods and tools"
         }
     },
+
     {
         "model": "live_catalogue.flistopic",
         "fields": {
-            "handle": "networking-capacity-building-and-governance",
-            "title": "Networking, capacity building and governance"
+            "handle": "networking",
+            "title": "Networking"
         }
     },
+
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "capacity-building-and-governance",
+            "title": "Capacity building and governance"
+        }
+    },
+
+    {
+        "model": "live_catalogue.flistopic",
+        "fields": {
+            "handle": "institutional-set-up",
+            "title": "Institutional set-up"
+        }
+    },
+
     {
         "model": "live_catalogue.flistopic",
         "fields": {

@@ -59,7 +59,7 @@
         "model": "live_catalogue.theme",
         "fields": {
             "handle": "environmental-scenarios",
-            "title": "Environmental scenarios"
+            "title": "Environmental scenarios and other foresights"
         }
     },
     {
