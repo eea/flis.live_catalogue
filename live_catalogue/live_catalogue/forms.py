@@ -155,8 +155,13 @@ class NeedForm(CatalogueForm):
         help_texts = {
             'categories': 'Enter the type of need you want to add. You may '
                           'select multiple options.',
-            'flis_topics': 'Select the topic which the need is referring to. '
-                           'You may select multiple options',
+            'flis_topics': """
+                Select the component from the system of Knowledge base for
+                <a href="http://www.eea.europa.eu/publications/knowledge-base-for-forward-looking"
+                   target="_blank">
+                Forward-Looking Information and Services</a> to which the need is
+                referring to (you may select multiple options)
+            """,
             'themes': """
                 The need you are describing is related to forward
                 looking information in one (or more) of the EEAs’ topics
@@ -197,8 +202,13 @@ class OfferForm(CatalogueForm):
         help_texts = {
             'categories': 'Enter the type of offer you want to add. You may '
                           'select multiple options.',
-            'flis_topics': 'Select the topic which the offer is referring to. '
-                           'You may select multiple options.',
+            'flis_topics': """
+                Select the component from the system of Knowledge base for
+                <a href="http://www.eea.europa.eu/publications/knowledge-base-for-forward-looking"
+                   target="_blank">
+                Forward-Looking Information and Services</a> to which the offer is
+                referring to (you may select multiple options)
+            """,
             'themes': """
                 The offer you are describing is related to forward looking
                 information in one (or more) of the EEAs’ topics  as described
