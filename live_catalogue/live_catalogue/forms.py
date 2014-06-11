@@ -248,4 +248,4 @@ class CatalogueFilterForm(forms.Form):
 
     KIND_CHOICES = (('all', 'All'),) + Catalogue.KIND_CHOICES
 
-    kind = forms.ChoiceField(choices=KIND_CHOICES)
+    kind = forms.ChoiceField(choices=KIND_CHOICES, widget=forms.RadioSelect)

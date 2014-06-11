@@ -4,7 +4,13 @@
 
     <div class="span4">
       <label>
-        <b>{{ filter_form.kind.label }}</b> {{ filter_form.kind }}</label>
+        <ul>
+          <li class="title"><b>Kind:</b></li>
+          {% for filter in filter_form.kind %}
+            <li>{{ filter }}</li>
+          {% endfor %}
+        </ul>
+      </label>
     </div>
 
   </div>

@@ -6,7 +6,7 @@ $(function () {
     }
 
     var catalogue_filter = $('#catalogue-filter');
-    catalogue_filter.on('change', 'select', submitFilterForm);
+    catalogue_filter.on('change', 'input[type=radio]', submitFilterForm);
 
     $('.select').select2({
         width: 'resolve'

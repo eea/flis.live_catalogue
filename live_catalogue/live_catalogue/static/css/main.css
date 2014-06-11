@@ -53,6 +53,23 @@ a {
     left: 436px;
 }
 
+.catalogue-filter ul, .catalogue-filter li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.catalogue-filter li {
+    padding-right: 10px;
+    float: left;
+}
+.catalogue-filter .title {
+    padding-right: 5px;
+}
+.catalogue-filter input {
+    position: relative;
+    top: -5px;
+}
+
 .dataTables_filter {
     text-align: right;
 }
