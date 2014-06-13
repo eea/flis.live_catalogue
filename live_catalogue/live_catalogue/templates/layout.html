@@ -11,13 +11,19 @@
     <link rel="stylesheet" href="{{ ASSET_URL }}" />
   {% endassets %}
 
+  {% block extra_head %}{% endblock %}
+
+{% endblock %}
+
+
+{% block scripts %}
+
   {% assets "js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
   {% endassets %}
 
-  {% block extra_head %}{% endblock %}
-
 {% endblock %}
+
 
 
 {% block flis_content %}
@@ -57,5 +63,6 @@
 
     {% block content %}{% endblock %}
   </div>
+
 
 {% endblock %}
