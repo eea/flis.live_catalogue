@@ -67,6 +67,9 @@ $(function () {
         aaSorting: [[ 2, 'desc' ]],
         bInfo: false,
         iDisplayLength: 50,
+        aoColumnDefs: [
+            { "sType": "html", "aTargets": [ 1 ] }
+        ],
         sPaginationType: 'bootstrap'
     });
 
