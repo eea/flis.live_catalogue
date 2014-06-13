@@ -16,15 +16,6 @@
 {% endblock %}
 
 
-{% block scripts %}
-
-  {% assets "js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-  {% endassets %}
-
-{% endblock %}
-
-
 
 {% block flis_content %}
   <script>
@@ -63,6 +54,14 @@
 
     {% block content %}{% endblock %}
   </div>
+
+  {% block scripts %}
+
+    {% assets "js" %}
+      <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+  {% endblock %}
 
 
 {% endblock %}
