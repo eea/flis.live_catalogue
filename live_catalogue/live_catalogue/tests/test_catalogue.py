@@ -13,7 +13,7 @@ from .factories import (
     NeedFactory
 )
 
-from live_catalogue.models import Document
+from live_catalogue.models import Catalogue, Document
 
 
 @patch('eea_frame.middleware.requests')
@@ -53,8 +53,7 @@ class CatalogueTests(BaseWebTest):
             country=data['country'],
             need_urgent=True,
             kind='need',
-            status='open',
-            draft=False,
+            status=Catalogue.OPEN,
         )
 
     def test_need_in_entries_list(self, LdapConnectionMock, mock_requests):
@@ -68,7 +67,7 @@ class CatalogueTests(BaseWebTest):
         self.assertEqual(200, resp.status_code)
         row = resp.pyquery('.table tbody').find('.need')
         self.assertEqual(1, len(row))
-        self.assertEqual('Catalogue', row.find('td').eq(1).text())
+        self.assertIn('Catalogue', row.find('td').eq(1).text())
 
     def test_need_draft_not_in_entries_list(self, LdapConnectionMock,
                                             mock_requests):
@@ -76,7 +75,7 @@ class CatalogueTests(BaseWebTest):
         ldap_mock = LdapConnectionMock.return_value
         ldap_mock.get_user_data.return_value = {}
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
-                    user_id='johndoe', draft=True)
+                    user_id='johndoe', status=Catalogue.DRAFT)
         url = self.reverse('home')
         resp = self.app.get(url)
         self.assertEqual(200, resp.status_code)
@@ -105,7 +104,7 @@ class CatalogueTests(BaseWebTest):
         self.assertEqual(200, resp.status_code)
         row = resp.pyquery('.table tbody').find('.need')
         self.assertEqual(1, len(row))
-        self.assertEqual('Catalogue', row.find('td').eq(1).text())
+        self.assertIn('Catalogue', row.find('td').eq(1).text())
 
     def test_need_not_in_my_entries(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
@@ -141,8 +140,7 @@ class CatalogueTests(BaseWebTest):
             pk=1,
             categories__exact=self.category,
             flis_topics__exact=self.flis_topic,
-            draft=True,
-            status='draft'
+            status=Catalogue.DRAFT
         )
 
     def test_need_from_draft_to_open(self, LdapConnectionMock, mock_requests):
@@ -152,12 +150,11 @@ class CatalogueTests(BaseWebTest):
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
                            user_id='admin',
-                           draft=True,
-                           status='draft')
+                           status=Catalogue.DRAFT)
         need_data = NeedFactory.attributes(extra={
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
-            'status': 'draft'
+            'status': Catalogue.DRAFT
         })
         url = self.reverse('catalogue_edit', kind='need', pk=need.pk)
         resp = self.app.get(url)
@@ -169,8 +166,7 @@ class CatalogueTests(BaseWebTest):
             pk=1,
             categories__exact=self.category,
             flis_topics__exact=self.flis_topic,
-            draft=False,
-            status='open',
+            status=Catalogue.OPEN,
         )
 
     def test_need_delete(self, LdapConnectionMock, mock_requests):

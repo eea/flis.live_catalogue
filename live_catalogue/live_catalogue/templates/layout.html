@@ -55,13 +55,10 @@
     {% block content %}{% endblock %}
   </div>
 
-  {% block scripts %}
-
-    {% assets "js" %}
-      <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-
-  {% endblock %}
+  {% assets "js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+  {% block scripts %}{% endblock %}
 
 
 {% endblock %}

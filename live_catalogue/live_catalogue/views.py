@@ -29,8 +29,12 @@ class HomeView(View):
     def dispatch(self, *args, **kwargs):
         return super(HomeView, self).dispatch(*args, **kwargs)
 
-    def get(self, request):
-        catalogues = Catalogue.objects.filter(draft=False)
+    def get(self, request, show):
+        if show == 'open':
+            catalogues = Catalogue.objects.filter(status=Catalogue.OPEN)
+        else:
+            catalogues = Catalogue.objects.filter(
+                status__in=(Catalogue.CLOSED, Catalogue.SOLVED))
         form = CatalogueFilterForm(request.GET)
         if form.is_valid():
             kind = form.cleaned_data['kind']

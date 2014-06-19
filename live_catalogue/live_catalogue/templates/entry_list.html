@@ -21,7 +21,13 @@
       <td>{{ catalogue.kind_verbose }}</td>
       {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as catalogue_view_url %}
       <td>
-        <a href="{{ catalogue_view_url }}">{{ catalogue.subject }}</a>
+        <a href="{{ catalogue_view_url }}">
+          {{ catalogue.subject }}
+        </a>
+        {% if catalogue.need_urgent %}
+          <br>
+          <span class="urgent"><b>Urgent</b></span>
+        {% endif %}
       </td>
       <td>{{ catalogue.last_updated }}</td>
       <td>{{ catalogue.country_verbose }}</td>
@@ -41,7 +47,8 @@
       </td>
       {% if show_status %}
         <td>
-          {% if catalogue.draft %}Draft{% else %}Final{% endif %}
+          {% if catalogue.status == catalogue.DRAFT %}Draft
+          {% else %}Final{% endif %}
         </td>
       {% endif %}
     </tr>

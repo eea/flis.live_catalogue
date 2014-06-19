@@ -6,6 +6,10 @@
     <a href="{% url 'home' %}">Home</a>
   </li>
 
+  <li class="{% active 'closed' %}">
+    <a href="{% url 'closed' %}">Closed entries</a>
+  </li>
+
   <li class="{% active 'need' %}">
     <a href="{% url 'catalogue_add' kind='need' %}">New need</a>
   </li>

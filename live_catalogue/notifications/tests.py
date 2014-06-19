@@ -3,6 +3,7 @@ import factory
 from django.core import mail
 from mock import patch
 
+from live_catalogue.models import Catalogue
 from live_catalogue.tests.base import BaseWebTest, user_admin_mock
 from live_catalogue.tests.factories import (NeedFactory, CategoryFactory,
                                             FlisTopicFactory)
@@ -57,11 +58,11 @@ class NotificationTest(BaseWebTest):
         need = NeedFactory(categories=[self.category],
                            flis_topics=[self.flis_topic],
                            user_id='admin',
-                           status='draft')
+                           status=Catalogue.DRAFT)
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
-            'status': 'open',
+            'status': Catalogue.OPEN,
         })
         url = self.reverse('catalogue_edit', kind='need', pk=need.pk)
         resp = self.app.get(url)

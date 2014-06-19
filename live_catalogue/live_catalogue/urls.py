@@ -12,7 +12,10 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
 
-    url(r'^$', views.HomeView.as_view(), name='home'),
+    url(r'^$', views.HomeView.as_view(), name='home',
+        kwargs={'show': 'open'}),
+    url(r'^closed/$', views.HomeView.as_view(), name='closed',
+        kwargs={'show': 'closed'}),
 
     url(r'^need/add$', views.CatalogueEdit.as_view(),
         {'kind': 'need'}, name='catalogue_add'),

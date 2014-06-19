@@ -101,7 +101,6 @@ class CatalogueForm(forms.ModelForm):
     def save(self):
         catalogue = super(CatalogueForm, self).save(commit=False)
         catalogue.kind = self.KIND
-        catalogue.draft = self.is_draft
         catalogue.user_id = self.user_id
 
         catalogue.subject = self.cleaned_data['subject']

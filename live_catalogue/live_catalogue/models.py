@@ -68,7 +68,6 @@ class Catalogue(models.Model):
     kind = models.CharField(choices=KIND_CHOICES, max_length=5, db_index=True)
     created_on = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now_add=True, auto_now=True)
-    draft = models.BooleanField(default=True)
     user_id = models.CharField(max_length=64, blank=True)
 
     categories = models.ManyToManyField(Category)

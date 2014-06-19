@@ -33,7 +33,6 @@ class CatalogueFactory(factory.DjangoModelFactory):
 
     FACTORY_FOR = models.Catalogue
 
-    draft = False
     subject = 'Catalogue'
     description = 'Catalogue description'
 

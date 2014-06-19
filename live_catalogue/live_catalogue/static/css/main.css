@@ -143,3 +143,7 @@ a {
     position: absolute;
     margin-top: -17px;
 }
+
+.urgent {
+    color: #cf1b1b;
+}
