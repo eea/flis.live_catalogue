@@ -1,11 +1,8 @@
-import os
-
 from django_assets import Bundle, register
 from django.conf import settings
 
 
-JS_ASSETS = (
-    'js/jquery.js',
+JS_ASSETS = [
     'bootstrap/js/bootstrap.js',
     'js/jquery-ui-1.8.18.custom.min.js',
     'js/select2.min.js',
@@ -14,8 +11,9 @@ JS_ASSETS = (
     'js/datatables/jquery.dataTables.js',
     'js/datatables/DT_bootstrap.js',
     'js/main.js',
-)
-
+]
+if not getattr(settings, 'FRAME_URL', None):
+    JS_ASSETS = ['js/jquery.js'] + JS_ASSETS
 
 CSS_ASSETS = (
     'bootstrap/css/bootstrap.css',

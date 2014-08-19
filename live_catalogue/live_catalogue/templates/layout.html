@@ -18,12 +18,6 @@
 
 
 {% block flis_content %}
-  <script>
-      //Overwrite the came_from value for a correct redirect
-      $('a[href^="http://projects.eionet.europa.eu/flis-services-project/login_html?came_from"]')
-          .attr('href', 'http://projects.eionet.europa.eu/flis-services-project/login/login_form?disable_cookie_login__=1&came_from='+$(location).attr('href'));
-      $('.breadcrumbitemlast a').removeAttr('href');
-  </script>
 
   <div class="container">
     <div class="header">
@@ -58,6 +52,14 @@
   {% assets "js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
   {% endassets %}
+  <script>
+      //Overwrite the came_from value for a correct redirect
+    $(function() {
+      $('a[href^="http://projects.eionet.europa.eu/flis-services-project/login_html?came_from"]')
+          .attr('href', 'http://projects.eionet.europa.eu/flis-services-project/login/login_form?disable_cookie_login__=1&came_from='+$(location).attr('href'));
+      $('.breadcrumbitemlast a').removeAttr('href');
+    });
+  </script>
   {% block scripts %}{% endblock %}
 
 

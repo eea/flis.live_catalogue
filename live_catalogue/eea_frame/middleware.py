@@ -7,6 +7,8 @@ from threading import local
 
 
 _thread_locals = local()
+
+
 def get_current_request():
     return getattr(_thread_locals, 'request', None)
 
@@ -40,7 +42,7 @@ class UserMiddleware(object):
                 request.user_id = resp_json['user_id']
                 request.user_roles = resp_json['user_roles']
                 request.user_groups = resp_json['groups']
-        else:
+        if settings.DEBUG:
             request.user_id = getattr(settings, 'USER_ID', None)
             request.user_roles = getattr(settings, 'USER_ROLES', None)
             request.user_groups = getattr(settings, 'USER_GROUPS', None)
@@ -80,7 +82,7 @@ class Loader(BaseLoader):
         request = get_current_request()
 
         if (request and getattr(settings, 'FRAME_URL', None)
-            and template_name == 'frame.html' ):
+                and template_name == 'frame.html'):
 
             forwarded_cookies = get_forwarded_cookies(request)
 
