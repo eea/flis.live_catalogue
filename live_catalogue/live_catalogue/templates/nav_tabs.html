@@ -26,4 +26,23 @@
     <a href="{% url 'notifications:home' %}">Notifications</a>
   </li>
 
+  {% is_admin as is_admin %}
+  {% if is_admin %}
+
+    <li class="pull-right">
+      <div class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown">
+        Settings <span class="caret"></span></a>
+
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li>
+          <a href="{% url 'settings:categories' %}" tabindex="-1">
+            Categories
+          </a>
+        </li>
+      </ul>
+      </div>
+    </li>
+  {% endif %}
+
 </ul>

@@ -8,6 +8,26 @@ from live_catalogue import views
 
 admin.autodiscover()
 
+settings_urls = patterns(
+    '',
+    url(r'^categories/$',
+        views.SettingsCategoriesView.as_view(),
+        name='categories'),
+
+    url(r'^categories/new/$',
+        views.SettingsCategoriesAddView.as_view(),
+        name='categories_add'),
+
+    url(r'^categories/(?P<pk>.*)/edit$',
+        views.SettingsCategoriesEditView.as_view(),
+        name='categories_edit'),
+
+    url(r'^categories/(?P<pk>.*)/delete$',
+        views.SettingsCategoriesDeleteView.as_view(),
+        name='categories_delete'),
+
+)
+
 
 urlpatterns = patterns(
     '',
@@ -40,6 +60,8 @@ urlpatterns = patterns(
         name='catalogue_document_delete'),
 
     url(r'my', views.MyEntries.as_view(), name='my_entries'),
+
+    url(r'^settings/', include(settings_urls, namespace='settings')),
 
     url(r'^crashme/', views.CrashMe.as_view()),
     url(r'^admin/', include(admin.site.urls)),

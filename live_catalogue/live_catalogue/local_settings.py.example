@@ -1,6 +1,7 @@
 HOSTNAME = 'http://live-catalogue.dev'
 
 SKIP_EDIT_AUTHORIZATION = True
+SKIP_ADMIN_AUTHORIZATION = True
 
 USER_ID = '' # eionet user
 USER_GROUPS = ['Administrator']

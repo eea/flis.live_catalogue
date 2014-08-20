@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+  <h3>Are you sure you want to delete "{{ object }}"?</h3>
+  <br>
+  <form method="POST">
+
+    {% csrf_token %}
+
+    <button class="btn btn-primary">Yes</button>
+    <a href="{% url 'settings:categories_edit' pk=object.handle %}">
+      Cancel</a>
+  </form>
+
+{% endblock %}

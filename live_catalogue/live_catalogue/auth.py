@@ -8,6 +8,8 @@ from live_catalogue.definitions import (
     VIEW_GROUPS,
     EDIT_GROUPS,
     EDIT_ROLES,
+    ADMIN_ROLES,
+    ADMIN_GROUPS,
 )
 
 
@@ -48,3 +50,22 @@ def edit_permission_required(f):
                 return render(request, 'restricted.html')
         return f(request, *args, **kwargs)
     return wrapper
+
+
+def admin_permission_required(f):
+    @wraps(f)
+    def wrapper(request, *args, **kwargs):
+        if not getattr(settings, 'SKIP_ADMIN_AUTHORIZATION', False):
+            user_roles, user_groups = request.user_roles, request.user_groups
+            roles, groups = ADMIN_ROLES, ADMIN_GROUPS
+            if _has_perm(user_roles, user_groups, roles, groups):
+                pass
+            else:
+                return render(request, 'restricted.html')
+        return f(request, *args, **kwargs)
+    return wrapper
+
+
+def is_admin(request):
+    user_roles, user_groups = request.user_roles, request.user_groups
+    return _has_perm(user_roles, user_groups, ADMIN_ROLES, ADMIN_GROUPS)

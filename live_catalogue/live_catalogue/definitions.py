@@ -51,12 +51,16 @@ EDIT_ROLES = (
     'Administrator',
     'Contributor',
 )
+ADMIN_ROLES = (
+    'Administrator',
+)
 VIEW_GROUPS = (
     'eionet-nfp',
 )
 EDIT_GROUPS = (
     'eionet-nrc-forwardlooking',
 )
+ADMIN_GROUPS = ()
 
-ROLES = VIEW_ROLES + EDIT_ROLES
-GROUPS = VIEW_GROUPS + EDIT_GROUPS
+ROLES = frozenset(VIEW_ROLES + EDIT_ROLES + ADMIN_ROLES)
+GROUPS = frozenset(VIEW_GROUPS + EDIT_GROUPS + ADMIN_GROUPS)

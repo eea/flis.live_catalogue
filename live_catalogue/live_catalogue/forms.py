@@ -2,8 +2,9 @@
 
 from django import forms
 from django.template.defaultfilters import filesizeformat
+from django.utils.text import slugify
 
-from live_catalogue.models import Catalogue, Document
+from live_catalogue.models import Catalogue, Document, Category
 from eea_frame.middleware import get_current_request
 
 
@@ -248,3 +249,18 @@ class CatalogueFilterForm(forms.Form):
     KIND_CHOICES = (('all', 'All'),) + Catalogue.KIND_CHOICES
 
     kind = forms.ChoiceField(choices=KIND_CHOICES, widget=forms.RadioSelect)
+
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        exclude = ('handle',)
+
+    def save(self, commit=True):
+        category = super(CategoryForm, self).save(commit=False)
+        if not category.handle:
+            category.handle = slugify(category.title)
+        if commit:
+            category.save()
+        return category

@@ -3,6 +3,7 @@ import os
 
 from django import template
 from django.conf import settings
+from live_catalogue.auth import is_admin
 
 
 register = template.Library()
@@ -30,3 +31,8 @@ def assign(value):
 @register.filter
 def filename(value):
     return os.path.basename(value.file.name)
+
+
+@register.assignment_tag(name='is_admin', takes_context=True)
+def do_is_admin(context):
+    return True if is_admin(context['request']) else False

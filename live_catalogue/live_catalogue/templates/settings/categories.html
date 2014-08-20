@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <h2>Categories</h2>
+
+  <div class="actions">
+    <a href="{% url 'settings:categories_add' %}" class="btn btn-primary">
+      Add new category
+    </a>
+  </div>
+
+  {% if object_list %}
+
+    <table id="settings" width="100%"
+           class="table table-condensed table-bordered table-hover">
+
+      <thead>
+        <tr>
+          <th>Title</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for object in object_list %}
+
+          <tr>
+            <td>
+              <a href="{% url 'settings:categories_edit' pk=object.handle %}">
+                {{ object.title }}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+
+  {% endif %}
+
+{% endblock %}

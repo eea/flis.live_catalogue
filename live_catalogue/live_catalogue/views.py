@@ -1,6 +1,7 @@
 import os
 
-from django.views.generic import View
+from django.views.generic import View, ListView, CreateView, UpdateView, \
+    DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -16,9 +17,14 @@ from live_catalogue.forms import (
     DocumentForm,
     BaseDocumentFormset,
     CatalogueFilterForm,
+    CategoryForm,
 )
-from live_catalogue.models import Catalogue, Document
-from live_catalogue.auth import login_required, edit_permission_required
+from live_catalogue.models import Catalogue, Document, Category
+from live_catalogue.auth import (
+    login_required,
+    edit_permission_required,
+    admin_permission_required,
+)
 from notifications.models import catalogue_update_signal
 from notifications.utils import get_user_data
 
@@ -213,6 +219,57 @@ class MyEntries(View):
             'catalogues': catalogues,
             'filter_form': form,
         })
+
+
+class SettingsCategoriesView(ListView):
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsCategoriesView, self).dispatch(*args, **kwargs)
+
+    model = Category
+    template_name = 'settings/categories.html'
+
+
+class SettingsCategoriesAddView(CreateView):
+
+    model = Category
+    template_name = 'settings/categories_edit.html'
+    form_class = CategoryForm
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsCategoriesAddView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:categories')
+
+
+class SettingsCategoriesEditView(UpdateView):
+
+    model = Category
+    template_name = 'settings/categories_edit.html'
+    form_class = CategoryForm
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsCategoriesEditView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:categories')
+
+
+class SettingsCategoriesDeleteView(DeleteView):
+
+    model = Category
+    template_name = 'settings/categories_confirm_delete.html'
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsCategoriesDeleteView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:categories')
 
 
 class CrashMe(View):
