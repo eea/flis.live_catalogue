@@ -4,6 +4,7 @@ from django.views.generic import View, ListView, CreateView, UpdateView, \
     DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.forms.models import formset_factory
@@ -18,8 +19,16 @@ from live_catalogue.forms import (
     BaseDocumentFormset,
     CatalogueFilterForm,
     CategoryForm,
+    ThemeForm,
+    TopicForm
 )
-from live_catalogue.models import Catalogue, Document, Category
+from live_catalogue.models import (
+    Catalogue,
+    Document,
+    Category,
+    FlisTopic,
+    Theme
+)
 from live_catalogue.auth import (
     login_required,
     edit_permission_required,
@@ -223,19 +232,29 @@ class MyEntries(View):
 
 class SettingsCategoriesView(ListView):
 
+    model = Category
+    template_name = 'settings/setting_view.html'
+
     @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsCategoriesView, self).dispatch(*args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(SettingsCategoriesView, self).get_context_data(**kwargs)
+        context['page_title'] = "Categories"
+        context['add_url'] = reverse('settings:categories_add')
+        context['add_label'] = "New category"
+        context['edit_route_name'] = 'settings:categories_edit'
+        return context
+
+
+class SettingsCategoriesAddView(SuccessMessageMixin,
+                                CreateView):
+
     model = Category
-    template_name = 'settings/categories.html'
-
-
-class SettingsCategoriesAddView(CreateView):
-
-    model = Category
-    template_name = 'settings/categories_edit.html'
+    template_name = 'settings/setting_edit.html'
     form_class = CategoryForm
+    success_message = "New category created"
 
     @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
@@ -244,12 +263,21 @@ class SettingsCategoriesAddView(CreateView):
     def get_success_url(self):
         return reverse('settings:categories')
 
+    def get_context_data(self, **kwargs):
+        context = super(SettingsCategoriesAddView, self).get_context_data(
+            **kwargs)
+        context['add_page_title'] = "New category"
+        context['cancel_url'] = reverse('settings:categories')
+        return context
 
-class SettingsCategoriesEditView(UpdateView):
+
+class SettingsCategoriesEditView(SuccessMessageMixin,
+                                 UpdateView):
 
     model = Category
-    template_name = 'settings/categories_edit.html'
+    template_name = 'settings/setting_edit.html'
     form_class = CategoryForm
+    success_message = "Category updated successfully"
 
     @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
@@ -258,18 +286,224 @@ class SettingsCategoriesEditView(UpdateView):
     def get_success_url(self):
         return reverse('settings:categories')
 
+    def get_context_data(self, **kwargs):
+        context = super(SettingsCategoriesEditView, self).get_context_data(
+            **kwargs)
+        context['delete_url'] = reverse('settings:categories_delete',
+                                        kwargs={'pk': self.object.handle})
+        context['cancel_url'] = reverse('settings:categories')
+        return context
+
 
 class SettingsCategoriesDeleteView(DeleteView):
 
     model = Category
-    template_name = 'settings/categories_confirm_delete.html'
+    template_name = 'settings/setting_confirm_delete.html'
 
     @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
-        return super(SettingsCategoriesDeleteView, self).dispatch(*args, **kwargs)
+        return super(SettingsCategoriesDeleteView, self).dispatch(*args,
+                                                                  **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        msg = 'Category "%s" was successfully deleted' % self.get_object()
+        messages.success(request, msg)
+        return super(SettingsCategoriesDeleteView, self).post(
+            request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('settings:categories')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsCategoriesDeleteView, self).get_context_data(
+            **kwargs)
+        context['edit_url'] = reverse('settings:categories_edit',
+                                      kwargs={'pk': self.object.handle})
+        return context
+
+
+class SettingsTopicsView(ListView):
+
+    model = FlisTopic
+    template_name = 'settings/setting_view.html'
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsTopicsView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsTopicsView, self).get_context_data(**kwargs)
+        context['page_title'] = "Flis Topics"
+        context['add_url'] = reverse('settings:topics_add')
+        context['add_label'] = "New flis topic"
+        context['edit_route_name'] = 'settings:topics_edit'
+        return context
+
+
+class SettingsTopicsAddView(SuccessMessageMixin,
+                            CreateView):
+
+    model = FlisTopic
+    template_name = 'settings/setting_edit.html'
+    form_class = TopicForm
+    success_message = "New flis topic created"
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsTopicsAddView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:topics')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsTopicsAddView, self).get_context_data(
+            **kwargs)
+        context['add_page_title'] = "New flis topic"
+        context['cancel_url'] = reverse('settings:topics')
+        return context
+
+
+class SettingsTopicsEditView(SuccessMessageMixin,
+                             UpdateView):
+
+    model = FlisTopic
+    template_name = 'settings/setting_edit.html'
+    form_class = TopicForm
+    success_message = "Flis topic updated successfully"
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsTopicsEditView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:topics')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsTopicsEditView, self).get_context_data(
+            **kwargs)
+        context['delete_url'] = reverse('settings:topics_delete',
+                                        kwargs={'pk': self.object.handle})
+        context['cancel_url'] = reverse('settings:topics')
+        return context
+
+
+class SettingsTopicsDeleteView(DeleteView):
+
+    model = FlisTopic
+    template_name = 'settings/setting_confirm_delete.html'
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsTopicsDeleteView, self).dispatch(*args,
+                                                              **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        msg = 'Flis topic "%s" was successfully deleted' % self.get_object()
+        messages.success(request, msg)
+        return super(SettingsTopicsDeleteView, self).post(
+            request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:topics')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsTopicsDeleteView, self).get_context_data(
+            **kwargs)
+        context['edit_url'] = reverse('settings:topics_edit',
+                                      kwargs={'pk': self.object.handle})
+        return context
+
+
+class SettingsThemesView(ListView):
+
+    model = Theme
+    template_name = 'settings/setting_view.html'
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsThemesView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsThemesView, self).get_context_data(**kwargs)
+        context['page_title'] = "Topics"
+        context['add_url'] = reverse('settings:themes_add')
+        context['add_label'] = "New topic"
+        context['edit_route_name'] = 'settings:themes_edit'
+        return context
+
+
+class SettingsThemesAddView(SuccessMessageMixin,
+                            CreateView):
+
+    model = Theme
+    template_name = 'settings/setting_edit.html'
+    form_class = ThemeForm
+    success_message = "New topic created"
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsThemesAddView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:themes')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsThemesAddView, self).get_context_data(
+            **kwargs)
+        context['add_page_title'] = "New topic"
+        context['cancel_url'] = reverse('settings:themes')
+        return context
+
+
+class SettingsThemesEditView(SuccessMessageMixin,
+                             UpdateView):
+
+    model = Theme
+    template_name = 'settings/setting_edit.html'
+    form_class = ThemeForm
+    success_message = "Topic updated successfully"
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsThemesEditView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:themes')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsThemesEditView, self).get_context_data(
+            **kwargs)
+        context['delete_url'] = reverse('settings:themes_delete',
+                                        kwargs={'pk': self.object.handle})
+        context['cancel_url'] = reverse('settings:themes')
+        return context
+
+
+class SettingsThemesDeleteView(DeleteView):
+
+    model = Theme
+    template_name = 'settings/setting_confirm_delete.html'
+
+    @method_decorator(admin_permission_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SettingsThemesDeleteView, self).dispatch(*args,
+                                                              **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        msg = 'Topic "%s" was successfully deleted' % self.get_object()
+        messages.success(request, msg)
+        return super(SettingsThemesDeleteView, self).post(
+            request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('settings:themes')
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsThemesDeleteView, self).get_context_data(
+            **kwargs)
+        context['edit_url'] = reverse('settings:themes_edit',
+                                      kwargs={'pk': self.object.handle})
+        return context
 
 
 class CrashMe(View):

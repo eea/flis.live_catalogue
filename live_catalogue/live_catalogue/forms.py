@@ -4,7 +4,13 @@ from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.utils.text import slugify
 
-from live_catalogue.models import Catalogue, Document, Category
+from live_catalogue.models import (
+    Catalogue,
+    Document,
+    Category,
+    Theme,
+    FlisTopic,
+)
 from eea_frame.middleware import get_current_request
 
 
@@ -264,3 +270,33 @@ class CategoryForm(forms.ModelForm):
         if commit:
             category.save()
         return category
+
+
+class ThemeForm(forms.ModelForm):
+
+    class Meta:
+        model = Theme
+        exclude = ('handle',)
+
+    def save(self, commit=True):
+        theme = super(ThemeForm, self).save(commit=False)
+        if not theme.handle:
+            theme.handle = slugify(theme.title)
+        if commit:
+            theme.save()
+        return theme
+
+
+class TopicForm(forms.ModelForm):
+
+    class Meta:
+        model = FlisTopic
+        exclude = ('handle',)
+
+    def save(self, commit=True):
+        topic = super(TopicForm, self).save(commit=False)
+        if not topic.handle:
+            topic.handle = slugify(topic.title)
+        if commit:
+            topic.save()
+        return topic

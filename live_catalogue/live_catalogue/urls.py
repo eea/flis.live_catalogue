@@ -10,22 +10,45 @@ admin.autodiscover()
 
 settings_urls = patterns(
     '',
+
     url(r'^categories/$',
         views.SettingsCategoriesView.as_view(),
         name='categories'),
-
     url(r'^categories/new/$',
         views.SettingsCategoriesAddView.as_view(),
         name='categories_add'),
-
     url(r'^categories/(?P<pk>.*)/edit$',
         views.SettingsCategoriesEditView.as_view(),
         name='categories_edit'),
-
     url(r'^categories/(?P<pk>.*)/delete$',
         views.SettingsCategoriesDeleteView.as_view(),
         name='categories_delete'),
 
+    url(r'^topics/$',
+        views.SettingsTopicsView.as_view(),
+        name='topics'),
+    url(r'^topics/new/$',
+        views.SettingsTopicsAddView.as_view(),
+        name='topics_add'),
+    url(r'^topics/(?P<pk>.*)/edit$',
+        views.SettingsTopicsEditView.as_view(),
+        name='topics_edit'),
+    url(r'^topics/(?P<pk>.*)/delete$',
+        views.SettingsTopicsDeleteView.as_view(),
+        name='topics_delete'),
+
+    url(r'^themes/$',
+        views.SettingsThemesView.as_view(),
+        name='themes'),
+    url(r'^themes/new/$',
+        views.SettingsThemesAddView.as_view(),
+        name='themes_add'),
+    url(r'^themes/(?P<pk>.*)/edit$',
+        views.SettingsThemesEditView.as_view(),
+        name='themes_edit'),
+    url(r'^themes/(?P<pk>.*)/delete$',
+        views.SettingsThemesDeleteView.as_view(),
+        name='themes_delete'),
 )
 
 

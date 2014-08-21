@@ -2,11 +2,11 @@
 
 {% block content %}
 
-  <h2>Categories</h2>
+  <h2>{{ page_title }}</h2>
 
   <div class="actions">
-    <a href="{% url 'settings:categories_add' %}" class="btn btn-primary">
-      Add new category
+    <a href="{{ add_url }}" class="btn btn-primary">
+      {{ add_label }}
     </a>
   </div>
 
@@ -26,7 +26,7 @@
 
           <tr>
             <td>
-              <a href="{% url 'settings:categories_edit' pk=object.handle %}">
+              <a href="{% url edit_route_name pk=object.handle %}">
                 {{ object.title }}
               </a>
             </td>

@@ -10,8 +10,9 @@
     {% csrf_token %}
 
     <button class="btn btn-primary">Yes</button>
-    <a href="{% url 'settings:categories_edit' pk=object.handle %}">
-      Cancel</a>
+    <a href="{{ edit_url }}">
+      Cancel
+    </a>
   </form>
 
 {% endblock %}
