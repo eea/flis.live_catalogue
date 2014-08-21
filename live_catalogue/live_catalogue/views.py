@@ -1,4 +1,5 @@
 import os
+import time
 
 from django.views.generic import View, ListView, CreateView, UpdateView, \
     DeleteView
@@ -47,9 +48,11 @@ class HomeView(View):
     def get(self, request, show):
         if show == 'open':
             catalogues = Catalogue.objects.filter(status=Catalogue.OPEN)
+            request.session['open_last_viewed'] = time.time()
         else:
             catalogues = Catalogue.objects.filter(
                 status__in=(Catalogue.CLOSED, Catalogue.SOLVED))
+            request.session['closed_last_viewed'] = time.time()
         form = CatalogueFilterForm(request.GET)
         if form.is_valid():
             kind = form.cleaned_data['kind']

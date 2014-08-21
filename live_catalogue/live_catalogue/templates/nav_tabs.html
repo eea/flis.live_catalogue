@@ -3,11 +3,23 @@
 <ul class="nav nav-tabs">
 
   <li class="{% active '$' %}">
-    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'home' %}">
+      Home
+      {% new_items False as ns %}
+      {% if ns %}
+        ({{ ns }})
+      {% endif %}
+    </a>
   </li>
 
   <li class="{% active 'closed' %}">
-    <a href="{% url 'closed' %}">Closed entries</a>
+    <a href="{% url 'closed' %}">
+      Closed entries
+      {% new_items True as ns %}
+      {% if ns %}
+        ({{ ns }})
+      {% endif %}
+    </a>
   </li>
 
   <li class="{% active 'need' %}">
