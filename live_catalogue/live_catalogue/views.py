@@ -7,7 +7,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
-from django.utils.decorators import method_decorator
 from django.forms.models import formset_factory
 from django.http import Http404
 from django.conf import settings
@@ -30,18 +29,28 @@ from live_catalogue.models import (
     FlisTopic,
     Theme
 )
-from live_catalogue.auth import (
-    login_required,
-    edit_permission_required,
-    admin_permission_required,
-)
+from live_catalogue.auth import PermissionRequiredMixin
 from notifications.models import catalogue_update_signal
 from notifications.utils import get_user_data
 
+from live_catalogue.definitions import (
+    VIEW_ROLES,
+    EDIT_ROLES,
+    ADMIN_ROLES,
+    VIEW_GROUPS,
+    EDIT_GROUPS,
+    ADMIN_GROUPS,
+    ALL_ROLES,
+    ALL_GROUPS,
+)
 
-class HomeView(View):
 
-    @method_decorator(login_required)
+class HomeView(PermissionRequiredMixin,
+               View):
+
+    roles_required = ALL_ROLES
+    groups_required = ALL_GROUPS
+
     def dispatch(self, *args, **kwargs):
         return super(HomeView, self).dispatch(*args, **kwargs)
 
@@ -64,9 +73,12 @@ class HomeView(View):
         })
 
 
-class CatalogueView(View):
+class CatalogueView(PermissionRequiredMixin,
+                    View):
 
-    @method_decorator(login_required)
+    roles_required = ALL_ROLES
+    groups_required = ALL_GROUPS
+
     def dispatch(self, *args, **kwargs):
         return super(CatalogueView, self).dispatch(*args, **kwargs)
 
@@ -82,10 +94,12 @@ class CatalogueView(View):
         })
 
 
-class CatalogueEdit(View):
+class CatalogueEdit(PermissionRequiredMixin,
+                    View):
 
-    @method_decorator(login_required)
-    @method_decorator(edit_permission_required)
+    roles_required = EDIT_ROLES
+    groups_required = EDIT_GROUPS
+
     def dispatch(self, request, **kwargs):
         return super(CatalogueEdit, self).dispatch(request, **kwargs)
 
@@ -181,10 +195,11 @@ def handle_delete_document_files(documents):
             os.remove(full_path)
 
 
-class CatalogueDelete(JSONResponseMixin, View):
+class CatalogueDelete(PermissionRequiredMixin, JSONResponseMixin, View):
 
-    @method_decorator(login_required)
-    @method_decorator(edit_permission_required)
+    roles_required = EDIT_ROLES
+    groups_required = EDIT_GROUPS
+
     def dispatch(self, *args, **kwargs):
         return super(CatalogueDelete, self).dispatch(*args, **kwargs)
 
@@ -206,9 +221,11 @@ class CatalogueDelete(JSONResponseMixin, View):
         )
 
 
-class MyEntries(View):
+class MyEntries(PermissionRequiredMixin, View):
 
-    @method_decorator(login_required)
+    roles_required = ALL_ROLES
+    groups_required = ALL_GROUPS
+
     def dispatch(self, *args, **kwargs):
         return super(MyEntries, self).dispatch(*args, **kwargs)
 
@@ -233,12 +250,14 @@ class MyEntries(View):
         })
 
 
-class SettingsCategoriesView(ListView):
+class SettingsCategoriesView(PermissionRequiredMixin,
+                             ListView):
 
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
     model = Category
     template_name = 'settings/setting_view.html'
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsCategoriesView, self).dispatch(*args, **kwargs)
 
@@ -251,15 +270,17 @@ class SettingsCategoriesView(ListView):
         return context
 
 
-class SettingsCategoriesAddView(SuccessMessageMixin,
+class SettingsCategoriesAddView(PermissionRequiredMixin,
+                                SuccessMessageMixin,
                                 CreateView):
 
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
     model = Category
     template_name = 'settings/setting_edit.html'
     form_class = CategoryForm
     success_message = "New category created"
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsCategoriesAddView, self).dispatch(*args, **kwargs)
 
@@ -274,15 +295,17 @@ class SettingsCategoriesAddView(SuccessMessageMixin,
         return context
 
 
-class SettingsCategoriesEditView(SuccessMessageMixin,
+class SettingsCategoriesEditView(PermissionRequiredMixin,
+                                 SuccessMessageMixin,
                                  UpdateView):
 
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
     model = Category
     template_name = 'settings/setting_edit.html'
     form_class = CategoryForm
     success_message = "Category updated successfully"
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsCategoriesEditView, self).dispatch(*args, **kwargs)
 
@@ -298,12 +321,14 @@ class SettingsCategoriesEditView(SuccessMessageMixin,
         return context
 
 
-class SettingsCategoriesDeleteView(DeleteView):
+class SettingsCategoriesDeleteView(PermissionRequiredMixin,
+                                   DeleteView):
 
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
     model = Category
     template_name = 'settings/setting_confirm_delete.html'
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsCategoriesDeleteView, self).dispatch(*args,
                                                                   **kwargs)
@@ -325,12 +350,14 @@ class SettingsCategoriesDeleteView(DeleteView):
         return context
 
 
-class SettingsTopicsView(ListView):
+class SettingsTopicsView(PermissionRequiredMixin,
+                         ListView):
 
     model = FlisTopic
     template_name = 'settings/setting_view.html'
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsTopicsView, self).dispatch(*args, **kwargs)
 
@@ -343,15 +370,17 @@ class SettingsTopicsView(ListView):
         return context
 
 
-class SettingsTopicsAddView(SuccessMessageMixin,
+class SettingsTopicsAddView(PermissionRequiredMixin,
+                            SuccessMessageMixin,
                             CreateView):
 
     model = FlisTopic
     template_name = 'settings/setting_edit.html'
     form_class = TopicForm
     success_message = "New flis topic created"
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsTopicsAddView, self).dispatch(*args, **kwargs)
 
@@ -366,15 +395,17 @@ class SettingsTopicsAddView(SuccessMessageMixin,
         return context
 
 
-class SettingsTopicsEditView(SuccessMessageMixin,
+class SettingsTopicsEditView(PermissionRequiredMixin,
+                             SuccessMessageMixin,
                              UpdateView):
 
     model = FlisTopic
     template_name = 'settings/setting_edit.html'
     form_class = TopicForm
     success_message = "Flis topic updated successfully"
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsTopicsEditView, self).dispatch(*args, **kwargs)
 
@@ -390,12 +421,14 @@ class SettingsTopicsEditView(SuccessMessageMixin,
         return context
 
 
-class SettingsTopicsDeleteView(DeleteView):
+class SettingsTopicsDeleteView(PermissionRequiredMixin,
+                               DeleteView):
 
     model = FlisTopic
     template_name = 'settings/setting_confirm_delete.html'
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsTopicsDeleteView, self).dispatch(*args,
                                                               **kwargs)
@@ -417,12 +450,14 @@ class SettingsTopicsDeleteView(DeleteView):
         return context
 
 
-class SettingsThemesView(ListView):
+class SettingsThemesView(PermissionRequiredMixin,
+                         ListView):
 
     model = Theme
     template_name = 'settings/setting_view.html'
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsThemesView, self).dispatch(*args, **kwargs)
 
@@ -435,15 +470,17 @@ class SettingsThemesView(ListView):
         return context
 
 
-class SettingsThemesAddView(SuccessMessageMixin,
+class SettingsThemesAddView(PermissionRequiredMixin,
+                            SuccessMessageMixin,
                             CreateView):
 
     model = Theme
     template_name = 'settings/setting_edit.html'
     form_class = ThemeForm
     success_message = "New topic created"
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsThemesAddView, self).dispatch(*args, **kwargs)
 
@@ -458,15 +495,17 @@ class SettingsThemesAddView(SuccessMessageMixin,
         return context
 
 
-class SettingsThemesEditView(SuccessMessageMixin,
+class SettingsThemesEditView(PermissionRequiredMixin,
+                             SuccessMessageMixin,
                              UpdateView):
 
     model = Theme
     template_name = 'settings/setting_edit.html'
     form_class = ThemeForm
     success_message = "Topic updated successfully"
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsThemesEditView, self).dispatch(*args, **kwargs)
 
@@ -482,12 +521,13 @@ class SettingsThemesEditView(SuccessMessageMixin,
         return context
 
 
-class SettingsThemesDeleteView(DeleteView):
+class SettingsThemesDeleteView(PermissionRequiredMixin, DeleteView):
 
     model = Theme
     template_name = 'settings/setting_confirm_delete.html'
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
 
-    @method_decorator(admin_permission_required)
     def dispatch(self, *args, **kwargs):
         return super(SettingsThemesDeleteView, self).dispatch(*args,
                                                               **kwargs)
@@ -509,9 +549,11 @@ class SettingsThemesDeleteView(DeleteView):
         return context
 
 
-class CrashMe(View):
+class CrashMe(PermissionRequiredMixin, View):
 
-    @method_decorator(login_required)
+    roles_required = ALL_ROLES
+    groups_required = ALL_GROUPS
+
     def dispatch(self, *args, **kwargs):
         return super(CrashMe, self).dispatch(*args, **kwargs)
 

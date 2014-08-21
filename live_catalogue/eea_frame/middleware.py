@@ -82,7 +82,7 @@ class Loader(BaseLoader):
         request = get_current_request()
 
         if (request and getattr(settings, 'FRAME_URL', None)
-                and template_name == 'frame.html'):
+           and template_name == 'frame.html'):
 
             forwarded_cookies = get_forwarded_cookies(request)
 

@@ -1,17 +1,9 @@
-from functools import wraps
+from functools import partial
 
 from django.conf import settings
 from django.shortcuts import render
 
-from live_catalogue.definitions import (
-    VIEW_ROLES,
-    VIEW_GROUPS,
-    EDIT_GROUPS,
-    EDIT_ROLES,
-    ADMIN_ROLES,
-    ADMIN_GROUPS,
-)
-
+from live_catalogue.definitions import ADMIN_ROLES, ADMIN_GROUPS
 
 def _has_perm(user_roles, user_groups, roles, groups):
     for user_role in user_roles:
@@ -23,47 +15,23 @@ def _has_perm(user_roles, user_groups, roles, groups):
     return False
 
 
-def login_required(f):
-    @wraps(f)
-    def wrapper(request, *args, **kwargs):
-        if not getattr(settings, 'SKIP_EDIT_AUTHORIZATION', False):
-            user_id = request.user_id
-            user_roles, user_groups = request.user_roles, request.user_groups
-            roles, groups = VIEW_ROLES + EDIT_ROLES, VIEW_GROUPS + EDIT_GROUPS
-            if user_id and _has_perm(user_roles, user_groups, roles, groups):
-                pass
-            else:
-                return render(request, 'restricted.html')
-        return f(request, *args, **kwargs)
-    return wrapper
+class PermissionRequiredMixin(object):
 
+    roles_required = []
+    groups_required = []
 
-def edit_permission_required(f):
-    @wraps(f)
-    def wrapper(request, *args, **kwargs):
-        if not getattr(settings, 'SKIP_EDIT_AUTHORIZATION', False):
-            user_roles, user_groups = request.user_roles, request.user_groups
-            roles, groups = EDIT_ROLES, EDIT_GROUPS
-            if _has_perm(user_roles, user_groups, roles, groups):
-                pass
-            else:
-                return render(request, 'restricted.html')
-        return f(request, *args, **kwargs)
-    return wrapper
+    def dispatch(self, request, *args, **kwargs):
+        dispatch = partial(super(PermissionRequiredMixin, self).dispatch,
+                           request, *args, **kwargs)
 
+        if getattr(settings, 'SKIP_AUTHORIZATION', False):
+            return dispatch()
 
-def admin_permission_required(f):
-    @wraps(f)
-    def wrapper(request, *args, **kwargs):
-        if not getattr(settings, 'SKIP_ADMIN_AUTHORIZATION', False):
-            user_roles, user_groups = request.user_roles, request.user_groups
-            roles, groups = ADMIN_ROLES, ADMIN_GROUPS
-            if _has_perm(user_roles, user_groups, roles, groups):
-                pass
-            else:
-                return render(request, 'restricted.html')
-        return f(request, *args, **kwargs)
-    return wrapper
+        if not _has_perm(request.user_roles, request.user_groups,
+                         self.roles_required, self.groups_required):
+            return render(request, 'restricted.html')
+
+        return dispatch()
 
 
 def is_admin(request):

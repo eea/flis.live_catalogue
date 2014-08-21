@@ -1,18 +1,23 @@
 from django.views.generic import View
 from django.shortcuts import render, get_object_or_404
-from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 
 from braces.views import JSONResponseMixin
 
 from notifications.models import NotificationUser
-from live_catalogue.auth import login_required, edit_permission_required
+from live_catalogue.auth import PermissionRequiredMixin
+from live_catalogue.definitions import (
+    EDIT_ROLES,
+    EDIT_GROUPS,
+)
 
 
-class Notifications(View):
+class Notifications(PermissionRequiredMixin,
+                    View):
 
-    @method_decorator(login_required)
-    @method_decorator(edit_permission_required)
+    roles_required = EDIT_ROLES
+    groups_required = EDIT_GROUPS
+
     def get(self, request):
         try:
             notification_user = NotificationUser.objects.get(
@@ -24,18 +29,17 @@ class Notifications(View):
         })
 
 
-class Subscribe(JSONResponseMixin, View):
+class Subscribe(PermissionRequiredMixin, JSONResponseMixin, View):
 
-    @method_decorator(login_required)
-    @method_decorator(edit_permission_required)
+    roles_required = EDIT_ROLES
+    groups_required = EDIT_GROUPS
+
     def post(self, request):
         NotificationUser.objects.get_or_create(user_id=request.user_id)
         url = reverse('notifications:home')
         data = {'status': 'success', 'url': url}
         return self.render_json_response(data)
 
-    @method_decorator(login_required)
-    @method_decorator(edit_permission_required)
     def delete(self, request):
         notifications_user = get_object_or_404(NotificationUser,
                                                user_id=request.user_id)
