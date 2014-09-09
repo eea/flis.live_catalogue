@@ -29,7 +29,9 @@
 
 {% block content %}
   {% if notification_user %}
-    <p>You are already subscribed to catalogue notifications.</p>
+    <p>You are subscribed to notifications for Live Catalogue of offers and
+    needs.</p>
+    <p>In case you would like to unsubscribe please click the button below.</p>
     <p><a data-href="{% url 'notifications:unsubscribe' %}"
           class="btn" id="unsubscribe">Unsubscribe</a></p>
   {% else %}
