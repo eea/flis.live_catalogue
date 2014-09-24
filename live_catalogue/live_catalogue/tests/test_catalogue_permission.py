@@ -9,7 +9,7 @@ from .base import (
 )
 
 
-@patch('eea_frame.middleware.requests')
+@patch('frame.middleware.requests')
 @patch('notifications.utils.LdapConnection')
 class CataloguePermissionTests(BaseWebTest):
 

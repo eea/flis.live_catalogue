@@ -16,25 +16,29 @@ from webtest import AppError
 USER_ADMIN_DATA = {
     'user_id': 'admin',
     'user_roles': ['Administrator'],
-    'groups': []
+    'groups': [],
+    'frame_html': '',
 }
 USER_ANONYMOUS_DATA = {
     'user_id': 'anonymous',
     'user_roles': ['Anonymous'],
-    'groups': []
+    'groups': [],
+    'frame_html': '',
 }
 USER_NFP_DATA = {
     'user_id': 'john',
     'user_roles': [],
     'groups': [['eionet-nfp', 'NFP'], ['eionet-nfp-cc', 'NFP CC'],
-               ['eionet-nfp-cc-al', 'Albania']]
+               ['eionet-nfp-cc-al', 'Albania']],
+    'frame_html': '',
 }
 USER_NRC_DATA = {
     'user_id': 'john',
     'user_roles': [],
     'groups': [['eionet-nrc-forwardlooking', 'NRC Fowardlooking'],
                ['eionet-nrc-forwardlooking-cc', 'NRC Fowardlooking CC'],
-               ['eionet-nrc-forwardlooking-mc', 'NRC Fowardlooking MC']]
+               ['eionet-nrc-forwardlooking-mc', 'NRC Fowardlooking MC']],
+    'frame_html': '',
 }
 
 

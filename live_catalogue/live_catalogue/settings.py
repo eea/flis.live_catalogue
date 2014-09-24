@@ -28,7 +28,7 @@ TEMPLATE_DEBUG = True
 ASSETS_DEBUG = True
 
 TEMPLATE_LOADERS = (
-    'eea_frame.middleware.Loader',
+    'frame.loaders.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
@@ -61,15 +61,15 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'django_select2',
     'gunicorn',
-    'eea_frame',
+    'frame',
     'live_catalogue',
     'notifications',
     'raven.contrib.django.raven_compat',
 )
 
 MIDDLEWARE_CLASSES = (
-    'eea_frame.middleware.RequestMiddleware',
-    'eea_frame.middleware.UserMiddleware',
+    'frame.middleware.RequestMiddleware',
+    'frame.middleware.UserMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

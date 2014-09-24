@@ -11,7 +11,7 @@ from live_catalogue.models import (
     Theme,
     FlisTopic,
 )
-from eea_frame.middleware import get_current_request
+from frame.middleware import get_current_request
 
 
 class URLFieldWithTextField(forms.URLField):

@@ -17,7 +17,7 @@ class NotificationUserFactory(factory.DjangoModelFactory):
     user_id = 'johndoe'
 
 
-@patch('eea_frame.middleware.requests')
+@patch('frame.middleware.requests')
 @patch('notifications.utils.LdapConnection')
 class NotificationTest(BaseWebTest):
 
@@ -100,7 +100,7 @@ class NotificationTest(BaseWebTest):
         self.assertEqual(len(mail.outbox), 0)
 
 
-@patch('eea_frame.middleware.requests')
+@patch('frame.middleware.requests')
 class SubscriptionTests(BaseWebTest):
 
     def test_subscribe_to_notifications(self, mock_requests):

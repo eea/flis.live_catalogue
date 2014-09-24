@@ -16,7 +16,7 @@ from .factories import (
 from live_catalogue.models import Catalogue, Document
 
 
-@patch('eea_frame.middleware.requests')
+@patch('frame.middleware.requests')
 @patch('notifications.utils.LdapConnection')
 class CatalogueTests(BaseWebTest):
 
