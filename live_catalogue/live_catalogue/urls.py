@@ -93,4 +93,6 @@ urlpatterns = patterns(
     url(r'^notifications/',
         include('notifications.urls', namespace='notifications')),
 
+    url(r'^_lastseencount/$', 'frame.utils.get_objects_from_last_seen_count'),
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

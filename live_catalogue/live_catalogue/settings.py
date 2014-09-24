@@ -73,7 +73,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'frame.middleware.SeenMiddleware',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'frame.backends.FrameUserBackend',
 )
 
 ROOT_URLCONF = 'live_catalogue.urls'
@@ -147,6 +154,12 @@ CACHES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
+# seen
+FRAME_SEEN_MODELS = (
+    ('live_catalogue.models.Catalogue', 'created_on'),
+)
+
+FRAME_SEEN_EXCLUDE = ('/_lastseencount/', )
 
 try:
     from local_settings import *
