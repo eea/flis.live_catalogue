@@ -45,8 +45,7 @@ from live_catalogue.definitions import (
 )
 
 
-class HomeView(PermissionRequiredMixin,
-               View):
+class HomeView(PermissionRequiredMixin, View):
 
     roles_required = ALL_ROLES
     groups_required = ALL_GROUPS
@@ -231,7 +230,11 @@ class MyEntries(PermissionRequiredMixin, View):
 
     def get(self, request):
         catalogues = Catalogue.objects.filter(user_id=request.user_id)
-        form = CatalogueFilterForm()
+        form = CatalogueFilterForm(request.GET)
+        if form.is_valid():
+            kind = form.cleaned_data['kind']
+            if kind != 'all':
+                catalogues = catalogues.filter(kind=kind)
         return render(request, 'my_entries.html', {
             'catalogues': catalogues,
             'filter_form': form,
