@@ -118,6 +118,22 @@ class CatalogueTests(BaseWebTest):
         row = resp.pyquery('.table tbody').find('.need')
         self.assertEqual(0, len(row))
 
+    def test_filter_my_entries(self, LdapConnectionMock, mock_requests):
+        mock_requests.get.return_value = user_admin_mock
+        ldap_mock = LdapConnectionMock.return_value
+        ldap_mock.get_user_data.return_value = {}
+        NeedFactory(user_id='admin')
+        url = self.reverse('my_entries')
+        resp = self.app.get(url, params={'kind': 'need'})
+        self.assertEqual(200, resp.status_code)
+        row = resp.pyquery('.table tbody').find('.need')
+        self.assertEqual(1, len(row))
+
+        resp = self.app.get(url, params={'kind': 'offer'})
+        self.assertEqual(200, resp.status_code)
+        row = resp.pyquery('.table tbody').find('.offer')
+        self.assertEqual(0, len(row))
+
     def test_need_add_draft(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         ldap_mock = LdapConnectionMock.return_value
