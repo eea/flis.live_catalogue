@@ -40,16 +40,28 @@
 
   <h2>{{ catalogue.kind_verbose }} - {{ catalogue.subject }}</h2>
 
-  {% if catalogue.user_id == request.user_id %}
-    <div class="options">
+  <div class="options">
+
+    {% if catalogue.user_id == request.user_id %}
       <a href="{% url 'catalogue_edit' pk=catalogue.pk kind=catalogue.kind %}" class="btn">
         Edit {{ catalogue.kind }}
       </a>
       <a href="{% url 'catalogue_delete' pk=catalogue.pk kind=catalogue.kind %}" class="btn btn-danger delete">
         Delete {{ catalogue.kind }}
       </a>
-    </div>
-  {% endif %}
+    {% else %}
+
+      {% if catalogue.email %}
+        <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"' class="btn">
+          Contact by email
+        </a>
+      {% endif %}
+
+
+    {% endif %}
+
+  </div> {# /.options #}
+
 
   <table class="table table-bordered">
 
@@ -124,7 +136,14 @@
 
       <tr>
         <th>{{ form.email.label }}</th>
-        <td>{{ catalogue.email }}</td>
+        <td>
+          {% if catalogue.email %}
+            <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"'>
+              {{ catalogue.email }}</a>
+          {% else %}
+            -
+          {% endif %}
+        </td>
       </tr>
 
       <tr>
