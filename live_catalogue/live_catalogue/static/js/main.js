@@ -62,13 +62,20 @@ $(function () {
 
     });
 
+    $.fn.dataTable.ext.order['timestamp'] = function  ( settings, col ) {
+        return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
+            return $(td).data('timestamp') * 1;
+        } );
+    }
+
     $('table[data-toggle=datatable]').dataTable({
         bLengthChange: false,
         aaSorting: [[ 2, 'desc' ]],
         bInfo: false,
         iDisplayLength: 50,
         aoColumnDefs: [
-            { "sType": "html", "aTargets": [ 1 ] }
+            { "sType": "html", "aTargets": [ 1 ] },
+            { "orderDataType": "timestamp", "aTargets": [ 2 ] }
         ],
         sPaginationType: 'bootstrap'
     });

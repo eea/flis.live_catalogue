@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 import os
+import calendar
 
 from django import template
 from django.conf import settings
@@ -57,3 +58,10 @@ def new_items(context, closed):
     return catalogues.filter(
         last_updated__gt=datetime.fromtimestamp(last_viewed)
     ).count()
+
+
+@register.filter
+def datetime_to_timestamp(value):
+    if isinstance(value, datetime):
+        return calendar.timegm(value.utctimetuple())
+    return
