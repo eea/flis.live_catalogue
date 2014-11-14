@@ -80,7 +80,7 @@ class Catalogue(models.Model):
     phone_number = models.CharField(max_length=64, blank=True)
     institution = models.CharField(max_length=64, blank=True)
     address = models.CharField(max_length=256, blank=True)
-    country = models.ForeignKey('common.Country', blank=True)
+    country = models.ForeignKey('common.Country', null=True)
     url = models.URLField(blank=True)
     info = models.TextField(blank=True,
                             verbose_name='Additional contact details')
