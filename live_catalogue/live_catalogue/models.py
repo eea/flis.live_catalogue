@@ -1,5 +1,4 @@
 from django.db import models
-from live_catalogue.definitions import COUNTRIES
 from notifications.utils import get_user_name
 
 
@@ -13,15 +12,6 @@ class Category(models.Model):
 
 
 class FlisTopic(models.Model):
-
-    handle = models.SlugField(primary_key=True)
-    title = models.CharField(max_length=64)
-
-    def __unicode__(self):
-        return self.title
-
-
-class Theme(models.Model):
 
     handle = models.SlugField(primary_key=True)
     title = models.CharField(max_length=64)
@@ -72,7 +62,8 @@ class Catalogue(models.Model):
 
     categories = models.ManyToManyField(Category)
     flis_topics = models.ManyToManyField(FlisTopic)
-    themes = models.ManyToManyField(Theme, blank=True, verbose_name='Topics')
+    themes = models.ManyToManyField('common.EnvironmentalTheme',
+                                    blank=True, verbose_name='Topics')
 
     subject = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
@@ -89,7 +80,7 @@ class Catalogue(models.Model):
     phone_number = models.CharField(max_length=64, blank=True)
     institution = models.CharField(max_length=64, blank=True)
     address = models.CharField(max_length=256, blank=True)
-    country = models.CharField(choices=COUNTRIES, max_length=64, blank=True)
+    country = models.ForeignKey('common.Country', blank=True)
     url = models.URLField(blank=True)
     info = models.TextField(blank=True,
                             verbose_name='Additional contact details')
@@ -112,7 +103,7 @@ class Catalogue(models.Model):
 
     @property
     def country_verbose(self):
-        return dict(COUNTRIES).get(self.country, '')
+        return self.country
 
     @property
     def user_full_name(self):

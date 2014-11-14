@@ -27,7 +27,9 @@ from live_catalogue.models import (
     Document,
     Category,
     FlisTopic,
-    Theme
+)
+from flis_metadata.common.models import (
+    EnvironmentalTheme
 )
 from live_catalogue.auth import PermissionRequiredMixin
 from notifications.models import catalogue_update_signal
@@ -456,7 +458,7 @@ class SettingsTopicsDeleteView(PermissionRequiredMixin,
 class SettingsThemesView(PermissionRequiredMixin,
                          ListView):
 
-    model = Theme
+    model = EnvironmentalTheme
     template_name = 'settings/setting_view.html'
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
@@ -477,7 +479,7 @@ class SettingsThemesAddView(PermissionRequiredMixin,
                             SuccessMessageMixin,
                             CreateView):
 
-    model = Theme
+    model = EnvironmentalTheme
     template_name = 'settings/setting_edit.html'
     form_class = ThemeForm
     success_message = "New topic created"
@@ -502,7 +504,7 @@ class SettingsThemesEditView(PermissionRequiredMixin,
                              SuccessMessageMixin,
                              UpdateView):
 
-    model = Theme
+    model = EnvironmentalTheme
     template_name = 'settings/setting_edit.html'
     form_class = ThemeForm
     success_message = "Topic updated successfully"
@@ -526,7 +528,7 @@ class SettingsThemesEditView(PermissionRequiredMixin,
 
 class SettingsThemesDeleteView(PermissionRequiredMixin, DeleteView):
 
-    model = Theme
+    model = EnvironmentalTheme
     template_name = 'settings/setting_confirm_delete.html'
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
