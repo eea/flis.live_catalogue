@@ -21,9 +21,8 @@ class FlisTopic(models.Model):
         return self.title
 
 
-class Theme(models.Model):
+class EnvironmentalTheme(models.Model):
 
-    handle = models.SlugField(primary_key=True)
     title = models.CharField(max_length=64)
 
     def __unicode__(self):
@@ -72,7 +71,8 @@ class Catalogue(models.Model):
 
     categories = models.ManyToManyField(Category)
     flis_topics = models.ManyToManyField(FlisTopic)
-    themes = models.ManyToManyField(Theme, blank=True, verbose_name='Topics')
+    themes = models.ManyToManyField(EnvironmentalTheme, blank=True,
+                                    verbose_name='Topics')
 
     subject = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)

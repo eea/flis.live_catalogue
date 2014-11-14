@@ -8,7 +8,7 @@ from live_catalogue.models import (
     Catalogue,
     Document,
     Category,
-    Theme,
+    EnvironmentalTheme,
     FlisTopic,
 )
 from frame.middleware import get_current_request
@@ -275,8 +275,7 @@ class CategoryForm(forms.ModelForm):
 class ThemeForm(forms.ModelForm):
 
     class Meta:
-        model = Theme
-        exclude = ('handle',)
+        model = EnvironmentalTheme
 
     def save(self, commit=True):
         theme = super(ThemeForm, self).save(commit=False)
