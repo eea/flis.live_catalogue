@@ -10,6 +10,11 @@ from live_catalogue.models import (
     Category,
     FlisTopic,
 )
+from flis_metadata.common.models import (
+    Country,
+    EnvironmentalTheme
+)
+
 from frame.middleware import get_current_request
 
 
@@ -91,6 +96,11 @@ class CatalogueForm(forms.ModelForm):
 
         self.fields['status'].empty_label = None
         self.fields['status'].choices = self.fields['status'].choices[1:]
+
+        self.fields['country'].queryset = Country.objects.filter(
+                is_deleted=False)
+        self.fields['themes'].queryset = EnvironmentalTheme.objects.filter(
+                is_deleted=False)
 
         if self.is_draft is False:
             for f in self.REQUIRED_FIELDS:
