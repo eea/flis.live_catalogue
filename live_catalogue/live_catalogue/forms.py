@@ -10,7 +10,6 @@ from live_catalogue.models import (
     Category,
     FlisTopic,
 )
-from flis_metadata.common.models import EnvironmentalTheme
 from frame.middleware import get_current_request
 
 
@@ -270,18 +269,6 @@ class CategoryForm(forms.ModelForm):
         if commit:
             category.save()
         return category
-
-
-class ThemeForm(forms.ModelForm):
-
-    class Meta:
-        model = EnvironmentalTheme
-
-    def save(self, commit=True):
-        theme = super(ThemeForm, self).save(commit=False)
-        if commit:
-            theme.save()
-        return theme
 
 
 class TopicForm(forms.ModelForm):

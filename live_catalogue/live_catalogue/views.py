@@ -1,5 +1,5 @@
-import os
 import time
+import os
 
 from django.views.generic import View, ListView, CreateView, UpdateView, \
     DeleteView
@@ -19,7 +19,6 @@ from live_catalogue.forms import (
     BaseDocumentFormset,
     CatalogueFilterForm,
     CategoryForm,
-    ThemeForm,
     TopicForm
 )
 from live_catalogue.models import (
@@ -27,9 +26,6 @@ from live_catalogue.models import (
     Document,
     Category,
     FlisTopic,
-)
-from flis_metadata.common.models import (
-    EnvironmentalTheme
 )
 from live_catalogue.auth import PermissionRequiredMixin
 from notifications.models import catalogue_update_signal
@@ -39,7 +35,6 @@ from live_catalogue.definitions import (
     VIEW_ROLES,
     EDIT_ROLES,
     ADMIN_ROLES,
-    VIEW_GROUPS,
     EDIT_GROUPS,
     ADMIN_GROUPS,
     ALL_ROLES,
@@ -451,105 +446,6 @@ class SettingsTopicsDeleteView(PermissionRequiredMixin,
         context = super(SettingsTopicsDeleteView, self).get_context_data(
             **kwargs)
         context['edit_url'] = reverse('settings:topics_edit',
-                                      kwargs={'pk': self.object.handle})
-        return context
-
-
-class SettingsThemesView(PermissionRequiredMixin,
-                         ListView):
-
-    model = EnvironmentalTheme
-    template_name = 'settings/setting_view.html'
-    roles_required = ADMIN_ROLES
-    groups_required = ADMIN_GROUPS
-
-    def dispatch(self, *args, **kwargs):
-        return super(SettingsThemesView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(SettingsThemesView, self).get_context_data(**kwargs)
-        context['page_title'] = "Topics"
-        context['add_url'] = reverse('settings:themes_add')
-        context['add_label'] = "New topic"
-        context['edit_route_name'] = 'settings:themes_edit'
-        return context
-
-
-class SettingsThemesAddView(PermissionRequiredMixin,
-                            SuccessMessageMixin,
-                            CreateView):
-
-    model = EnvironmentalTheme
-    template_name = 'settings/setting_edit.html'
-    form_class = ThemeForm
-    success_message = "New topic created"
-    roles_required = ADMIN_ROLES
-    groups_required = ADMIN_GROUPS
-
-    def dispatch(self, *args, **kwargs):
-        return super(SettingsThemesAddView, self).dispatch(*args, **kwargs)
-
-    def get_success_url(self):
-        return reverse('settings:themes')
-
-    def get_context_data(self, **kwargs):
-        context = super(SettingsThemesAddView, self).get_context_data(
-            **kwargs)
-        context['add_page_title'] = "New topic"
-        context['cancel_url'] = reverse('settings:themes')
-        return context
-
-
-class SettingsThemesEditView(PermissionRequiredMixin,
-                             SuccessMessageMixin,
-                             UpdateView):
-
-    model = EnvironmentalTheme
-    template_name = 'settings/setting_edit.html'
-    form_class = ThemeForm
-    success_message = "Topic updated successfully"
-    roles_required = ADMIN_ROLES
-    groups_required = ADMIN_GROUPS
-
-    def dispatch(self, *args, **kwargs):
-        return super(SettingsThemesEditView, self).dispatch(*args, **kwargs)
-
-    def get_success_url(self):
-        return reverse('settings:themes')
-
-    def get_context_data(self, **kwargs):
-        context = super(SettingsThemesEditView, self).get_context_data(
-            **kwargs)
-        context['delete_url'] = reverse('settings:themes_delete',
-                                        kwargs={'pk': self.object.handle})
-        context['cancel_url'] = reverse('settings:themes')
-        return context
-
-
-class SettingsThemesDeleteView(PermissionRequiredMixin, DeleteView):
-
-    model = EnvironmentalTheme
-    template_name = 'settings/setting_confirm_delete.html'
-    roles_required = ADMIN_ROLES
-    groups_required = ADMIN_GROUPS
-
-    def dispatch(self, *args, **kwargs):
-        return super(SettingsThemesDeleteView, self).dispatch(*args,
-                                                              **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        msg = 'Topic "%s" was successfully deleted' % self.get_object()
-        messages.success(request, msg)
-        return super(SettingsThemesDeleteView, self).post(
-            request, *args, **kwargs)
-
-    def get_success_url(self):
-        return reverse('settings:themes')
-
-    def get_context_data(self, **kwargs):
-        context = super(SettingsThemesDeleteView, self).get_context_data(
-            **kwargs)
-        context['edit_url'] = reverse('settings:themes_edit',
                                       kwargs={'pk': self.object.handle})
         return context
 
