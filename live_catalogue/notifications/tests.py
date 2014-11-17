@@ -6,6 +6,7 @@ from mock import patch
 from live_catalogue.models import Catalogue
 from live_catalogue.tests.base import BaseWebTest, user_admin_mock
 from live_catalogue.tests.factories import (NeedFactory, CategoryFactory,
+                                            CountryFactory,
                                             FlisTopicFactory)
 from notifications.models import NotificationUser
 
@@ -24,6 +25,7 @@ class NotificationTest(BaseWebTest):
     def setUp(self):
         self.category = CategoryFactory()
         self.flis_topic = FlisTopicFactory()
+        self.country = CountryFactory()
         NotificationUserFactory()
 
     def test_new_entry_triggers_notifications(self, LdapConnectionMock,
@@ -36,6 +38,7 @@ class NotificationTest(BaseWebTest):
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
+            'country': self.country,
             'need_urgent': True,
         })
         url = self.reverse('catalogue_add', kind='need')
@@ -61,6 +64,7 @@ class NotificationTest(BaseWebTest):
                            status=Catalogue.DRAFT)
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
+            'country': self.country,
             'flis_topics': [self.flis_topic],
             'status': Catalogue.OPEN,
         })
@@ -85,10 +89,12 @@ class NotificationTest(BaseWebTest):
         ldap_mock.get_user_email.return_value = 'john.doe@eaudeweb.ro'
         need_factory_data = NeedFactory.attributes(extra={
             'categories': [self.category],
+            'country': self.country,
             'flis_topics': [self.flis_topic],
         })
         data = {'categories': need_factory_data['categories'],
                 'flis_topics': need_factory_data['flis_topics'],
+                'country': self.country,
                 'status': 'open',
                 'save': 'draft',
                 'form-TOTAL_FORMS': 1,

@@ -9,6 +9,7 @@ from .base import (
 
 from .factories import (
     CategoryFactory,
+    CountryFactory,
     FlisTopicFactory,
     NeedFactory
 )
@@ -23,6 +24,7 @@ class CatalogueTests(BaseWebTest):
     def setUp(self):
         self.category = CategoryFactory()
         self.flis_topic = FlisTopicFactory()
+        self.country = CountryFactory()
 
     def test_need_add(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
@@ -32,6 +34,7 @@ class CatalogueTests(BaseWebTest):
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
             'need_urgent': True,
+            'country': self.country,
         })
         url = self.reverse('catalogue_add', kind='need')
         resp = self.app.get(url)
@@ -91,6 +94,7 @@ class CatalogueTests(BaseWebTest):
             'categories': [self.category],
             'flis_topics': [self.flis_topic],
             'need_urgent': True,
+            'country': self.country,
         })
         url = self.reverse('catalogue_add', kind='need')
         resp = self.app.get(url)
@@ -144,6 +148,7 @@ class CatalogueTests(BaseWebTest):
         })
         data = {'categories': need_factory_data['categories'],
                 'flis_topics': need_factory_data['flis_topics'],
+                'country': self.country,
                 'status': 'open',
                 'save': 'draft',
                 'form-TOTAL_FORMS': 1,
@@ -169,6 +174,7 @@ class CatalogueTests(BaseWebTest):
                            status=Catalogue.DRAFT)
         need_data = NeedFactory.attributes(extra={
             'categories': [self.category],
+            'country': self.country,
             'flis_topics': [self.flis_topic],
             'status': Catalogue.DRAFT
         })
@@ -204,6 +210,7 @@ class CatalogueTests(BaseWebTest):
                            user_id='admin')
         data = NeedFactory.attributes(extra={
             'categories': [self.category],
+            'country': self.country,
             'flis_topics': [self.flis_topic],
             'status': 'open',
         })
