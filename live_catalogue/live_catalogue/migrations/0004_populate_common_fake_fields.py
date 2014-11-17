@@ -19,8 +19,10 @@ class Migration(DataMigration):
                     pass
 
             model = orm['common.Country']
+            iso = {'sq': 'al',
+                   'ie': 'ir'}.get(catalogue.country, catalogue.country)
             try:
-                fake_country = model.objects.get(iso=catalogue.country)
+                fake_country = model.objects.get(iso=iso)
                 catalogue.fake_country = fake_country
             except model.DoesNotExist:
                 pass
