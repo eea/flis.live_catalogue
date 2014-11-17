@@ -102,9 +102,5 @@ class Catalogue(models.Model):
         return dict(self.STATUS_CHOICES).get(self.status, '')
 
     @property
-    def country_verbose(self):
-        return self.country
-
-    @property
     def user_full_name(self):
         return get_user_name(self.user_id)
