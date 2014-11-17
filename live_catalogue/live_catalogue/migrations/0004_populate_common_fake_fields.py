@@ -12,8 +12,10 @@ class Migration(DataMigration):
         for catalogue in orm.Catalogue.objects.all():
             model = orm['common.EnvironmentalTheme']
             for theme in catalogue.themes.all():
+                title = (theme.title if theme.title != 'Other'
+                                     else 'Various other issues')
                 try:
-                    fake_theme = model.objects.get(title=theme.title)
+                    fake_theme = model.objects.get(title=title)
                     catalogue.fake_themes.add(fake_theme)
                 except model.DoesNotExist:
                     pass
