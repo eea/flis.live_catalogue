@@ -36,19 +36,6 @@ settings_urls = patterns(
     url(r'^topics/(?P<pk>.*)/delete$',
         views.SettingsTopicsDeleteView.as_view(),
         name='topics_delete'),
-
-    url(r'^themes/$',
-        views.SettingsThemesView.as_view(),
-        name='themes'),
-    url(r'^themes/new/$',
-        views.SettingsThemesAddView.as_view(),
-        name='themes_add'),
-    url(r'^themes/(?P<pk>.*)/edit$',
-        views.SettingsThemesEditView.as_view(),
-        name='themes_edit'),
-    url(r'^themes/(?P<pk>.*)/delete$',
-        views.SettingsThemesDeleteView.as_view(),
-        name='themes_delete'),
 )
 
 

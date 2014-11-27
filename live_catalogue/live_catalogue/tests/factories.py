@@ -1,5 +1,6 @@
 import factory
 from live_catalogue import models
+from flis_metadata.common.models import EnvironmentalTheme, Country
 
 
 class CategoryFactory(factory.DjangoModelFactory):
@@ -9,6 +10,14 @@ class CategoryFactory(factory.DjangoModelFactory):
 
     handle = 'projects'
     title = 'Projects'
+
+
+class CountryFactory(factory.DjangoModelFactory):
+
+    FACTORY_FOR = Country
+
+    iso = factory.Sequence(lambda n: 'c%d' % n)
+    name = factory.Sequence(lambda n: 'country_%d' % n)
 
 
 class FlisTopicFactory(factory.DjangoModelFactory):
@@ -22,10 +31,9 @@ class FlisTopicFactory(factory.DjangoModelFactory):
 
 class ThemeFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = models.Theme
-    FACTORY_DJANGO_GET_OR_CREATE = ('handle', 'title',)
+    FACTORY_FOR = EnvironmentalTheme
+    FACTORY_DJANGO_GET_OR_CREATE = ('title',)
 
-    handle = 'air-pollution'
     title = 'Air pollution'
 
 
@@ -40,7 +48,7 @@ class CatalogueFactory(factory.DjangoModelFactory):
     email = 'john.doe@eaueweb.ro'
     url = 'http://john.doe.eaudeweb.ro'
     institution = 'EEA'
-    country = 'at'
+    country = factory.SubFactory(CountryFactory)
 
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):

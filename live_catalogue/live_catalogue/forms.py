@@ -8,9 +8,13 @@ from live_catalogue.models import (
     Catalogue,
     Document,
     Category,
-    Theme,
     FlisTopic,
 )
+from flis_metadata.common.models import (
+    Country,
+    EnvironmentalTheme
+)
+
 from frame.middleware import get_current_request
 
 
@@ -92,6 +96,11 @@ class CatalogueForm(forms.ModelForm):
 
         self.fields['status'].empty_label = None
         self.fields['status'].choices = self.fields['status'].choices[1:]
+
+        self.fields['country'].queryset = Country.objects.filter(
+                is_deleted=False)
+        self.fields['themes'].queryset = EnvironmentalTheme.objects.filter(
+                is_deleted=False)
 
         if self.is_draft is False:
             for f in self.REQUIRED_FIELDS:
@@ -270,21 +279,6 @@ class CategoryForm(forms.ModelForm):
         if commit:
             category.save()
         return category
-
-
-class ThemeForm(forms.ModelForm):
-
-    class Meta:
-        model = Theme
-        exclude = ('handle',)
-
-    def save(self, commit=True):
-        theme = super(ThemeForm, self).save(commit=False)
-        if not theme.handle:
-            theme.handle = slugify(theme.title)
-        if commit:
-            theme.save()
-        return theme
 
 
 class TopicForm(forms.ModelForm):

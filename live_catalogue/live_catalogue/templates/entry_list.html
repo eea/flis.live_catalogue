@@ -33,7 +33,7 @@
       {% with date=catalogue.last_updated %}
       <td data-timestamp="{{ date|datetime_to_timestamp }}">{{ date }}</td>
       {% endwith %}
-      <td>{{ catalogue.country_verbose }}</td>
+      <td>{{ catalogue.country }}</td>
       <td>
         <ul style="margin-left: 11px;">
           {% for categ in catalogue.categories.all %}

@@ -62,6 +62,8 @@ INSTALLED_APPS = (
     'django_select2',
     'gunicorn',
     'frame',
+    'flis_metadata.common',
+    'flis_metadata.client',
     'live_catalogue',
     'notifications',
     'raven.contrib.django.raven_compat',
