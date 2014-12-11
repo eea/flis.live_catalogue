@@ -43,10 +43,14 @@ class LdapConnection(object):
 
     def get_user_name(self, user_id):
         attr = self.get_user_data(user_id)
+        if not attr:
+            return ''
         return attr['cn'][0].decode('utf-8')
 
     def get_user_email(self, user_id):
         attr = self.get_user_data(user_id)
+        if not attr:
+            return ''
         return attr['mail'][0].lower()
 
 

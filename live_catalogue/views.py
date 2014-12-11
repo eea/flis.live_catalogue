@@ -97,12 +97,13 @@ class CatalogueEdit(PermissionRequiredMixin,
         return super(CatalogueEdit, self).dispatch(request, **kwargs)
 
     def get(self, request, kind, pk=None):
+        user_id = self.user_id(request)
         catalogue = get_object_or_404(Catalogue,
                                       pk=pk,
-                                      user_id=request.user_id,
+                                      user_id=user_id,
                                       kind=kind) if pk else None
         if pk is None:
-            user_data = get_user_data(request.user_id)
+            user_data = get_user_data(user_id)
             initial_user_data = {
                 'contact_person': user_data.get('cn', [''])[0],
                 'email': user_data.get('mail', [''])[0],
@@ -129,7 +130,7 @@ class CatalogueEdit(PermissionRequiredMixin,
     def post(self, request, kind, pk=None):
         catalogue = get_object_or_404(Catalogue,
                                       pk=pk,
-                                      user_id=request.user_id,
+                                      user_id=self.user_id(request),
                                       kind=kind) if pk else None
         event_type = 'published' if pk is None else 'updated'
 
@@ -165,10 +166,13 @@ class CatalogueEdit(PermissionRequiredMixin,
         })
 
 
-class CatalogueDocumentDelete(JSONResponseMixin, View):
+class CatalogueDocumentDelete(PermissionRequiredMixin,
+                              JSONResponseMixin, View):
+    roles_required = ANY_ROLE
+
     def delete(self, request, catalogue_id, doc_id):
         catalogue = get_object_or_404(Catalogue, pk=catalogue_id,
-                                      user_id=request.user_id)
+                                      user_id=self.user_id(request))
         try:
             doc = catalogue.documents.get(pk=doc_id)
         except Document.DoesNotExist:
@@ -196,7 +200,7 @@ class CatalogueDelete(PermissionRequiredMixin, JSONResponseMixin, View):
 
     def delete(self, request, pk, kind):
         catalogue = get_object_or_404(Catalogue, pk=pk,
-                                      user_id=request.user_id,
+                                      user_id=self.user_id(request),
                                       kind=kind)
         document_names = [d.name.name for d in catalogue.documents.all()]
         handle_delete_document_files(document_names)
@@ -220,7 +224,7 @@ class MyEntries(PermissionRequiredMixin, View):
         return super(MyEntries, self).dispatch(*args, **kwargs)
 
     def get(self, request):
-        catalogues = Catalogue.objects.filter(user_id=request.user_id)
+        catalogues = Catalogue.objects.filter(user_id=self.user_id(request))
         form = CatalogueFilterForm(request.GET)
         if form.is_valid():
             kind = form.cleaned_data['kind']
@@ -232,7 +236,7 @@ class MyEntries(PermissionRequiredMixin, View):
         })
 
     def post(self, request):
-        catalogues = Catalogue.objects.filter(user_id=request.user_id)
+        catalogues = Catalogue.objects.filter(user_id=self.user_id(request))
         form = CatalogueFilterForm(request.POST)
         if form.is_valid():
             kind = form.cleaned_data['kind']

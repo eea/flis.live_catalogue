@@ -3,6 +3,7 @@
 from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.utils.text import slugify
+from live_catalogue.auth import _user_id
 
 from live_catalogue.models import (
     Catalogue,
@@ -89,7 +90,7 @@ class CatalogueForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.is_draft = kwargs.pop('is_draft', False)
         request = get_current_request()
-        self.user_id = request.user_id
+        self.user_id = _user_id(request)
         super(CatalogueForm, self).__init__(*args, **kwargs)
 
         self._set_help_texts()

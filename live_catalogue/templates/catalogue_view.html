@@ -42,7 +42,7 @@
 
   <div class="options">
 
-    {% if catalogue.user_id == request.user_id %}
+    {% if catalogue.user_id == request.user.username %}
       <a href="{% url 'catalogue_edit' pk=catalogue.pk kind=catalogue.kind %}" class="btn">
         Edit {{ catalogue.kind }}
       </a>

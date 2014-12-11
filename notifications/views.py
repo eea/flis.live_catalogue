@@ -21,7 +21,7 @@ class Notifications(PermissionRequiredMixin,
     def get(self, request):
         try:
             notification_user = NotificationUser.objects.get(
-                user_id=request.user_id)
+                user_id=self.user_id(request))
         except NotificationUser.DoesNotExist:
             notification_user = None
         return render(request, 'notifications.html', {
@@ -35,14 +35,14 @@ class Subscribe(PermissionRequiredMixin, JSONResponseMixin, View):
     groups_required = EDIT_GROUPS
 
     def post(self, request):
-        NotificationUser.objects.get_or_create(user_id=request.user_id)
+        NotificationUser.objects.get_or_create(user_id=self.user_id(request))
         url = reverse('notifications:home')
         data = {'status': 'success', 'url': url}
         return self.render_json_response(data)
 
     def delete(self, request):
         notifications_user = get_object_or_404(NotificationUser,
-                                               user_id=request.user_id)
+                                               user_id=self.user_id(request))
         notifications_user.delete()
         url = reverse('notifications:home')
         data = {'status': 'success', 'url': url}

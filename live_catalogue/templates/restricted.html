@@ -5,7 +5,7 @@
 
 <h3 id="restricted-title">Restricted</h3>
 
-{% if request.user_id %}
+{% if request.user.is_authenticated %}
   <p class="alert alert-error">Your account doesn't have edit credentials.</p>
 {% else %}
   <p class="alert">This page is restricted. Please logon to check credentials.</p>
