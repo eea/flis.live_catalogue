@@ -32,18 +32,18 @@ from notifications.models import catalogue_update_signal
 from notifications.utils import get_user_data
 
 from live_catalogue.definitions import (
-    VIEW_ROLES,
     EDIT_ROLES,
     ADMIN_ROLES,
     EDIT_GROUPS,
     ADMIN_GROUPS,
     ALL_ROLES,
     ALL_GROUPS,
+    ANY_ROLE,
 )
 
 
 class HomeView(PermissionRequiredMixin, View):
-    roles_required = ALL_ROLES
+    roles_required = ANY_ROLE
     groups_required = ALL_GROUPS
 
     def dispatch(self, *args, **kwargs):

@@ -35,7 +35,7 @@ class LdapConnection(object):
         if self.attr is not None:
             return self.attr
         if self.conn is None:
-            return u""
+            return {}
         user_dn = self.get_user_dn(user_id)
         result2 = self.conn.search_s(user_dn, ldap.SCOPE_BASE)
         [[_dn, attr]] = result2

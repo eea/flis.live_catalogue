@@ -20,12 +20,12 @@ class CataloguePermissionTests(BaseWebTest):
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, resp.pyquery('.table').length)
 
-    def test_eionet_simple_user_does_not_have_access(self, LdapConnectionMock,
+    def test_eionet_simple_user_does_have_access(self, LdapConnectionMock,
                                                      mock_requests):
         mock_requests.get.return_value = user_anonymous_user
         resp = self.app.get(self.reverse('home'))
         self.assertEqual(200, resp.status_code)
-        self.assertEqual(1, resp.pyquery('#restricted-title').length)
+        self.assertEqual(0, resp.pyquery('#restricted-title').length)
 
     def test_eionet_nrc_forwardlooking_add_access(self, LdapConnectionMock,
                                                   mock_requests):

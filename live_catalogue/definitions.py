@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+ANONYMOUS = (
+    'Anonymous',
+)
+
 VIEW_ROLES = (
     'Administrator',
     'Contributor',
@@ -21,3 +25,5 @@ ADMIN_GROUPS = ()
 
 ALL_ROLES = frozenset(VIEW_ROLES + EDIT_ROLES + ADMIN_ROLES)
 ALL_GROUPS = frozenset(VIEW_GROUPS + EDIT_GROUPS + ADMIN_GROUPS)
+
+ANY_ROLE = frozenset(VIEW_ROLES + EDIT_ROLES + ADMIN_ROLES + ANONYMOUS)
