@@ -43,7 +43,6 @@ from live_catalogue.definitions import (
 
 
 class HomeView(PermissionRequiredMixin, View):
-
     roles_required = ALL_ROLES
     groups_required = ALL_GROUPS
 
@@ -71,7 +70,6 @@ class HomeView(PermissionRequiredMixin, View):
 
 class CatalogueView(PermissionRequiredMixin,
                     View):
-
     roles_required = ALL_ROLES
     groups_required = ALL_GROUPS
 
@@ -92,7 +90,6 @@ class CatalogueView(PermissionRequiredMixin,
 
 class CatalogueEdit(PermissionRequiredMixin,
                     View):
-
     roles_required = EDIT_ROLES
     groups_required = EDIT_GROUPS
 
@@ -169,7 +166,6 @@ class CatalogueEdit(PermissionRequiredMixin,
 
 
 class CatalogueDocumentDelete(JSONResponseMixin, View):
-
     def delete(self, request, catalogue_id, doc_id):
         catalogue = get_object_or_404(Catalogue, pk=catalogue_id,
                                       user_id=request.user_id)
@@ -192,7 +188,6 @@ def handle_delete_document_files(documents):
 
 
 class CatalogueDelete(PermissionRequiredMixin, JSONResponseMixin, View):
-
     roles_required = EDIT_ROLES
     groups_required = EDIT_GROUPS
 
@@ -218,7 +213,6 @@ class CatalogueDelete(PermissionRequiredMixin, JSONResponseMixin, View):
 
 
 class MyEntries(PermissionRequiredMixin, View):
-
     roles_required = ALL_ROLES
     groups_required = ALL_GROUPS
 
@@ -252,7 +246,6 @@ class MyEntries(PermissionRequiredMixin, View):
 
 class SettingsCategoriesView(PermissionRequiredMixin,
                              ListView):
-
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
     model = Category
@@ -262,7 +255,8 @@ class SettingsCategoriesView(PermissionRequiredMixin,
         return super(SettingsCategoriesView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(SettingsCategoriesView, self).get_context_data(**kwargs)
+        context = super(SettingsCategoriesView, self).get_context_data(
+            **kwargs)
         context['page_title'] = "Categories"
         context['add_url'] = reverse('settings:categories_add')
         context['add_label'] = "New category"
@@ -273,7 +267,6 @@ class SettingsCategoriesView(PermissionRequiredMixin,
 class SettingsCategoriesAddView(PermissionRequiredMixin,
                                 SuccessMessageMixin,
                                 CreateView):
-
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
     model = Category
@@ -298,7 +291,6 @@ class SettingsCategoriesAddView(PermissionRequiredMixin,
 class SettingsCategoriesEditView(PermissionRequiredMixin,
                                  SuccessMessageMixin,
                                  UpdateView):
-
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
     model = Category
@@ -307,7 +299,8 @@ class SettingsCategoriesEditView(PermissionRequiredMixin,
     success_message = "Category updated successfully"
 
     def dispatch(self, *args, **kwargs):
-        return super(SettingsCategoriesEditView, self).dispatch(*args, **kwargs)
+        return super(SettingsCategoriesEditView, self).dispatch(*args,
+                                                                **kwargs)
 
     def get_success_url(self):
         return reverse('settings:categories')
@@ -323,7 +316,6 @@ class SettingsCategoriesEditView(PermissionRequiredMixin,
 
 class SettingsCategoriesDeleteView(PermissionRequiredMixin,
                                    DeleteView):
-
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
     model = Category
@@ -352,7 +344,6 @@ class SettingsCategoriesDeleteView(PermissionRequiredMixin,
 
 class SettingsTopicsView(PermissionRequiredMixin,
                          ListView):
-
     model = FlisTopic
     template_name = 'settings/setting_view.html'
     roles_required = ADMIN_ROLES
@@ -373,7 +364,6 @@ class SettingsTopicsView(PermissionRequiredMixin,
 class SettingsTopicsAddView(PermissionRequiredMixin,
                             SuccessMessageMixin,
                             CreateView):
-
     model = FlisTopic
     template_name = 'settings/setting_edit.html'
     form_class = TopicForm
@@ -398,7 +388,6 @@ class SettingsTopicsAddView(PermissionRequiredMixin,
 class SettingsTopicsEditView(PermissionRequiredMixin,
                              SuccessMessageMixin,
                              UpdateView):
-
     model = FlisTopic
     template_name = 'settings/setting_edit.html'
     form_class = TopicForm
@@ -423,7 +412,6 @@ class SettingsTopicsEditView(PermissionRequiredMixin,
 
 class SettingsTopicsDeleteView(PermissionRequiredMixin,
                                DeleteView):
-
     model = FlisTopic
     template_name = 'settings/setting_confirm_delete.html'
     roles_required = ADMIN_ROLES
@@ -451,7 +439,6 @@ class SettingsTopicsDeleteView(PermissionRequiredMixin,
 
 
 class CrashMe(PermissionRequiredMixin, View):
-
     roles_required = ALL_ROLES
     groups_required = ALL_GROUPS
 

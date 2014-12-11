@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from live_catalogue.definitions import ADMIN_ROLES, ADMIN_GROUPS
 
+
 def _has_perm(user_roles, user_groups, roles, groups):
     for user_role in user_roles:
         if user_role in roles:
@@ -16,7 +17,6 @@ def _has_perm(user_roles, user_groups, roles, groups):
 
 
 class PermissionRequiredMixin(object):
-
     roles_required = []
     groups_required = []
 
