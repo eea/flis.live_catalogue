@@ -27,7 +27,7 @@ from live_catalogue.models import (
     Category,
     FlisTopic,
 )
-from live_catalogue.auth import PermissionRequiredMixin
+from live_catalogue.auth import PermissionRequiredMixin, is_admin
 from notifications.models import catalogue_update_signal
 from notifications.utils import get_user_data
 
@@ -199,7 +199,10 @@ class CatalogueDelete(PermissionRequiredMixin, JSONResponseMixin, View):
         return super(CatalogueDelete, self).dispatch(*args, **kwargs)
 
     def delete(self, request, pk, kind):
-        catalogue = get_object_or_404(Catalogue, pk=pk,
+        if is_admin(request):
+            catalogue = get_object_or_404(Catalogue, pk=pk, kind=kind)
+        else:
+            catalogue = get_object_or_404(Catalogue, pk=pk,
                                       user_id=self.user_id(request),
                                       kind=kind)
         document_names = [d.name.name for d in catalogue.documents.all()]

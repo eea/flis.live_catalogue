@@ -41,23 +41,26 @@
   <h2>{{ catalogue.kind_verbose }} - {{ catalogue.subject }}</h2>
 
   <div class="options">
+    {% is_admin as is_admin %}
 
     {% if catalogue.user_id == request.user.username %}
       <a href="{% url 'catalogue_edit' pk=catalogue.pk kind=catalogue.kind %}" class="btn">
         Edit {{ catalogue.kind }}
       </a>
+    {% endif %}
+
+    {% if cataloge.user_id == request.user.username or is_admin %}
       <a href="{% url 'catalogue_delete' pk=catalogue.pk kind=catalogue.kind %}" class="btn btn-danger delete">
         Delete {{ catalogue.kind }}
       </a>
-    {% else %}
+    {% endif %}
 
+    {% if catalogue.user_id != request.user.username %}
       {% if catalogue.email %}
         <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"' class="btn">
           Contact by email
         </a>
       {% endif %}
-
-
     {% endif %}
 
   </div> {# /.options #}
