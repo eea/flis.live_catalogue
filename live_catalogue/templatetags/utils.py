@@ -33,7 +33,10 @@ def assign(value):
 
 @register.filter
 def filename(value):
-    return os.path.basename(value.file.name)
+    path = value and value.file and value.file.name
+    if os.path.exists(path):
+        return os.path.basename(path)
+    return path
 
 
 @register.assignment_tag(name='is_admin', takes_context=True)
