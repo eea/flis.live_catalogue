@@ -9,12 +9,11 @@ from live_catalogue.auth import PermissionRequiredMixin
 from live_catalogue.definitions import (
     EDIT_ROLES,
     EDIT_GROUPS,
-)
+    ADMIN_ROLES, ADMIN_GROUPS)
 
 
 class Notifications(PermissionRequiredMixin,
                     View):
-
     roles_required = EDIT_ROLES
     groups_required = EDIT_GROUPS
 
@@ -30,12 +29,12 @@ class Notifications(PermissionRequiredMixin,
 
 
 class Subscribe(PermissionRequiredMixin, JSONResponseMixin, View):
-
     roles_required = EDIT_ROLES
     groups_required = EDIT_GROUPS
 
     def post(self, request):
-        notification_user, new = NotificationUser.objects.get_or_create(user_id=self.user_id(request))
+        notification_user, new = NotificationUser.objects.get_or_create(
+            user_id=self.user_id(request))
         notification_user.subscribed = True
         notification_user.save()
         url = reverse('notifications:home')
@@ -50,3 +49,14 @@ class Subscribe(PermissionRequiredMixin, JSONResponseMixin, View):
         url = reverse('notifications:home')
         data = {'status': 'success', 'url': url}
         return self.render_json_response(data)
+
+
+class NotificationsManager(PermissionRequiredMixin, View):
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
+
+    def get(self, request):
+        users =  NotificationUser.objects.order_by('user_id')
+        return render(request, 'notifications_manager.html', {
+            'notification_users': users,
+        })
