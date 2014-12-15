@@ -14,11 +14,13 @@
     </tr>
     </thead>
     {% for notification_user in notification_users %}
+      {% if notification_user.user_id %}
       <tr>
         <td>{{ notification_user.user_id }}</td>
         <td>{% if notification_user.subscribed %}SUBSCRIBED{% else %}
           UNSUBSCRIBED{% endif %}</td>
       </tr>
+      {% endif %}
     {% endfor %}
   </table>
 {% endblock %}
