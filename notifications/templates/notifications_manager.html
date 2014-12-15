@@ -3,20 +3,22 @@
 
 {% block content %}
 
-  <p>The following users are known by the system and have a subscription status.</p>
+  <p>The following users are known by the system and have a subscription
+    status.</p>
 
   <table class="table">
-  <thead>
-  <tr>
-    <th>User id</th>
-    <th>Subscription</th>
-  </tr>
-  </thead>
-  {% for notification_user in notification_users %}
-  <tr>
-    <td>{{ notification_user.user_id }}</td>
-    <td>{% if notification_user.subscribed %}SUBSCRIBED{% else %}UNSUBSCRIBED{% endif %}</td>
-  </tr>
+    <thead>
+    <tr>
+      <th>User id</th>
+      <th>Subscription</th>
+    </tr>
+    </thead>
+    {% for notification_user in notification_users %}
+      <tr>
+        <td>{{ notification_user.user_id }}</td>
+        <td>{% if notification_user.subscribed %}SUBSCRIBED{% else %}
+          UNSUBSCRIBED{% endif %}</td>
+      </tr>
+    {% endfor %}
   </table>
-  {% endfor %}
 {% endblock %}
