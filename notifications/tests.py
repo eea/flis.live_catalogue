@@ -117,7 +117,7 @@ class SubscriptionTests(BaseWebTest):
         self.assertObjectInDatabase(
             model='NotificationUser',
             app='notifications',
-            user_id='admin')
+            user_id='admin', subscribed=True)
 
     def test_unsubscribe_from_notifications(self, mock_requests):
         mock_requests.get.return_value = user_admin_mock
@@ -129,4 +129,4 @@ class SubscriptionTests(BaseWebTest):
             self.assertObjectInDatabase(
                 model='NotificationUser',
                 app='notifications',
-                user_id='admin')
+                user_id='admin', subscribed=True)

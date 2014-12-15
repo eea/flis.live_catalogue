@@ -35,7 +35,9 @@ class Subscribe(PermissionRequiredMixin, JSONResponseMixin, View):
     groups_required = EDIT_GROUPS
 
     def post(self, request):
-        NotificationUser.objects.get_or_create(user_id=self.user_id(request))
+        notification_user, new = NotificationUser.objects.get_or_create(user_id=self.user_id(request))
+        notification_user.subscribed = True
+        notification_user.save()
         url = reverse('notifications:home')
         data = {'status': 'success', 'url': url}
         return self.render_json_response(data)
@@ -43,7 +45,8 @@ class Subscribe(PermissionRequiredMixin, JSONResponseMixin, View):
     def delete(self, request):
         notifications_user = get_object_or_404(NotificationUser,
                                                user_id=self.user_id(request))
-        notifications_user.delete()
+        notifications_user.subscribed = False
+        notifications_user.save()
         url = reverse('notifications:home')
         data = {'status': 'success', 'url': url}
         return self.render_json_response(data)

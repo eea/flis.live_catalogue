@@ -11,9 +11,10 @@ from .utils import get_user_email
 class NotificationUser(models.Model):
 
     user_id = models.CharField(max_length=64, unique=True)
+    subscribed = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return self.user_id
+        return self.user_id + ' ' + ('subscribed' if self.subscribed else '')
 
     @classmethod
     def send(cls, sender, event_type, request, **kwargs):
@@ -41,7 +42,7 @@ class NotificationUser(models.Model):
         })
 
         datatuple = []
-        for user in cls.objects.all():
+        for user in cls.objects.filter(subscribed=True):
             email = [get_user_email(user.user_id)]
             datatuple.append((subject, body, from_email, email))
         send_mass_mail(datatuple)
