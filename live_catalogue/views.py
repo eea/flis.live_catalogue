@@ -70,7 +70,7 @@ class HomeView(PermissionRequiredMixin, View):
 
 class CatalogueView(PermissionRequiredMixin,
                     View):
-    roles_required = ALL_ROLES
+    roles_required = ANY_ROLE
     groups_required = ALL_GROUPS
 
     def dispatch(self, *args, **kwargs):
