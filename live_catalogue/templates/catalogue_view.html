@@ -55,12 +55,16 @@
       </a>
     {% endif %}
 
-    {% if catalogue.user_id != request.user.username %}
-      {% if catalogue.email %}
-        <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"' class="btn">
-          Contact by email
-        </a>
+    {% if request.user.is_authenticated %}
+      {% if catalogue.user_id != request.user.username %}
+        {% if catalogue.email %}
+          <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"' class="btn">
+            Contact by email
+          </a>
+        {% endif %}
       {% endif %}
+    {% else %}
+      <span class="disabled">Login to see email address.</span>
     {% endif %}
 
   </div> {# /.options #}
@@ -140,11 +144,15 @@
       <tr>
         <th>{{ form.email.label }}</th>
         <td>
-          {% if catalogue.email %}
-            <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"'>
-              {{ catalogue.email }}</a>
+          {% if request.user.is_authenticated %}
+            {% if catalogue.email %}
+              <a href='mailto:{{ catalogue.email }}?subject=Live Catalogue of Needs and Offers: reply to your entry "{{ catalogue.subject }}"'>
+                {{ catalogue.email }}</a>
+            {% else %}
+              -
+            {% endif %}
           {% else %}
-            -
+            <span class="disabled">Login to see email address</span>
           {% endif %}
         </td>
       </tr>
