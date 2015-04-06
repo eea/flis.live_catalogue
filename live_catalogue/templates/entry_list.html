@@ -23,7 +23,7 @@
       {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as catalogue_view_url %}
       <td>
         <a href="{{ catalogue_view_url }}">
-          {{ catalogue.subject }}
+          {{ catalogue.subject|default:"(no subject)" }}
         </a>
         {% if catalogue.need_urgent %}
           <br>
