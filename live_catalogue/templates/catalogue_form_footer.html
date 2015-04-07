@@ -1,8 +1,22 @@
+{% load widget_tweaks %}
+
+<div class="control-group">
+  <label class="control-label" for="{{ form.status.auto_id }}">
+    {{ form.status.label }}
+    </label>
+  <div class="controls">
+    {% if form.status.value == catalogue.DRAFT %}
+      {{ form.status|attr:"data-readonly:readonly" }}
+    {% else %}
+      {{ form.status }}
+    {% endif %}
+    <div class="text-error">{{ form.status.errors }}</div>
+  </div>
+</div>
+
 <div class="form-actions">
-  <button type="submit" class="btn btn-primary" name="save" value="final">
-    Publish</button>
-  <button type="submit" class="btn btn-primary" name="save" value="draft">
-    Save draft</button>
+  <button type="submit" class="btn btn-primary" name="save">
+    {% if catalogue %}Update{% else %}Add{% endif %}</button>
 
   {% if catalogue %}
     {% url 'catalogue_view' pk=catalogue.pk kind=catalogue.kind as cancel_url %}

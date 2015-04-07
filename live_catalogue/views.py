@@ -134,26 +134,23 @@ class CatalogueEdit(PermissionRequiredMixin,
                                       kind=kind) if pk else None
         event_type = 'published' if pk is None else 'updated'
 
-        save = request.POST.get('save', 'final')
-        is_draft = True if save == 'draft' else False
-
         DocumentFormSet = formset_factory(DocumentForm,
                                           formset=BaseDocumentFormset,
                                           max_num=5)
         Form = NeedForm if kind == Catalogue.NEED else OfferForm
-        form = Form(request.POST, instance=catalogue, is_draft=is_draft)
+        form = Form(request.POST, instance=catalogue)
         document_formset = DocumentFormSet(request.POST, request.FILES)
 
         if form.is_valid() and document_formset.is_valid():
             catalogue = form.save()
             document_formset.save(catalogue)
-            if is_draft:
+            if catalogue.is_draft:
                 success_msg = '%s saved as draft' % catalogue.kind_verbose
             else:
                 success_msg = '%s saved' % catalogue.kind_verbose
             messages.success(request, success_msg)
 
-            if is_draft is False:
+            if not catalogue.is_draft:
                 catalogue_update_signal.send(sender=catalogue,
                                              event_type=event_type,
                                              request=request)

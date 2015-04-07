@@ -104,3 +104,7 @@ class Catalogue(models.Model):
     @property
     def user_full_name(self):
         return get_user_name(self.user_id)
+
+    @property
+    def is_draft(self):
+        return self.status == self.DRAFT

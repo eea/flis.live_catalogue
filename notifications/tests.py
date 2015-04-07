@@ -40,13 +40,19 @@ class NotificationTest(BaseWebTest):
             'flis_topics': [self.flis_topic],
             'country': self.country,
             'need_urgent': True,
+            'subject': 'gigi',
+            'description': 'without',
+            'contact_person': 'John Doe',
+            'email': 'john.doe@eaudeweb.ro',
+            'institution': 'EdW',
+            'status': 'open',
         })
         url = self.reverse('catalogue_add', kind='need')
         resp = self.app.get(url)
         self.assertEqual(200, resp.status_code)
         form = resp.forms['catalogue-form']
         self.populate_fields(form, self.normalize_data(data))
-        form.submit().follow()
+        data = form.submit().follow()
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'A new need was added')
         self.assertEqual(mail.outbox[0].from_email, 'no-reply@eaudeweb.ro')
@@ -95,8 +101,7 @@ class NotificationTest(BaseWebTest):
         data = {'categories': need_factory_data['categories'],
                 'flis_topics': need_factory_data['flis_topics'],
                 'country': self.country,
-                'status': 'open',
-                'save': 'draft',
+                'status': 'draft',
                 'form-TOTAL_FORMS': 1,
                 'form-INITIAL_FORMS': 0,
                 'form-MAX_NUM_FORMS': 5}

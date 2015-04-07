@@ -64,7 +64,7 @@ class CatalogueTests(BaseWebTest):
         ldap_mock = LdapConnectionMock.return_value
         ldap_mock.get_user_data.return_value = {}
         NeedFactory(categories=[self.category], flis_topics=[self.flis_topic],
-                    user_id='johndoe')
+                    user_id='johndoe', status='open')
         url = self.reverse('home')
         resp = self.app.get(url)
         self.assertEqual(200, resp.status_code)
@@ -149,8 +149,7 @@ class CatalogueTests(BaseWebTest):
         data = {'categories': need_factory_data['categories'],
                 'flis_topics': need_factory_data['flis_topics'],
                 'country': self.country,
-                'status': 'open',
-                'save': 'draft',
+                'status': 'draft',
                 'form-TOTAL_FORMS': 1,
                 'form-INITIAL_FORMS': 0,
                 'form-MAX_NUM_FORMS': 5}
@@ -164,7 +163,7 @@ class CatalogueTests(BaseWebTest):
             status=Catalogue.DRAFT
         )
 
-    def test_need_from_draft_to_open(self, LdapConnectionMock, mock_requests):
+    def test_need_stays_draft(self, LdapConnectionMock, mock_requests):
         mock_requests.get.return_value = user_admin_mock
         ldap_mock = LdapConnectionMock.return_value
         ldap_mock.get_user_data.return_value = {}
@@ -188,7 +187,7 @@ class CatalogueTests(BaseWebTest):
             pk=1,
             categories__exact=self.category,
             flis_topics__exact=self.flis_topic,
-            status=Catalogue.OPEN,
+            status=Catalogue.DRAFT,
         )
 
     def test_need_delete(self, LdapConnectionMock, mock_requests):

@@ -20,12 +20,10 @@ from frame.middleware import get_current_request
 
 
 class URLFieldWithTextField(forms.URLField):
-
     widget = forms.TextInput
 
 
 class FileUploadRestrictedSize(forms.FileField):
-
     def __init__(self, *args, **kwargs):
         # default to 2.5MB
         self.max_size = kwargs.pop('max_upload_size', 2621440)
@@ -48,16 +46,13 @@ class FileUploadRestrictedSize(forms.FileField):
 
 
 class DocumentForm(forms.ModelForm):
-
     name = FileUploadRestrictedSize(required=False)
 
     class Meta:
-
         model = Document
 
 
 class BaseDocumentFormset(forms.formsets.BaseFormSet):
-
     def save(self, catalogue):
 
         for form in self.forms:
@@ -68,8 +63,7 @@ class BaseDocumentFormset(forms.formsets.BaseFormSet):
 
 
 class CatalogueForm(forms.ModelForm):
-
-    REQUIRED_FIELDS = ('subject', 'description', 'status', 'contact_person',
+    REQUIRED_FIELDS = ('subject', 'description', 'contact_person',
                        'email', 'institution', 'country')
 
     url = URLFieldWithTextField(required=False)
@@ -88,7 +82,6 @@ class CatalogueForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        self.is_draft = kwargs.pop('is_draft', False)
         request = get_current_request()
         self.user_id = _user_id(request)
         super(CatalogueForm, self).__init__(*args, **kwargs)
@@ -99,13 +92,9 @@ class CatalogueForm(forms.ModelForm):
         self.fields['status'].choices = self.fields['status'].choices[1:]
 
         self.fields['country'].queryset = Country.objects.filter(
-                is_deleted=False)
+            is_deleted=False)
         self.fields['themes'].queryset = EnvironmentalTheme.objects.filter(
-                is_deleted=False)
-
-        if self.is_draft is False:
-            for f in self.REQUIRED_FIELDS:
-                self.fields[f].required = True
+            is_deleted=False)
 
     def _set_help_texts(self):
         # this function overwrites help_texts because
@@ -115,6 +104,16 @@ class CatalogueForm(forms.ModelForm):
             if key in self.fields:
                 self.fields[key].help_text = value
 
+    def clean(self):
+        data = self.cleaned_data['status']
+        if data != 'draft':
+            for f in self.REQUIRED_FIELDS:
+                if not self.cleaned_data[f]:
+                    self.errors[f] = 'This field is required'
+                    raise forms.ValidationError(
+                        'Field {} must be filled for publishing.'.format(f))
+        return super(CatalogueForm, self).clean()
+
     def save(self):
         catalogue = super(CatalogueForm, self).save(commit=False)
         catalogue.kind = self.KIND
@@ -123,16 +122,6 @@ class CatalogueForm(forms.ModelForm):
         catalogue.subject = self.cleaned_data['subject']
         catalogue.description = self.cleaned_data['description']
         catalogue.type_of = self.cleaned_data['type_of']
-
-        if self.is_draft:
-            catalogue.status = Catalogue.DRAFT
-        else:
-            status = self.cleaned_data['status']
-            if status == Catalogue.DRAFT:
-                catalogue.status = Catalogue.OPEN
-            else:
-                catalogue.status = status
-
         catalogue.contact_person = self.cleaned_data['contact_person']
         catalogue.email = self.cleaned_data['email']
         catalogue.phone_number = self.cleaned_data['phone_number']
@@ -158,11 +147,9 @@ class CatalogueForm(forms.ModelForm):
 
 
 class NeedForm(CatalogueForm):
-
     KIND = 'need'
 
     class Meta(CatalogueForm.Meta):
-
         exclude = CatalogueForm.Meta.exclude + ('resources',)
         labels = {
             'type_of': 'Type of need',
@@ -206,11 +193,9 @@ class NeedForm(CatalogueForm):
 
 
 class OfferForm(CatalogueForm):
-
     KIND = 'offer'
 
     class Meta(CatalogueForm.Meta):
-
         exclude = CatalogueForm.Meta.exclude + ('need_urgent',)
         labels = {
             'type_of': 'Type of offer',
@@ -261,14 +246,12 @@ class OfferForm(CatalogueForm):
 
 
 class CatalogueFilterForm(forms.Form):
-
     KIND_CHOICES = (('all', 'All'),) + Catalogue.KIND_CHOICES
 
     kind = forms.ChoiceField(choices=KIND_CHOICES, widget=forms.RadioSelect)
 
 
 class CategoryForm(forms.ModelForm):
-
     class Meta:
         model = Category
         exclude = ('handle',)
@@ -283,7 +266,6 @@ class CategoryForm(forms.ModelForm):
 
 
 class TopicForm(forms.ModelForm):
-
     class Meta:
         model = FlisTopic
         exclude = ('handle',)
