@@ -108,7 +108,7 @@ class CatalogueForm(forms.ModelForm):
         data = self.cleaned_data['status']
         if data != 'draft':
             for f in self.REQUIRED_FIELDS:
-                if not self.cleaned_data[f]:
+                if not self.cleaned_data.get(f, ''):
                     self.errors[f] = 'This field is required'
                     raise forms.ValidationError(
                         'Field {} must be filled for publishing.'.format(f))
