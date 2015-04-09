@@ -4,6 +4,7 @@ python:
 install:
   - pip install -r requirements-dev.txt
   - pip install coveralls
+  - ./manage.py collectstatic --noinput
 script:  ./manage.py test live_catalogue
 after_success:
   coveralls
