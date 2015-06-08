@@ -163,6 +163,8 @@ FRAME_SEEN_MODELS = (
 
 FRAME_SEEN_EXCLUDE = ('/_lastseencount/', )
 
+METADATA_URL = ''
+
 try:
     from local_settings import *
 except ImportError:

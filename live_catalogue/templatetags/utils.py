@@ -68,3 +68,10 @@ def datetime_to_timestamp(value):
     if isinstance(value, datetime):
         return calendar.timegm(value.utctimetuple())
     return
+
+
+@register.assignment_tag(name='get_metadata_url')
+def do_get_metadata_url():
+    if hasattr(settings, 'METADATA_URL'):
+        return settings.METADATA_URL
+    return None
