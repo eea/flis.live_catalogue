@@ -1,180 +1,100 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Category'
-        db.create_table(u'live_catalogue_category', (
-            ('handle', self.gf('django.db.models.fields.SlugField')(max_length=50, primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=64)),
-        ))
-        db.send_create_signal(u'live_catalogue', ['Category'])
+    dependencies = [
+        ('common', '0002_auto_20150615_1322'),
+    ]
 
-        # Adding model 'FlisTopic'
-        db.create_table(u'live_catalogue_flistopic', (
-            ('handle', self.gf('django.db.models.fields.SlugField')(max_length=50, primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=64)),
-        ))
-        db.send_create_signal(u'live_catalogue', ['FlisTopic'])
-
-        # Adding model 'Theme'
-        db.create_table(u'live_catalogue_theme', (
-            ('handle', self.gf('django.db.models.fields.SlugField')(max_length=50, primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=64)),
-        ))
-        db.send_create_signal(u'live_catalogue', ['Theme'])
-
-        # Adding model 'Document'
-        db.create_table(u'live_catalogue_document', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.files.FileField')(max_length=100)),
-        ))
-        db.send_create_signal(u'live_catalogue', ['Document'])
-
-        # Adding model 'Catalogue'
-        db.create_table(u'live_catalogue_catalogue', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('kind', self.gf('django.db.models.fields.CharField')(max_length=5, db_index=True)),
-            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('last_updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, auto_now_add=True, blank=True)),
-            ('draft', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('user_id', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=256, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('status', self.gf('django.db.models.fields.CharField')(default='open', max_length=32, blank=True)),
-            ('type_of', self.gf('django.db.models.fields.CharField')(max_length=10, blank=True)),
-            ('resources', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('need_urgent', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('contact_person', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=64, blank=True)),
-            ('phone_number', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('institution', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('address', self.gf('django.db.models.fields.CharField')(max_length=256, blank=True)),
-            ('country', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('info', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal(u'live_catalogue', ['Catalogue'])
-
-        # Adding M2M table for field categories on 'Catalogue'
-        m2m_table_name = db.shorten_name(u'live_catalogue_catalogue_categories')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('catalogue', models.ForeignKey(orm[u'live_catalogue.catalogue'], null=False)),
-            ('category', models.ForeignKey(orm[u'live_catalogue.category'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['catalogue_id', 'category_id'])
-
-        # Adding M2M table for field flis_topics on 'Catalogue'
-        m2m_table_name = db.shorten_name(u'live_catalogue_catalogue_flis_topics')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('catalogue', models.ForeignKey(orm[u'live_catalogue.catalogue'], null=False)),
-            ('flistopic', models.ForeignKey(orm[u'live_catalogue.flistopic'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['catalogue_id', 'flistopic_id'])
-
-        # Adding M2M table for field themes on 'Catalogue'
-        m2m_table_name = db.shorten_name(u'live_catalogue_catalogue_themes')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('catalogue', models.ForeignKey(orm[u'live_catalogue.catalogue'], null=False)),
-            ('theme', models.ForeignKey(orm[u'live_catalogue.theme'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['catalogue_id', 'theme_id'])
-
-        # Adding M2M table for field documents on 'Catalogue'
-        m2m_table_name = db.shorten_name(u'live_catalogue_catalogue_documents')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('catalogue', models.ForeignKey(orm[u'live_catalogue.catalogue'], null=False)),
-            ('document', models.ForeignKey(orm[u'live_catalogue.document'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['catalogue_id', 'document_id'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Category'
-        db.delete_table(u'live_catalogue_category')
-
-        # Deleting model 'FlisTopic'
-        db.delete_table(u'live_catalogue_flistopic')
-
-        # Deleting model 'Theme'
-        db.delete_table(u'live_catalogue_theme')
-
-        # Deleting model 'Document'
-        db.delete_table(u'live_catalogue_document')
-
-        # Deleting model 'Catalogue'
-        db.delete_table(u'live_catalogue_catalogue')
-
-        # Removing M2M table for field categories on 'Catalogue'
-        db.delete_table(db.shorten_name(u'live_catalogue_catalogue_categories'))
-
-        # Removing M2M table for field flis_topics on 'Catalogue'
-        db.delete_table(db.shorten_name(u'live_catalogue_catalogue_flis_topics'))
-
-        # Removing M2M table for field themes on 'Catalogue'
-        db.delete_table(db.shorten_name(u'live_catalogue_catalogue_themes'))
-
-        # Removing M2M table for field documents on 'Catalogue'
-        db.delete_table(db.shorten_name(u'live_catalogue_catalogue_documents'))
-
-
-    models = {
-        u'live_catalogue.catalogue': {
-            'Meta': {'object_name': 'Catalogue'},
-            'address': ('django.db.models.fields.CharField', [], {'max_length': '256', 'blank': 'True'}),
-            'categories': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['live_catalogue.Category']", 'symmetrical': 'False'}),
-            'contact_person': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
-            'country': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'documents': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['live_catalogue.Document']", 'null': 'True', 'blank': 'True'}),
-            'draft': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '64', 'blank': 'True'}),
-            'flis_topics': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['live_catalogue.FlisTopic']", 'symmetrical': 'False'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'institution': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
-            'kind': ('django.db.models.fields.CharField', [], {'max_length': '5', 'db_index': 'True'}),
-            'last_updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'auto_now_add': 'True', 'blank': 'True'}),
-            'need_urgent': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'phone_number': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
-            'resources': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "'open'", 'max_length': '32', 'blank': 'True'}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '256', 'blank': 'True'}),
-            'themes': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['live_catalogue.Theme']", 'symmetrical': 'False', 'blank': 'True'}),
-            'type_of': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
-            'user_id': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'})
-        },
-        u'live_catalogue.category': {
-            'Meta': {'object_name': 'Category'},
-            'handle': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '64'})
-        },
-        u'live_catalogue.document': {
-            'Meta': {'object_name': 'Document'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.files.FileField', [], {'max_length': '100'})
-        },
-        u'live_catalogue.flistopic': {
-            'Meta': {'object_name': 'FlisTopic'},
-            'handle': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '64'})
-        },
-        u'live_catalogue.theme': {
-            'Meta': {'object_name': 'Theme'},
-            'handle': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '64'})
-        }
-    }
-
-    complete_apps = ['live_catalogue']
+    operations = [
+        migrations.CreateModel(
+            name='Catalogue',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('kind', models.CharField(db_index=True, max_length=5, choices=[(b'need', b'Need'), (b'offer', b'Offer')])),
+                ('created_on', models.DateTimeField(auto_now_add=True)),
+                ('last_updated', models.DateTimeField(auto_now=True, auto_now_add=True)),
+                ('user_id', models.CharField(max_length=64, blank=True)),
+                ('subject', models.CharField(max_length=256, blank=True)),
+                ('description', models.TextField(blank=True)),
+                ('status', models.CharField(default=b'open', max_length=32, blank=True, choices=[(b'open', b'Open'), (b'solved', b'Solved'), (b'closed-without-solution', b'Closed without solution'), (b'draft', b'Draft')])),
+                ('type_of', models.CharField(blank=True, max_length=10, choices=[(b'official', b'Official'), (b'informal', b'Informal')])),
+                ('resources', models.TextField(blank=True)),
+                ('need_urgent', models.BooleanField(default=False)),
+                ('contact_person', models.CharField(max_length=64, blank=True)),
+                ('email', models.EmailField(max_length=64, blank=True)),
+                ('phone_number', models.CharField(max_length=64, blank=True)),
+                ('institution', models.CharField(max_length=64, blank=True)),
+                ('address', models.CharField(max_length=256, blank=True)),
+                ('url', models.URLField(blank=True)),
+                ('info', models.TextField(verbose_name=b'Additional contact details', blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Category',
+            fields=[
+                ('handle', models.SlugField(serialize=False, primary_key=True)),
+                ('title', models.CharField(max_length=64)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Document',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.FileField(upload_to=b'documents')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FlisTopic',
+            fields=[
+                ('handle', models.SlugField(serialize=False, primary_key=True)),
+                ('title', models.CharField(max_length=64)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='catalogue',
+            name='categories',
+            field=models.ManyToManyField(to='live_catalogue.Category'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='catalogue',
+            name='country',
+            field=models.ForeignKey(to='common.Country', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='catalogue',
+            name='documents',
+            field=models.ManyToManyField(to='live_catalogue.Document', null=True, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='catalogue',
+            name='flis_topics',
+            field=models.ManyToManyField(to='live_catalogue.FlisTopic'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='catalogue',
+            name='themes',
+            field=models.ManyToManyField(to='common.EnvironmentalTheme', verbose_name=b'Topics', blank=True),
+            preserve_default=True,
+        ),
+    ]
