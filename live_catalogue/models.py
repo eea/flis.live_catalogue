@@ -75,6 +75,8 @@ class Catalogue(models.Model):
 
     need_urgent = models.BooleanField(default=False)
 
+    deadline = models.DateField( null=True, blank=True)
+
     contact_person = models.CharField(max_length=64, blank=True)
     email = models.EmailField(max_length=64, blank=True)
     phone_number = models.CharField(max_length=64, blank=True)

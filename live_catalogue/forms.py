@@ -15,6 +15,7 @@ from flis_metadata.common.models import (
     Country,
     EnvironmentalTheme
 )
+from django.forms import DateField, DateInput
 
 from frame.middleware import get_current_request
 
@@ -67,6 +68,8 @@ class CatalogueForm(forms.ModelForm):
                        'email', 'institution', 'country')
 
     url = URLFieldWithTextField(required=False)
+    deadline = DateField(widget=DateInput(format='%d/%m/%Y'),
+                         input_formats=('%d/%m/%Y',))
 
     class Meta:
 
@@ -95,6 +98,7 @@ class CatalogueForm(forms.ModelForm):
             is_deleted=False)
         self.fields['themes'].queryset = EnvironmentalTheme.objects.filter(
             is_deleted=False)
+        self.fields['deadline'].required = False
 
     def _set_help_texts(self):
         # this function overwrites help_texts because
@@ -130,6 +134,8 @@ class CatalogueForm(forms.ModelForm):
         catalogue.country = self.cleaned_data['country']
         catalogue.url = self.cleaned_data['url']
         catalogue.info = self.cleaned_data['info']
+        if self.cleaned_data['deadline']:
+            catalogue.deadline = self.cleaned_data['deadline']
         catalogue.save()
 
         categories = self.cleaned_data['categories']
