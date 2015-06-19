@@ -87,3 +87,13 @@ $(function () {
     });
 
 });
+
+$(document).ready(function() {
+    var optionsDate = {
+        weekStart: 1,
+        autoclose: true,
+        todayHighlight: true,
+        container: $("#dp"),
+    };
+    $("#dp").datepicker(optionsDate);
+});
