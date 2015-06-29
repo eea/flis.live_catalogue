@@ -11,6 +11,7 @@ JS_ASSETS = [
     'js/datatables/jquery.dataTables.js',
     'js/datatables/DT_bootstrap.js',
     'js/main.js',
+    'bootstrap/js/bootstrap-datepicker.js',
 ]
 if not getattr(settings, 'FRAME_URL', None):
     JS_ASSETS = ['js/jquery.js'] + JS_ASSETS
@@ -22,6 +23,7 @@ CSS_ASSETS = (
     'css/select2/select2.css',
     'css/daterangepicker-bs2.css',
     'css/main.css',
+    'bootstrap/css/datepicker.css',
 )
 
 js = Bundle(*JS_ASSETS, filters='jsmin', output='packed.js')

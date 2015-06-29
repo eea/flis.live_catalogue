@@ -121,6 +121,13 @@
         <td>{{ catalogue.type_of_verbose }}</td>
       </tr>
 
+      {% if catalogue.deadline %}
+        <tr>
+          <th>{{ form.deadline.label }}</th>
+          <td>{{ catalogue.deadline }}</td>
+        </tr>
+      {% endif %}
+
       <tr>
         <th>{{ form.status.label }}</th>
         <td>{{ catalogue.status_verbose }}</td>
