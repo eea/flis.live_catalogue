@@ -15,7 +15,6 @@ from flis_metadata.common.models import (
     Country,
     EnvironmentalTheme
 )
-from django.forms import DateField, DateInput
 
 from frame.middleware import get_current_request
 
@@ -68,8 +67,8 @@ class CatalogueForm(forms.ModelForm):
                        'email', 'institution', 'country')
 
     url = URLFieldWithTextField(required=False)
-    deadline = DateField(widget=DateInput(format='%d/%m/%Y'),
-                         input_formats=('%d/%m/%Y',))
+    deadline = forms.DateField(widget=forms.DateInput(format='%d/%m/%Y'),
+                               input_formats=('%d/%m/%Y',))
 
     class Meta:
 
