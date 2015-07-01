@@ -14,7 +14,7 @@ ALLOWED_HOSTS = ('*', '127.0.0.1')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LDAP_DATA = {
-    'LDAP_SERVER': '',
+    'LDAP_SERVER': None,
     'LDAP_USER_DN_PATTERN': '',
     'LDAP_TIMEOUT': 10,
 }

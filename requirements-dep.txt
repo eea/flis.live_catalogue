@@ -1,3 +1,2 @@
 -r requirements.txt
 supervisor==3.0
-gunicorn==19.3.0
