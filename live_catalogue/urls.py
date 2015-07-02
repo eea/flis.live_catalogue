@@ -82,4 +82,6 @@ urlpatterns = patterns(
 
     url(r'^_lastseencount/$', 'frame.utils.get_objects_from_last_seen_count'),
 
+    url(r'^ckeditor/', include('ckeditor.urls')),
+
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

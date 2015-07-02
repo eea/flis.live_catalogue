@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import sys
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -59,6 +60,7 @@ INSTALLED_APPS = (
     'django_assets',
     'widget_tweaks',
     'django_select2',
+    'ckeditor',
     'gunicorn',
     'frame',
     'flis_metadata.common',
@@ -112,7 +114,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -164,14 +165,30 @@ FRAME_SEEN_EXCLUDE = ('/_lastseencount/', )
 
 METADATA_URL = ''
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
-
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_JQUERY_URL = (
+    '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+)
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
+             'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ],
+    }
+}
 
 if 'test' in sys.argv:
     try:
         from test_settings import *
+    except ImportError:
+        pass
+else:
+    try:
+        from local_settings import *
     except ImportError:
         pass

@@ -113,7 +113,7 @@
 
       <tr>
         <th>{{ form.description.label }}</th>
-        <td>{{ catalogue.description }}</td>
+        <td>{% autoescape off %}{{ catalogue.description }}{% endautoescape %}</td>
       </tr>
 
       <tr>

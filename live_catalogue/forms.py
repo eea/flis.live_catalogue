@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
-
+from bs4 import BeautifulSoup
+from ckeditor.fields import RichTextFormField
 from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.utils.text import slugify
-from live_catalogue.auth import _user_id
+from flis_metadata.common.models import (
+    Country,
+    EnvironmentalTheme
+)
+from frame.middleware import get_current_request
 
+from live_catalogue.auth import _user_id
 from live_catalogue.models import (
     Catalogue,
     Document,
     Category,
     FlisTopic,
 )
-from flis_metadata.common.models import (
-    Country,
-    EnvironmentalTheme
-)
-
-from frame.middleware import get_current_request
-
 
 class URLFieldWithTextField(forms.URLField):
     widget = forms.TextInput
@@ -69,6 +68,7 @@ class CatalogueForm(forms.ModelForm):
     url = URLFieldWithTextField(required=False)
     deadline = forms.DateField(widget=forms.DateInput(format='%d/%m/%Y'),
                                input_formats=('%d/%m/%Y',))
+    description = RichTextFormField(required=False)
 
     class Meta:
 
@@ -116,6 +116,12 @@ class CatalogueForm(forms.ModelForm):
                     raise forms.ValidationError(
                         'Field {0} must be filled for publishing.'.format(f))
         return super(CatalogueForm, self).clean()
+
+    def clean_description(self):
+        bs = BeautifulSoup(self.cleaned_data.get('description', ''))
+        for t in bs.findAll('script'):
+            t.extract()
+        return str(bs)
 
     def save(self):
         catalogue = super(CatalogueForm, self).save(commit=False)

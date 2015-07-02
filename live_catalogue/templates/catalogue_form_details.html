@@ -24,7 +24,7 @@
     </span>
   </label>
   <div class="controls">
-    {% render_field form.description class="input-xxlarge" rows=5 %}
+    {{ form.description }}
     <div class="text-error">{{ form.description.errors }}</div>
   </div>
 </div>
