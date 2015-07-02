@@ -42,7 +42,7 @@ class CatalogueFactory(factory.DjangoModelFactory):
     FACTORY_FOR = models.Catalogue
 
     subject = 'Catalogue'
-    description = 'Catalogue description'
+    description = '<html><body><p>Catalogue description</p></body></html>'
 
     contact_person = 'John Doe'
     email = 'john.doe@eaueweb.ro'

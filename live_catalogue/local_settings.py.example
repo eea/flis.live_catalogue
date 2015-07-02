@@ -1,5 +1,6 @@
 HOSTNAME = 'http://live-catalogue.dev'
 
+SKIP_AUTHORIZATION = False
 SKIP_EDIT_AUTHORIZATION = True
 SKIP_ADMIN_AUTHORIZATION = True
 
