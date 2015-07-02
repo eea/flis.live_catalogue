@@ -156,3 +156,7 @@ span.disabled {
 .dp {
     position: relative;
 }
+
+.controls .django-ckeditor-widget {
+    width: 540px;
+}
