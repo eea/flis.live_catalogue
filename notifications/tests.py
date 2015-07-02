@@ -56,6 +56,7 @@ class NotificationTest(BaseWebTest):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'A new need was added')
         self.assertEqual(mail.outbox[0].from_email, 'no-reply@eaudeweb.ro')
+        self.assertIn('gigi', mail.outbox[0].body)
 
     def test_edit_entry_triggers_notifications(self, LdapConnectionMock,
                                                mock_requests):
