@@ -23,7 +23,7 @@ LDAP_DATA = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'live_catalogue',
+        'NAME': '',
         'USER': '',
         'PASSWORD': '',
     }
