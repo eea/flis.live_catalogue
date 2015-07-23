@@ -31,8 +31,8 @@ COPY live_catalogue/local_settings.py.example live_catalogue/local_settings.py
 
 # Expose needed port
 
-EXPOSE 8000
+EXPOSE ${APP_PORT}
 
 #Default command
 
-CMD python ./manage.py runserver 0.0.0.0:8000
+CMD python ./manage.py runserver 0.0.0.0:${APP_PORT}
