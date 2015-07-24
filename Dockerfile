@@ -28,11 +28,16 @@ WORKDIR flis.live_catalogue
 RUN pip install -U setuptools
 RUN pip install -r requirements-dev.txt
 COPY live_catalogue/local_settings.py.example live_catalogue/local_settings.py
+RUN ./manage.py collectstatic --noinput
 
 # Expose needed port
 
-EXPOSE ${APP_PORT}
+EXPOSE 8002 
+
+# Expose static volume
+
+VOLUME live_catalogue/static/
 
 #Default command
 
-CMD python ./manage.py runserver 0.0.0.0:${APP_PORT}
+CMD python ./manage.py runserver 0.0.0.0:8002
