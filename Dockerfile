@@ -12,7 +12,8 @@ RUN pip install -U setuptools
 RUN pip install -r requirements-dev.txt
 
 COPY . /live_catalogue
-COPY live_catalogue/local_settings.py.example live_catalogue/local_settings.py
+RUN ./manage.py collectstatic --noinput
+COPY live_catalogue/local_settings.py.docker live_catalogue/local_settings.py
 
 # Expose needed port
 
