@@ -1,3 +1,5 @@
+import os
+
 HOSTNAME = 'http://live-catalogue.dev'
 
 SKIP_AUTHORIZATION = False
@@ -23,9 +25,11 @@ LDAP_DATA = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'live_catalogue',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', ''),
     }
 }
 
