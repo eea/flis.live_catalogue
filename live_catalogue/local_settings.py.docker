@@ -2,15 +2,8 @@ import os
 
 HOSTNAME = 'http://live-catalogue.dev'
 
-SKIP_AUTHORIZATION = False
-SKIP_EDIT_AUTHORIZATION = True
-SKIP_ADMIN_AUTHORIZATION = True
-
-USER_ID = '' # eionet user
-USER_GROUPS = ['Administrator']
-USER_ROLES = []
-
-DEBUG = True
+DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = os.environ.get('DEBUG', '')
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
