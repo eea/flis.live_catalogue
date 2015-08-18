@@ -12,8 +12,6 @@ USER_ROLES = []
 
 DEBUG = True
 
-ALLOWED_HOSTS = ('*', '127.0.0.1')
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LDAP_DATA = {
@@ -33,6 +31,8 @@ DATABASES = {
     }
 }
 
-# FRAME_URL = 'http://projects.eionet.europa.eu/flis-services-project/flis_templates/frame'
+FRAME_URL = os.environ.get('FRAME_URL', '')
+METADATA_REMOTE_HOST = os.environ.get('METADATA_REMOTE_HOST', '')
+METADATA_REMOTE_PATH = os.environ.get('METADATA_REMOTE_PATH','')
 
 FROM_EMAIL = 'no-reply@eionet.europa.eu'
