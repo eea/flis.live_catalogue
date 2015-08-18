@@ -1,0 +1,27 @@
+import os
+
+HOSTNAME = os.environ.get('HOSTNAME', '')
+
+DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = os.environ.get('DEBUG', '')
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
+
+LDAP_DATA = {
+    'LDAP_SERVER': os.environ.get('LDAP_SERVER', ''),
+    'LDAP_USER_DN_PATTERN': os.environ.get('LDAP_USER_DN_PATTERN',''),
+    'LDAP_TIMEOUT': os.environ.get('LDAP_TIMEOUT', 10),
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'PORT': os.environ.get('DB_PORT', ''),
+    }
+}
+
+FRAME_URL = os.environ.get('FRAME_URL', '')
+METADATA_REMOTE_HOST = os.environ.get('METADATA_REMOTE_HOST', '')
+METADATA_REMOTE_PATH = os.environ.get('METADATA_REMOTE_PATH','')

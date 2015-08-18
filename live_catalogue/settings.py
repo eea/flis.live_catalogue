@@ -134,14 +134,21 @@ LOGGING = {
     },
 }
 
+# Dynamic config
+FORCE_SCRIPT_NAME = os.environ.get('FORCE_SCRIPT_NAME', '')
+if FORCE_SCRIPT_NAME:
+    USE_X_FORWARDED_HOST = True
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = FORCE_SCRIPT_NAME + '/static/'
 
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -155,6 +162,7 @@ CACHES = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+FROM_EMAIL = 'no-reply@eionet.europa.eu'
 
 # seen
 FRAME_SEEN_MODELS = (
