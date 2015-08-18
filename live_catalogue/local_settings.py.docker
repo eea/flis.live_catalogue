@@ -1,16 +1,14 @@
 import os
 
-HOSTNAME = 'http://live-catalogue.dev'
+HOSTNAME = os.environ.get('HOSTNAME', '')
 
 DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = os.environ.get('DEBUG', '')
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 LDAP_DATA = {
-    'LDAP_SERVER': None,
-    'LDAP_USER_DN_PATTERN': '',
-    'LDAP_TIMEOUT': 10,
+    'LDAP_SERVER': os.environ.get('LDAP_SERVER', ''),
+    'LDAP_USER_DN_PATTERN': os.environ.get('LDAP_USER_DN_PATTERN',''),
+    'LDAP_TIMEOUT': os.environ.get('LDAP_TIMEOUT', 10),
 }
 
 DATABASES = {
@@ -27,5 +25,3 @@ DATABASES = {
 FRAME_URL = os.environ.get('FRAME_URL', '')
 METADATA_REMOTE_HOST = os.environ.get('METADATA_REMOTE_HOST', '')
 METADATA_REMOTE_PATH = os.environ.get('METADATA_REMOTE_PATH','')
-
-FROM_EMAIL = 'no-reply@eionet.europa.eu'

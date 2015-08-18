@@ -162,6 +162,7 @@ CACHES = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+FROM_EMAIL = 'no-reply@eionet.europa.eu'
 
 # seen
 FRAME_SEEN_MODELS = (
