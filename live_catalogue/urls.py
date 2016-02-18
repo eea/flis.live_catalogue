@@ -36,6 +36,9 @@ settings_urls = patterns(
     url(r'^topics/(?P<pk>.*)/delete$',
         views.SettingsTopicsDeleteView.as_view(),
         name='topics_delete'),
+    url(r'^(?P<setting_name>[^/]+)/update_order$',
+        views.SettingsUpdateOrder.as_view(),
+        name='update_order'),
 )
 
 

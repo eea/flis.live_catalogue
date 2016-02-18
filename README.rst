@@ -59,7 +59,7 @@ Quick installation
 Create a migration after changes in models.py
 ---------------------------------------------
 ::
-    ./manage.py schemamigration live_catalogue --auto
+    ./manage.py makemigrations live_catalogue
     ./manage.py migrate
 
 

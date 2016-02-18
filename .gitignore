@@ -1,3 +1,6 @@
 test_settings.py
 local_settings.py
+production-settings.py
+localcfg.py
+run
 *.pyc

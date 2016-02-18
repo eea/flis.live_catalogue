@@ -11,13 +11,14 @@ JS_ASSETS = [
     'js/datatables/jquery.dataTables.js',
     'js/datatables/DT_bootstrap.js',
     'js/main.js',
+    'js/jquery.sortable.js',
     'bootstrap/js/bootstrap-datepicker.js',
 ]
 if not getattr(settings, 'FRAME_URL', None):
     JS_ASSETS = ['js/jquery.js'] + JS_ASSETS
 
 CSS_ASSETS = (
-    'bootstrap/css/bootstrap.css',
+    'bootstrap/css/bootstrap.min.css',
     'bootstrap/css/bootstrap-responsive.css',
     'css/bootstrap-ui/jquery-ui-1.8.16.custom.css',
     'css/select2/select2.css',

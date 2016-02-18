@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from django.forms.models import formset_factory
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.conf import settings
 
 from braces.views import JSONResponseMixin
@@ -200,8 +200,8 @@ class CatalogueDelete(PermissionRequiredMixin, JSONResponseMixin, View):
             catalogue = get_object_or_404(Catalogue, pk=pk, kind=kind)
         else:
             catalogue = get_object_or_404(Catalogue, pk=pk,
-                                      user_id=self.user_id(request),
-                                      kind=kind)
+                                          user_id=self.user_id(request),
+                                          kind=kind)
         document_names = [d.name.name for d in catalogue.documents.all()]
         handle_delete_document_files(document_names)
         catalogue.documents.all().delete()
@@ -253,7 +253,7 @@ class SettingsCategoriesView(PermissionRequiredMixin,
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
     model = Category
-    template_name = 'settings/setting_view.html'
+    template_name = 'settings/setting_categories_view.html'
 
     def dispatch(self, *args, **kwargs):
         return super(SettingsCategoriesView, self).dispatch(*args, **kwargs)
@@ -349,7 +349,7 @@ class SettingsCategoriesDeleteView(PermissionRequiredMixin,
 class SettingsTopicsView(PermissionRequiredMixin,
                          ListView):
     model = FlisTopic
-    template_name = 'settings/setting_view.html'
+    template_name = 'settings/setting_topics_view.html'
     roles_required = ADMIN_ROLES
     groups_required = ADMIN_GROUPS
 
@@ -451,3 +451,28 @@ class CrashMe(PermissionRequiredMixin, View):
 
     def get(self, request):
         raise Exception()
+
+
+class SettingsUpdateOrder(PermissionRequiredMixin,
+                          SuccessMessageMixin,
+                          View):
+
+    SETTING_NAME_TO_MODEL = {
+        'category': Category,
+        'topic': FlisTopic,
+    }
+
+    def post(self, request, *args, **kwargs):
+        setting_name = kwargs.get('setting_name', None)
+        items = self.request.POST.getlist('items[]')
+
+        if setting_name not in self.SETTING_NAME_TO_MODEL:
+            return Http404
+
+        for sort_idx, pk in enumerate(items):
+            outcome = get_object_or_404(
+                self.SETTING_NAME_TO_MODEL[setting_name], pk=pk)
+            outcome.sort_id = sort_idx
+            outcome.save()
+
+        return HttpResponse()

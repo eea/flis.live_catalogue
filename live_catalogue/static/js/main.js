@@ -86,6 +86,28 @@ $(function () {
         html: true
     });
 
+    var fixHelper = function(e, ui) {
+        ui.children().each(function() {
+            $(this).width($(this).width());
+        });
+        return ui;
+    };
+
+    var update = function (e, ui) {
+        var data = $(this).sortable('serialize');
+        var url = $(this).parents('table').data('url');
+        $.post(url, data);
+    };
+
+    $('.sortable tbody').sortable({
+        handle: ".handler",
+        axis: "y",
+        placeholder: "ui-state-highlight",
+        update: update,
+        helper: fixHelper
+    });
+
+
 });
 
 $(document).ready(function() {

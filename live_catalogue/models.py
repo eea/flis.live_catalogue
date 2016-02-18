@@ -6,6 +6,10 @@ class Category(models.Model):
 
     handle = models.SlugField(primary_key=True)
     title = models.CharField(max_length=64)
+    sort_id = models.IntegerField(default=0, null=True, blank=True)
+
+    class Meta:
+        ordering = ('sort_id',)
 
     def __unicode__(self):
         return self.title
@@ -75,7 +79,7 @@ class Catalogue(models.Model):
 
     need_urgent = models.BooleanField(default=False)
 
-    deadline = models.DateField( null=True, blank=True)
+    deadline = models.DateField(null=True, blank=True)
 
     contact_person = models.CharField(max_length=64, blank=True)
     email = models.EmailField(max_length=64, blank=True)
