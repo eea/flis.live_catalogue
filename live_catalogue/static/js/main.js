@@ -93,7 +93,7 @@ $(function () {
         return ui;
     };
 
-    var update = function (e, ui) 
+    var update = function (e, ui) {
         /* Pathetic fix for a jqueryui sortable issue with dashes in the id */
         $('tbody.ui-sortable tr').each(function(){
             var orig_id = $(this).attr('id');
