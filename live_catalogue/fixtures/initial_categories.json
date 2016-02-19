@@ -3,77 +3,88 @@
         "model": "live_catalogue.category",
         "fields": {
             "handle": "projects",
-            "title": "Projects"
+            "title": "Projects",
+            "sort_id": "1"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "training",
-            "title": "Training"
+            "title": "Training",
+            "sort_id": "2"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "reports",
-            "title": "Reports"
+            "title": "Reports",
+            "sort_id": "3"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "request-for-collaboration",
-            "title": "Request for collaboration"
+            "title": "Request for collaboration",
+            "sort_id": "4"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "tenders",
-            "title": "Tenders"
+            "title": "Tenders",
+            "sort_id": "5"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "open-calls",
-            "title": "Open calls"
+            "title": "Open calls",
+            "sort_id": "6"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "contracts",
-            "title": "Contracts"
+            "title": "Contracts",
+            "sort_id": "7"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "support-documents",
-            "title": "Support documents"
+            "title": "Support documents",
+            "sort_id": "8"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "articles",
-            "title": "Articles"
+            "title": "Articles",
+            "sort_id": "9"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "news",
-            "title": "News"
+            "title": "News",
+            "sort_id": "10"
         }
     },
     {
         "model": "live_catalogue.category",
         "fields": {
             "handle": "others",
-            "title": "Others"
+            "title": "Others",
+            "sort_id": "11"
         }
     }
 ]

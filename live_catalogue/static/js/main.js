@@ -93,8 +93,13 @@ $(function () {
         return ui;
     };
 
-    var update = function (e, ui) {
-        var data = $(this).sortable('serialize');
+    var update = function (e, ui) 
+        /* Pathetic fix for a jqueryui sortable issue with dashes in the id */
+        $('tbody.ui-sortable tr').each(function(){
+            var orig_id = $(this).attr('id');
+            $(this).attr('id', orig_id.replace(/-/g, '###'));
+        });
+        var data = $(this).sortable('serialize').replace(/###/g, '-');
         var url = $(this).parents('table').data('url');
         $.post(url, data);
     };

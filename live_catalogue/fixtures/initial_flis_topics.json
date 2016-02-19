@@ -3,35 +3,40 @@
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "early-warning",
-            "title": "Early warning"
+            "title": "Early warning",
+            "sort_id": "1"
         }
     },
     {
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "drivers-and-trends",
-            "title": "Drivers and trends"
+            "title": "Drivers and trends",
+            "sort_id": "2"
         }
     },
     {
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "indicators",
-            "title": "Indicators - projections, outlooks or forward-looking indicators"
+            "title": "Indicators - projections, outlooks or forward-looking indicators",
+            "sort_id": "3"
         }
     },
     {
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "scenarios",
-            "title": "Scenarios"
+            "title": "Scenarios",
+            "sort_id": "4"
         }
     },
     {
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "methods-and-tools",
-            "title": "Methods and tools"
+            "title": "Methods and tools",
+            "sort_id": "5"
         }
     },
 
@@ -39,7 +44,8 @@
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "networking",
-            "title": "Networking"
+            "title": "Networking",
+            "sort_id": "6"
         }
     },
 
@@ -47,7 +53,8 @@
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "capacity-building-and-governance",
-            "title": "Capacity building and governance"
+            "title": "Capacity building and governance",
+            "sort_id": "7"
         }
     },
 
@@ -55,7 +62,8 @@
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "institutional-set-up",
-            "title": "Institutional set-up"
+            "title": "Institutional set-up",
+            "sort_id": "8"
         }
     },
 
@@ -63,14 +71,16 @@
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "use-of-forward-looking-information",
-            "title": "Use of forward-looking information"
+            "title": "Use of forward-looking information",
+            "sort_id": "9"
         }
     },
     {
         "model": "live_catalogue.flistopic",
         "fields": {
             "handle": "others",
-            "title": "Others"
+            "title": "Others",
+            "sort_id": "10"
         }
     }
 ]
