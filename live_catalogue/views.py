@@ -457,6 +457,8 @@ class SettingsUpdateOrder(PermissionRequiredMixin,
                           SuccessMessageMixin,
                           View):
 
+    roles_required = ADMIN_ROLES
+    groups_required = ADMIN_GROUPS
     SETTING_NAME_TO_MODEL = {
         'category': Category,
         'topic': FlisTopic,
