@@ -1,6 +1,5 @@
 import ldap
 from django.conf import settings
-from django.utils.functional import cached_property
 from live_catalogue.utils import cached
 
 
@@ -13,6 +12,7 @@ class LdapConnection(object):
             self.conn = None
         else:
             self.conn = ldap.initialize(ldap_server)
+            self.conn.simple_bind(data['LDAP_ADMIN_DN'], data['LDAP_ADMIN_PW'])
             self.conn.protocol_version = ldap.VERSION3
             self.conn.timeout = data['LDAP_TIMEOUT']
             self._user_dn_pattern = data['LDAP_USER_DN_PATTERN']

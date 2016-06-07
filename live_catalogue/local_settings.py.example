@@ -18,6 +18,8 @@ LDAP_DATA = {
     'LDAP_SERVER': None,
     'LDAP_USER_DN_PATTERN': '',
     'LDAP_TIMEOUT': 10,
+    'LDAP_ADMIN_DN': '',
+    'LDAP_ADMIN_PW': '',
 }
 
 DATABASES = {
