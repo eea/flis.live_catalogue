@@ -65,7 +65,7 @@ class Catalogue(models.Model):
 
     kind = models.CharField(choices=KIND_CHOICES, max_length=5, db_index=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now_add=True, auto_now=True)
+    last_updated = models.DateTimeField(auto_now=True)
     user_id = models.CharField(max_length=64, blank=True)
 
     categories = models.ManyToManyField(Category)
@@ -94,7 +94,7 @@ class Catalogue(models.Model):
     url = models.URLField(blank=True)
     info = models.TextField(blank=True,
                             verbose_name='Additional contact details')
-    documents = models.ManyToManyField(Document, null=True, blank=True)
+    documents = models.ManyToManyField(Document, blank=True)
 
     def __unicode__(self):
         return '%s (%s)' % (self.kind, self.subject)

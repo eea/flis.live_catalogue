@@ -2,9 +2,9 @@ import shutil
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
+from django.apps import apps
 from django.db.models import Model
 from django.core.urlresolvers import reverse
-from django.db.models.loading import get_model
 from django.test.utils import override_settings
 
 from mock import Mock
@@ -92,7 +92,7 @@ class BaseWebTest(WebTest):
     def assertObjectInDatabase(self, model, **kwargs):
         app = kwargs.pop('app', 'live_catalogue')
         if isinstance(model, basestring):
-            Model = get_model(app, model)
+            Model = apps.get_model(app, model)
         else:
             Model = model
 

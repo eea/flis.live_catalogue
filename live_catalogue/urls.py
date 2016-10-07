@@ -1,16 +1,16 @@
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+
+import frame
 
 from live_catalogue import views
 
 
 admin.autodiscover()
 
-settings_urls = patterns(
-    '',
-
+settings_urls = [
     url(r'^categories/$',
         views.SettingsCategoriesView.as_view(),
         name='categories'),
@@ -39,12 +39,10 @@ settings_urls = patterns(
     url(r'^(?P<setting_name>[^/]+)/update_order$',
         views.SettingsUpdateOrder.as_view(),
         name='update_order'),
-)
+]
 
 
-urlpatterns = patterns(
-    '',
-
+urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home',
         kwargs={'show': 'open'}),
     url(r'^closed/$', views.HomeView.as_view(), name='closed',
@@ -83,8 +81,9 @@ urlpatterns = patterns(
     url(r'^notifications/',
         include('notifications.urls', namespace='notifications')),
 
-    url(r'^_lastseencount/$', 'frame.utils.get_objects_from_last_seen_count'),
+    url(r'^_lastseencount/$', frame.utils.get_objects_from_last_seen_count),
 
-    url(r'^ckeditor/', include('ckeditor.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
+     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

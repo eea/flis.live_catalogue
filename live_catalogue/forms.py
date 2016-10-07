@@ -18,6 +18,7 @@ from live_catalogue.models import (
     FlisTopic,
 )
 
+
 class URLFieldWithTextField(forms.URLField):
     widget = forms.TextInput
 
@@ -49,6 +50,7 @@ class DocumentForm(forms.ModelForm):
 
     class Meta:
         model = Document
+        fields = '__all__'
 
 
 class BaseDocumentFormset(forms.formsets.BaseFormSet):

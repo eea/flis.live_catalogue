@@ -2,10 +2,10 @@
 Django settings for live_catalogue project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
+https://docs.djangoproject.com/en/1.10/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
+https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -14,37 +14,38 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'wov=)+yrn!$p25*v%qr3ixd57lv=1=^)1qw9@ef3q0)3ves2qc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+ASSETS_DEBUG = False
 
-ASSETS_DEBUG = True
-
-TEMPLATE_LOADERS = (
-    'frame.loaders.Loader',
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'live_catalogue.context_processors.settings_context',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+                'live_catalogue.context_processors.settings_context',
+            ],
+            'loaders': [
+                'frame.loaders.Loader',
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+        }
+    }
+]
 
 ALLOWED_HOSTS = ('localhost', '127.0.0.1')
 
@@ -61,6 +62,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'django_select2',
     'ckeditor',
+    'ckeditor_uploader',
     'gunicorn',
     'frame',
     'flis_metadata.common',
@@ -92,7 +94,7 @@ WSGI_APPLICATION = 'live_catalogue.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -102,7 +104,7 @@ DATABASES = {
 }
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
+# https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -142,7 +144,7 @@ if FORCE_SCRIPT_NAME:
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+# https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = FORCE_SCRIPT_NAME + '/static/'
 
