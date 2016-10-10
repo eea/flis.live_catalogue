@@ -54,7 +54,6 @@ Quick installation
 
 #. Create tables::
 
-    ./manage.py syncdb
     ./manage.py createcachetable
     ./manage.py migrate
     
@@ -80,6 +79,5 @@ Create a migration after changes in models.py
 
 Stuff to run when deploying ::
 
-    ./manage.py syncdb
     ./manage.py migrate
     ./manage.py collectstatic --noinput
