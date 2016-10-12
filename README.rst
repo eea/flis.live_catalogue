@@ -19,9 +19,6 @@ Quick installation
     python2.7 or higher
     apt-get install python-setuptools python-dev
     
-    For MySQL database:
-    apt-get install mysql-client-5.5 mysql-common mysql-server-5.5
-    
     For PostgreSQL database:
     apt-get install postgresql-9.1 postgresql-contrib-9.1 postgresql-server-dev-9.1
 
@@ -37,13 +34,7 @@ Quick installation
     # Check local.settings.example for configuration details
 
 
-#. Set up the::
-
-   a. MySQL database::
-   
-        mysql > CREATE SCHEMA live_catalogue CHARACTER SET utf8 COLLATE utf8_general_ci;
-    
-   b. Postgresql database::
+#. Set up the Postgresql database::
    
         root # su - postgres;
         postgres $ psql template1
