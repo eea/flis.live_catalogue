@@ -13,7 +13,8 @@ from notifications.models import NotificationUser
 
 class NotificationUserFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = NotificationUser
+    class Meta:
+        model = NotificationUser
 
     user_id = 'johndoe'
 

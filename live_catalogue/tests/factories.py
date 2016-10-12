@@ -5,8 +5,9 @@ from flis_metadata.common.models import EnvironmentalTheme, Country
 
 class CategoryFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = models.Category
-    FACTORY_DJANGO_GET_OR_CREATE = ('handle', 'title',)
+    class Meta:
+        model = models.Category
+        django_get_or_create = ('handle', 'title',)
 
     handle = 'projects'
     title = 'Projects'
@@ -14,7 +15,8 @@ class CategoryFactory(factory.DjangoModelFactory):
 
 class CountryFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = Country
+    class Meta:
+        model = Country
 
     iso = factory.Sequence(lambda n: 'c%d' % n)
     name = factory.Sequence(lambda n: 'country_%d' % n)
@@ -22,8 +24,9 @@ class CountryFactory(factory.DjangoModelFactory):
 
 class FlisTopicFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = models.FlisTopic
-    FACTORY_DJANGO_GET_OR_CREATE = ('handle', 'title',)
+    class Meta:
+        model = models.FlisTopic
+        django_get_or_create = ('handle', 'title',)
 
     handle = 'early-warning'
     title = 'Early warning'
@@ -31,15 +34,17 @@ class FlisTopicFactory(factory.DjangoModelFactory):
 
 class ThemeFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = EnvironmentalTheme
-    FACTORY_DJANGO_GET_OR_CREATE = ('title',)
+    class Meta:
+        model = EnvironmentalTheme
+        django_get_or_create = ('title',)
 
     title = 'Air pollution'
 
 
 class CatalogueFactory(factory.DjangoModelFactory):
 
-    FACTORY_FOR = models.Catalogue
+    class Meta:
+        model = models.Catalogue
 
     subject = 'Catalogue'
     description = '<html><body><p>Catalogue description</p></body></html>'
