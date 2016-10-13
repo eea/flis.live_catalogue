@@ -4,3 +4,7 @@ production-settings.py
 localcfg.py
 run
 *.pyc
+
+live_catalogue/static/.webassets-cache/
+live_catalogue/static/packed.css
+live_catalogue/static/packed.js

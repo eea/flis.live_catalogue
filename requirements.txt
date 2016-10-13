@@ -6,8 +6,8 @@ django-braces==1.9.0
 django-ckeditor==5.1.1
 Django-Select2==5.8.9
 django-widget-tweaks==1.4.1
-eea.flis.metadata==0.6.1
-eea.frame==0.5.2
+eea.flis.metadata==0.6.2
+eea.frame==0.5.3
 gunicorn==19.3.0
 jsmin==2.0.8
 psycopg2==2.5.1
