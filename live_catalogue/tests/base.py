@@ -1,4 +1,5 @@
 import shutil
+import sys
 from tempfile import mkdtemp
 from contextlib import contextmanager
 
@@ -6,6 +7,7 @@ from django.apps import apps
 from django.db.models import Model
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
+from django_assets import env as assets_env
 
 from mock import Mock
 from django_webtest import WebTest
@@ -104,6 +106,15 @@ class BaseWebTest(WebTest):
             self.fail('Object "{}" with kwargs {} does not exist'.format(
                 model, str(kwargs)
             ))
+
+    def tearDown(self):
+        # This is a hack to fix this issue:
+        # https://github.com/miracle2k/django-assets/issues/44
+        assets_env.reset()
+        assets_env._ASSETS_LOADED = False
+        if 'flip.modules' in sys.modules:
+            del sys.modules['flip.assets']
+        super(BaseWebTest, self).tearDown()
 
 
 @contextmanager

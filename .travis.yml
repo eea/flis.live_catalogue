@@ -4,6 +4,7 @@ python:
 install:
   - pip install -r requirements-dev.txt
   - pip install coveralls
+  - cp live_catalogue/test_settings.py.example live_catalogue/test_settings.py
   - ./manage.py collectstatic --noinput
 script:  ./manage.py test
 after_success:
