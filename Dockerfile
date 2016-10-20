@@ -12,7 +12,6 @@ RUN pip install -r requirements-dep.txt
 
 # Copy code
 COPY . /live_catalogue
-RUN ./manage.py collectstatic --noinput
 COPY live_catalogue/local_settings.py.docker live_catalogue/local_settings.py
 
 # Expose needed port
