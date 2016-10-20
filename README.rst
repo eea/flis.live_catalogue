@@ -18,7 +18,7 @@ Quick installation
 
     python2.7 or higher
     apt-get install python-setuptools python-dev
-    
+
     For PostgreSQL database:
     apt-get install postgresql-9.1 postgresql-contrib-9.1 postgresql-server-dev-9.1
 
@@ -35,7 +35,7 @@ Quick installation
 
 
 #. Set up the Postgresql database::
-   
+
         root # su - postgres;
         postgres $ psql template1
         template1=# CREATE DATABASE live_catalogue WITH ENCODING 'UTF-8';
@@ -47,8 +47,8 @@ Quick installation
 
     ./manage.py createcachetable
     ./manage.py migrate
-    
-    
+
+
 #. Install fixtures::
 
     ./manage.py loaddata live_catalogue/fixtures/*
