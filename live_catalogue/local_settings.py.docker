@@ -12,6 +12,7 @@ DATABASES = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'postfix')
 
 ALLOWED_HOSTS = eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
 DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = eval(os.environ.get('DEBUG', 'False'))
