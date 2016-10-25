@@ -11,21 +11,24 @@ DATABASES = {
     }
 }
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'postfix')
+LDAP_DATA = eval(os.environ.get('LDAP_DATA'))
 
+HOST_NAME = METADATA_REMOTE_HOST = os.environ.get('HOST_NAME', '')
+SITE_ID = os.environ.get('SITE_ID', '')
+METADATA_ID = os.environ.get('METADATA_ID','')
+METADATA_REMOTE_PATH = os.path.join('/', SITE_ID, 'METADATA_ID')
+APP_ID = os.environ.get('APP_ID', '')
+FRAME_PATH = os.environ.get('FRAME_PATH', '')
+FRAME_URL = os.path.join(HOST_NAME, SITE_ID, FRAME_PATH, '')
+FORCE_SCRIPT_NAME = os.path.join('/', SITE_ID, APP_ID, '')
+STATIC_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'static', '')
+MEDIA_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'media', '')
+STATIC_ROOT = os.environ.get('STATIC_ROOT', '')
 ALLOWED_HOSTS = eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
 DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = eval(os.environ.get('DEBUG', 'False'))
-FORCE_SCRIPT_NAME = os.environ.get('FORCE_SCRIPT_NAME', '')
 FRAME_COOKIES = eval(os.environ.get('FRAME_COOKIES', '[]'))
-FRAME_EXTRA_SUBSTITUTIONS = eval(os.environ.get('FRAME_EXTRA_SUBSTITUTIONS', '[()]'))
-FRAME_URL = os.environ.get('FRAME_URL', '')
-HOST_NAME = os.environ.get('HOST_NAME', '')
-LDAP_DATA = eval(os.environ.get('LDAP_DATA'))
-METADATA_REMOTE_HOST = os.environ.get('METADATA_REMOTE_HOST', '')
-METADATA_REMOTE_PATH = os.environ.get('METADATA_REMOTE_PATH','')
-#SECRET_KEY = os.environ.get('SECRET_KEY', '')
-STATIC_URL = HOST_NAME + FORCE_SCRIPT_NAME + 'static/'
-STATIC_ROOT = os.environ.get('STATIC_ROOT', '')
-MEDIA_URL = STATIC_URL + 'media/'
+#FRAME_EXTRA_SUBSTITUTIONS = eval(os.environ.get('FRAME_EXTRA_SUBSTITUTIONS', '[()]')
 USE_X_FORWARDED_HOST = True
