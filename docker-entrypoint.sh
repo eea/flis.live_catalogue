@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+crontab ./crontab.cfg
+crond
 ./manage.py migrate
 ./manage.py createcachetable
 ./manage.py loaddata initial_categories
