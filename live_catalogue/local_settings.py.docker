@@ -30,5 +30,5 @@ STATIC_ROOT = os.environ.get('STATIC_ROOT', '')
 ALLOWED_HOSTS = eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
 DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = eval(os.environ.get('DEBUG', 'False'))
 FRAME_COOKIES = eval(os.environ.get('FRAME_COOKIES', '[]'))
-#FRAME_EXTRA_SUBSTITUTIONS = eval(os.environ.get('FRAME_EXTRA_SUBSTITUTIONS', '[()]')
+FRAME_EXTRA_SUBSTITUTIONS = eval(os.environ.get('FRAME_EXTRA_SUBSTITUTIONS', '[()]')
 USE_X_FORWARDED_HOST = True
