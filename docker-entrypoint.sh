@@ -2,7 +2,7 @@
 
 crontab ./crontab.cfg
 cron
-./manage.py migrate
+./manage.py migrate --fake-initial
 ./manage.py createcachetable
 ./manage.py loaddata initial_categories
 ./manage.py loaddata initial_flis_topics
