@@ -1,3 +1,4 @@
+import ast
 import os
 
 DATABASES = {
@@ -14,7 +15,7 @@ DATABASES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'postfix')
-LDAP_DATA = eval(os.environ.get('LDAP_DATA'))
+LDAP_DATA = ast.literal_eval(os.environ.get('LDAP_DATA'))
 
 HOST_NAME = METADATA_REMOTE_HOST = os.environ.get('HOST_NAME', '')
 SITE_ID = os.environ.get('SITE_ID', '')
@@ -27,8 +28,8 @@ FORCE_SCRIPT_NAME = os.path.join('/', SITE_ID, APP_ID, '')
 STATIC_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'static', '')
 MEDIA_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'media', '')
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '')
-ALLOWED_HOSTS = eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
-DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = eval(os.environ.get('DEBUG', 'False'))
-FRAME_COOKIES = eval(os.environ.get('FRAME_COOKIES', '[]'))
-FRAME_EXTRA_SUBSTITUTIONS = eval(os.environ.get('FRAME_EXTRA_SUBSTITUTIONS', '[()]'))
+ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
+DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'False'))
+FRAME_COOKIES = ast.literal_eval(os.environ.get('FRAME_COOKIES', '[]'))
+FRAME_EXTRA_SUBSTITUTIONS = ast.literal_eval(os.environ.get('FRAME_EXTRA_SUBSTITUTIONS', '[()]'))
 USE_X_FORWARDED_HOST = True
