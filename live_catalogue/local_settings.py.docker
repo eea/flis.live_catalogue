@@ -28,6 +28,7 @@ FORCE_SCRIPT_NAME = os.path.join('/', SITE_ID, APP_ID, '')
 STATIC_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'static', '')
 MEDIA_URL = os.path.join(HOST_NAME, SITE_ID, APP_ID, 'media', '')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/live_catalogue/public/media/')
+RAVEN_CONFIG = {'dsn': os.environ.get('dsn')}
 STATIC_ROOT = os.environ.get('STATIC_ROOT', '')
 ALLOWED_HOSTS = ast.literal_eval(os.environ.get('ALLOWED_HOSTS', "['*']"))
 DEBUG = TEMPLATE_DEBUG = ASSETS_DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'False'))
