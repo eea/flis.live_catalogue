@@ -41,6 +41,7 @@ class PermissionRequiredMixin(object):
                            request, *args, **kwargs)
 
         if getattr(settings, 'SKIP_AUTHORIZATION', False):
+            request.user_id = getattr(settings, 'USER_ID', '')
             return dispatch()
 
         user_roles = _get_user_roles(request)
