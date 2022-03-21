@@ -12,6 +12,6 @@ pycrypto==2.6.1
 pyquery==1.2.6
 ssh==1.8.0
 unittest2==0.5.1
-waitress==1.0.0
+waitress==2.1.1
 WebOb==1.6.1
 WebTest==2.0.23
