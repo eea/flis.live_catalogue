@@ -1,2 +1,2 @@
 -r requirements.txt
-supervisor==3.0
+supervisor==3.0.1
